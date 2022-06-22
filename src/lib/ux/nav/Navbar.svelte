@@ -33,11 +33,9 @@
 				</svg>
 			</label>
 		</div>
-		<!--
-      <div class="w-full justify-start md:w-1/2">
-			<Logo {isVisible} {segment} />
+		<div class="navbar-start">
+			<h1>ILY Hannah ❤️</h1>
 		</div>
-  -->
 
 		<div class="navbar-center hidden lg:flex">
 			<ul class="menu menu-horizontal p-0">
