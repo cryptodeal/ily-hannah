@@ -1,7 +1,5 @@
 <script lang="ts">
 	//import AuthButton from '$lib/ux/nav/AuthButton.svelte';
-	const modalId = 'auth-modal',
-		triggerTxt = 'login / register';
 	export let segment: string;
 	export let closeDrawer: () => void;
 </script>
@@ -22,11 +20,11 @@
 		<a
 			sveltekit:prefetch
 			on:click={closeDrawer}
-			href="/articles"
+			href="/about"
 			class="uppercase"
-			class:active={segment === 'articles' ? true : false}
+			class:active={segment === 'about' ? true : false}
 		>
-			articles
+			about
 		</a>
 	</li>
 </ul>

@@ -12,9 +12,7 @@
 		triggerTxt = 'login / register';
 	$: segment = $page.url.pathname.split('/')[1];
 	const notifications = getNotificationsStore();
-	let success = false,
-		failed = false,
-		drawercontent: any,
+	let	drawercontent: any,
 		drawerContentScrollY = 0,
 		drawersidebar: any,
 		drawerSidebarScrollY = 0,

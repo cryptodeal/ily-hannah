@@ -2,13 +2,8 @@
 	import ThemeToggle from '$lib/ux/nav/ThemeToggle.svelte';
 	// import AuthButton from '$lib/ux/nav/AuthButton.svelte';
 	// import Logo from '$lib/ux/nav/Logo.svelte';
-	import { onMount } from 'svelte';
-	let isVisible = false;
-	onMount(() => {
-		isVisible = true;
-	});
 
-	export let segment: string, modalId: string, triggerTxt: string, closeDrawer: () => void;
+	export let segment: string;
 </script>
 
 <div
@@ -34,7 +29,7 @@
 			</label>
 		</div>
 		<div class="navbar-start">
-			<h1>ILY Hannah ❤️</h1>
+			<a href="/" sveltekit:prefetch><h1>ILY Hannah ❤️</h1></a>
 		</div>
 
 		<div class="navbar-center hidden lg:flex">
@@ -77,11 +72,11 @@
 				<li>
 					<a
 						sveltekit:prefetch
-						href="/articles"
+						href="/about"
 						class="uppercase"
-						class:active={segment === 'articles' ? true : false}
+						class:active={segment === 'about' ? true : false}
 					>
-						articles
+						about
 					</a>
 				</li>
 
