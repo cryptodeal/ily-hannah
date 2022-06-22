@@ -8,13 +8,15 @@
 	import Nav from '$lib/ux/nav/Navbar.svelte';
 	import SideNav from '$lib/ux/nav/SideNav.svelte';
 	import Toast from '$lib/ux/Toast.svelte';
-	const modalId = 'auth-modal',
+	/*
+  const modalId = 'auth-modal',
 		triggerTxt = 'login / register';
+  */
 	$: segment = $page.url.pathname.split('/')[1];
 	const notifications = getNotificationsStore();
-	let drawercontent: any,
+	let drawercontent: { scrollTop: number },
 		drawerContentScrollY = 0,
-		drawersidebar: any,
+		drawersidebar: { scrollTop: number },
 		drawerSidebarScrollY = 0,
 		checked: boolean = '' as unknown as boolean;
 	function parseContentScroll() {
@@ -69,7 +71,7 @@
 		class="drawer-content flex flex-col"
 		style="scroll-behavior: smooth; scroll-padding-top: 5rem;"
 	>
-		<Nav {segment} {modalId} {triggerTxt} {closeDrawer} />
+		<Nav {segment} {closeDrawer} />
 		<div class="pt-6 px-2 pb-10 md:px-6">
 			<slot />
 		</div>
@@ -94,4 +96,4 @@
 		</aside>
 	</div>
 </div>
-<Toast />
+<Toast {notifications} />

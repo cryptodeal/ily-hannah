@@ -3,7 +3,7 @@
 	// import AuthButton from '$lib/ux/nav/AuthButton.svelte';
 	// import Logo from '$lib/ux/nav/Logo.svelte';
 
-	export let segment: string;
+	export let segment: string, closeDrawer: () => void;
 </script>
 
 <div
@@ -28,8 +28,13 @@
 				</svg>
 			</label>
 		</div>
-		<div class="navbar-start">
-			<a href="/" sveltekit:prefetch><h1>ILY Hannah ❤️</h1></a>
+		<div class="navbar-start bg-base-100">
+			<a
+				sveltekit:prefetch
+				href="/"
+				on:click={closeDrawer}
+				class="btn btn-ghost normal-case text-xl">ILY Hannah ❤️</a
+			>
 		</div>
 
 		<div class="navbar-center hidden lg:flex">

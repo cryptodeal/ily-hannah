@@ -1,4 +1,7 @@
 /// <reference types="@sveltejs/kit" />
+/// <reference types="unplugin-icons/types/svelte" />
+
+declare module 'theme-change';
 
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces

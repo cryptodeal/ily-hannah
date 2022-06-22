@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { getNotificationsStore } from '$lib/data/stores/notifs';
-	import { fade } from 'svelte/transition';
+	import type { Readable } from 'svelte/store';
+	import type { INotification } from '$lib/data/stores/notifs';
 
-	const notifications = getNotificationsStore();
+	import { fade } from 'svelte/transition';
+	export let notifications: Readable<INotification[]>;
 	const typeClasses = {
 		default: '',
 		info: 'toast-info',
