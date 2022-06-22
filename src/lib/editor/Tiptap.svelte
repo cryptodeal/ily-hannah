@@ -20,7 +20,7 @@
 			editorProps: {
 				attributes: {
 					class:
-						'prose min-h-[300px] max-h-[70vh] sm:max-h-[75vh] lg:max-h-[80vh] overflow-scroll prose-sm sm:prose md:container mx-auto border-2 border-black rounded-b-md p-3 outline-none'
+						'prose text-base min-h-[300px] max-h-[70vh] sm:max-h-[75vh] lg:max-h-[80vh] overflow-scroll prose-sm sm:prose md:container mx-auto border-2 border-black rounded-b-md p-3 outline-none'
 				}
 			},
 			content: `Hannah, I love you more than anything in the freakin' world and hope you're having a great day at work! ❤️❤️❤️❤️ Cannot wait to come pick you up later and spend tonight all cuddled up watching some TV together. ❤️❤️❤️❤️❤️`
