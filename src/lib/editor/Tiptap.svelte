@@ -20,12 +20,16 @@
 
 	let editor: Readable<Editor>,
 		isApple = false,
-		showHotKeys = false;
+		showHotKeys = true;
 
 	onMount(() => {
-		const { vendor, type } = new UAParser(navigator.userAgent).getDevice();
-		if (vendor === 'Apple') isApple = true;
-		if (type === 'console' || type === 'tablet') showHotKeys = true;
+		const {
+			os: { name },
+			device: { type }
+		} = new UAParser().getResult();
+		if (name?.includes('Mac')) isApple = true;
+		if (type === 'mobile' || type === 'smarttv' || type === 'wearable' || type === 'embedded')
+			showHotKeys = false;
 		editor = createEditor({
 			extensions: [StarterKit],
 			editorProps: {
