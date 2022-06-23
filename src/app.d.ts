@@ -1,5 +1,6 @@
 /// <reference types="@sveltejs/kit" />
 /// <reference types="unplugin-icons/types/svelte" />
+/// <reference types="@types/ua-parser-js" />
 
 declare module 'theme-change';
 

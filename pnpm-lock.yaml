@@ -11,6 +11,7 @@ specifiers:
   '@tiptap/extension-floating-menu': 2.0.0-beta.55
   '@tiptap/starter-kit': 2.0.0-beta.189
   '@types/cookie': ^0.5.1
+  '@types/ua-parser-js': ^0.7.36
   '@typescript-eslint/eslint-plugin': ^5.29.0
   '@typescript-eslint/parser': ^5.29.0
   autoprefixer: ^10.4.7
@@ -34,6 +35,7 @@ specifiers:
   theme-change: ^2.0.2
   tslib: ^2.4.0
   typescript: ^4.7.4
+  ua-parser-js: ^1.0.2
   unplugin-icons: ^0.14.5
   yup: ^0.32.11
 
@@ -51,6 +53,7 @@ devDependencies:
   '@tiptap/extension-floating-menu': 2.0.0-beta.55_4op45timppanpdwy5jxyr3gcny
   '@tiptap/starter-kit': 2.0.0-beta.189
   '@types/cookie': 0.5.1
+  '@types/ua-parser-js': 0.7.36
   '@typescript-eslint/eslint-plugin': 5.29.0_qqmbkyiaixvppdwswpytuf2hgm
   '@typescript-eslint/parser': 5.29.0_b5e7v2qnwxfo6hmiq56u52mz3e
   autoprefixer: 10.4.7_postcss@8.4.14
@@ -73,6 +76,7 @@ devDependencies:
   theme-change: 2.0.2
   tslib: 2.4.0
   typescript: 4.7.4
+  ua-parser-js: 1.0.2
   unplugin-icons: 0.14.5
   yup: 0.32.11
 
@@ -520,6 +524,10 @@ packages:
       '@types/node': 18.0.0
     dev: true
 
+  /@types/ua-parser-js/0.7.36:
+    resolution: {integrity: sha512-N1rW+njavs70y2cApeIw1vLMYXRwfBy+7trgavGuuTfOd7j1Yh7QTRc/yqsPl6ncokt72ZXuxEU0PiCp9bSwNQ==}
+    dev: true
+
   /@typescript-eslint/eslint-plugin/5.29.0_qqmbkyiaixvppdwswpytuf2hgm:
     resolution: {integrity: sha512-kgTsISt9pM53yRFQmLZ4npj99yGl3x3Pl7z4eA66OuTzAGC4bQB5H5fuLwPnqTKU3yyrrg4MIhjF17UYnL4c0w==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -833,7 +841,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001358
-      electron-to-chromium: 1.4.165
+      electron-to-chromium: 1.4.166
       node-releases: 2.0.5
       update-browserslist-db: 1.0.3_browserslist@4.21.0
     dev: true
@@ -1086,8 +1094,8 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /electron-to-chromium/1.4.165:
-    resolution: {integrity: sha512-DKQW1lqUSAYQvn9dnpK7mWaDpWbNOXQLXhfCi7Iwx0BKxdZOxkKcCyKw1l3ihWWW5iWSxKKbhEUoNRoHvl/hbA==}
+  /electron-to-chromium/1.4.166:
+    resolution: {integrity: sha512-ZPLdq3kcATkD6dwne5M4SgJBHw21t90BqTGzf3AceJwj3cE/ICv6jyDwHYyJoF4JNuXM3pzRxlaRmpO7pdwmcg==}
     dev: true
 
   /emoji-regex/8.0.0:
@@ -2979,6 +2987,10 @@ packages:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
+    dev: true
+
+  /ua-parser-js/1.0.2:
+    resolution: {integrity: sha512-00y/AXhx0/SsnI51fTc0rLRmafiGOM4/O+ny10Ps7f+j/b8p/ZY11ytMgznXkOVo4GQ+KwQG5UQLkLGirsACRg==}
     dev: true
 
   /unplugin-icons/0.14.5:
