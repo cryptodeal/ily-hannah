@@ -4,6 +4,16 @@
 
 declare module 'theme-change';
 
+declare namespace NodeJS {
+	interface ProcessEnv {
+		MONGO_URI: string;
+	}
+}
+
+declare namespace globalThis {
+	// eslint-disable-next-line no-var
+	var mongoose: any;
+}
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare namespace App {

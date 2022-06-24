@@ -1,0 +1,6 @@
+{
+	"config": "./src/lib/_db/models",
+	"imports": ["import type { JSONContent } from '@tiptap/core'"],
+	"output": "./src/lib/_db",
+	"project": "./tsconfig.mtgen.json"
+}
