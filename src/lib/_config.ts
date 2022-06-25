@@ -9,17 +9,26 @@ dotenv.config();
 
 interface ENV {
 	MONGO_URI: string | undefined;
+	ZOHO_USER: string | undefined;
+	ZOHO_PASS: string | undefined;
+	JWT_SECRET: string | undefined;
 }
 
 interface Config {
 	MONGO_URI: string;
+	ZOHO_USER: string;
+	ZOHO_PASS: string;
+	JWT_SECRET: string;
 }
 
 // Loading process.env as ENV interface
 
 const getConfig = (): ENV => {
 	return {
-		MONGO_URI: process.env.MONGO_URI
+		MONGO_URI: process.env.MONGO_URI,
+		ZOHO_USER: process.env.ZOHO_USER,
+		ZOHO_PASS: process.env.ZOHO_PASS,
+		JWT_SECRET: process.env.JWT_SECRET
 	};
 };
 

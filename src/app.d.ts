@@ -7,6 +7,9 @@ declare module 'theme-change';
 declare namespace NodeJS {
 	interface ProcessEnv {
 		MONGO_URI: string;
+		ZOHO_USER: string;
+		ZOHO_PASS: string;
+		JWT_SECRET: string;
 	}
 }
 
@@ -18,12 +21,24 @@ declare namespace globalThis {
 // for information about these interfaces
 declare namespace App {
 	interface Locals {
-		userid: string;
+		user?: {
+			id: string;
+			email: string;
+			scope: string;
+			username?: string;
+		};
 	}
 
 	// interface Platform {}
 
-	// interface Session {}
+	interface Session {
+		user?: {
+			id: string;
+			email: string;
+			scope: string;
+			username?: string;
+		};
+	}
 
 	// interface Stuff {}
 }

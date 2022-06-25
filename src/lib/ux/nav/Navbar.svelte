@@ -1,9 +1,7 @@
 <script lang="ts">
 	import ThemeToggle from '$lib/ux/nav/ThemeToggle.svelte';
-	// import AuthButton from '$lib/ux/nav/AuthButton.svelte';
-	// import Logo from '$lib/ux/nav/Logo.svelte';
-
-	export let segment: string, closeDrawer: () => void;
+	import AuthButton from '$lib/ux/nav/AuthButton.svelte';
+	export let segment: string, modalId: string, triggerTxt: string, closeDrawer: () => void;
 </script>
 
 <div
@@ -28,7 +26,10 @@
 				</svg>
 			</label>
 		</div>
-		<div class="navbar-start bg-base-100">
+		<div class="hidden lg:flex navbar-start bg-base-100">
+			<a sveltekit:prefetch href="/" class="btn btn-ghost normal-case text-xl">ILY Hannah ❤️</a>
+		</div>
+		<div class="navbar-start lg:hidden bg-base-100">
 			<a
 				sveltekit:prefetch
 				href="/"
@@ -40,40 +41,6 @@
 		<div class="navbar-center hidden lg:flex">
 			<ul class="menu menu-horizontal p-0">
 				<!-- Navbar menu content here -->
-				<!--
-          <li>
-					<a
-						sveltekit:prefetch
-						href="/games"
-						class="uppercase"
-						class:active={segment === 'games' ? true : false}
-					>
-						games
-					</a>
-				</li>
-				<li>
-					<a
-						sveltekit:prefetch
-						href="/players"
-						class="uppercase"
-						class:active={segment === 'players' ? true : false}
-					>
-						players
-					</a>
-				</li>
-
-				<li>
-					<a
-						sveltekit:prefetch
-						href="/teams"
-						class="uppercase"
-						class:active={segment === 'teams' ? true : false}
-					>
-						teams
-					</a>
-				</li>
-      -->
-
 				<li>
 					<a
 						sveltekit:prefetch
@@ -84,27 +51,12 @@
 						about
 					</a>
 				</li>
-
-				<!--
-        <li>
-					<a
-						sveltekit:prefetch
-						href="/dev/neat"
-						class="uppercase"
-						class:active={segment === 'dev' ? true : false}
-					>
-						NEAT
-					</a>
-				</li>
-      -->
 			</ul>
 		</div>
 		<div class="navbar-end gap-4">
-			<!--
-        <div class="hidden lg:flex">
-				<AuthButton {modalId} {triggerTxt} {closeDrawer} />
+			<div class="hidden lg:flex">
+				<AuthButton {modalId} {triggerTxt} />
 			</div>
-    -->
 			<ThemeToggle />
 		</div>
 	</nav>
