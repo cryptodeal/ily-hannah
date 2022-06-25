@@ -9,12 +9,13 @@
 		}
 		const url = `/profile.json?userId=${session.user.id}`;
 		const res = await fetch(url);
-		const { userData } = await res.json();
+		const { userData, contentData } = await res.json();
 
 		//console.log(userData);
 		return {
 			props: {
-				user: userData
+				user: userData,
+				contentData
 			}
 		};
 	};
@@ -25,13 +26,17 @@
 	import { getNotificationsStore } from '$lib/data/stores/notifs';
 	import IconEdit from '~icons/fluent/document-edit-24-regular';
 	import IconPerson from '~icons/fluent/person-24-regular';
-	import IconClipboard from '~icons/fluent/clipboard-text-ltr-24-regular';
-	import IconGradHat from '~icons/fluent/hat-graduation-24-regular';
-	import type { UserDocument } from '$lib/_db/mongoose.gen';
+	import type { ContentObject, UserDocument } from '$lib/_db/mongoose.gen';
 
-	export let user: UserDocument;
+	export let user: UserDocument, contentData: ContentObject[];
 	$: console.log(user);
-	$: if (!user.name?.first || !user.name?.last) edit = true;
+	$: console.log(contentData);
+	if (!user.name)
+		user.name = {
+			first: '',
+			last: ''
+		};
+
 	const notifications = getNotificationsStore(),
 		saveUserData = () => {
 			edit = !edit;
@@ -59,6 +64,7 @@
 		};
 
 	let edit = false;
+	$: if (user.name.first === '' || user.name.last === '') edit = true;
 </script>
 
 <div class="container mx-auto p-5">
@@ -146,20 +152,6 @@
 								bind:value={user.name.last}
 							/>
 						</div>
-
-						<div class="form-control w-full max-w-xs">
-							<label for="email" class="label">
-								<span class="label-text">Email</span>
-							</label>
-							<input
-								type="text"
-								class="form-field"
-								placeholder="Email..."
-								id="email"
-								name="email"
-								bind:value={user.email}
-							/>
-						</div>
 					{:else}
 						<div class="form-control w-full max-w-xs">
 							<div class="label">
@@ -182,18 +174,17 @@
 								{user.name.last}
 							</div>
 						</div>
-
-						<div class="form-control w-full max-w-xs">
-							<div class="label">
-								<span class="label-text">Email</span>
-							</div>
-							<div
-								class="inline-flex flex-shrink items-center justify-start h-12 px-8 pl-4 w-full max-w-xs"
-							>
-								{user.email}
-							</div>
-						</div>
 					{/if}
+					<div class="form-control w-full max-w-xs">
+						<div class="label">
+							<span class="label-text">Email</span>
+						</div>
+						<div
+							class="inline-flex flex-shrink items-center justify-start h-12 px-8 pl-4 w-full max-w-xs"
+						>
+							{user.email}
+						</div>
+					</div>
 				</div>
 				<!--
           <button
@@ -205,49 +196,17 @@
 			<!-- End of about section -->
 			<!-- Experience and education -->
 			<div class="glassmorphicBg p-3 shadow-sm rounded-sm my-4">
-				<div class="grid grid-cols-2">
-					<div>
-						<div class="inline-flex items-center space-x-2 font-semibold leading-8 mb-3">
-							<IconClipboard class="fill-current" />
-							<span class="tracking-wide">Experience</span>
-						</div>
-						<ul class="list-inside space-y-2">
-							<li>
-								<div>Owner at Her Company Inc.</div>
-								<div class="text-xs">March 2020 - Now</div>
-							</li>
-							<li>
-								<div>Owner at Her Company Inc.</div>
-								<div class="text-xs">March 2020 - Now</div>
-							</li>
-							<li>
-								<div>Owner at Her Company Inc.</div>
-								<div class="text-xs">March 2020 - Now</div>
-							</li>
-							<li>
-								<div>Owner at Her Company Inc.</div>
-								<div class="text-xs">March 2020 - Now</div>
-							</li>
-						</ul>
-					</div>
-					<div>
-						<div class="inline-flex items-center space-x-2 font-semibold leading-8 mb-3">
-							<IconGradHat class="fill-current" />
-							<span class="tracking-wide">Education</span>
-						</div>
-						<ul class="list-inside space-y-2">
-							<li>
-								<div>Masters Degree in Oxford</div>
-								<div class="text-xs">March 2020 - Now</div>
-							</li>
-							<li>
-								<div>Bachelors Degreen in LPU</div>
-								<div class="text-xs">March 2020 - Now</div>
-							</li>
-						</ul>
+				<div class="flex flex-col gap-4">
+					<h2 class="text-center">Posts</h2>
+					<div class="w-1/2 mx-auto">
+						{#each contentData as { content, title }}
+							<h5>{title}</h5>
+							{#if content?.extended}
+								{content.extended}
+							{/if}
+						{/each}
 					</div>
 				</div>
-				<!-- End of Experience and education grid -->
 			</div>
 			<!-- End of profile tab -->
 		</div>

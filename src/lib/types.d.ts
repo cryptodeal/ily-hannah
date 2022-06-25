@@ -24,3 +24,13 @@ export interface JWTPayload {
 	iat: number;
 	exp: number;
 }
+
+export interface UserFormData {
+	consentTandC?: boolean;
+	userId: Types.ObjectId;
+	name?: {
+		first?: string;
+		last?: string;
+	};
+	//birthdate: Date;
+}

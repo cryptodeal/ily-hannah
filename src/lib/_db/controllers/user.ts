@@ -1,6 +1,6 @@
 import { User } from '$lib/_db/models/User';
 import type { UserDocument } from '$lib/_db/mongoose.gen';
-import type { NewUserFormData } from '$lib/types';
+import type { UserFormData, NewUserFormData } from '$lib/types';
 
 export const findUserById = (id: string): Promise<UserDocument | null> => {
 	return User.findById(id).select('email username scope name birthdate createdAt').exec();
@@ -22,10 +22,7 @@ export const addNewUserFormData = (
 		});
 };
 
-export const updateUserData = (
-	userId: string,
-	formData: NewUserFormData
-): Promise<UserDocument> => {
+export const updateUserData = (userId: string, formData: UserFormData): Promise<UserDocument> => {
 	return User.findById(userId)
 		.exec()
 		.then((user) => {
