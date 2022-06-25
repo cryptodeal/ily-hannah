@@ -113,8 +113,10 @@
 		}).then((res) => {
 			if (res.status === 200) {
 				notifications.success('Whoo! Saved Post Successfully :)');
+			} else if (res.status === 401) {
+				notifications.error('Must login to save your content! :)');
 			} else {
-				notifications.error('Error... Failed to save! :(');
+				notifications.error('Error; failed to save content...');
 			}
 		});
 	};

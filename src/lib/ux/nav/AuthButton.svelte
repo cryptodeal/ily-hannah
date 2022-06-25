@@ -6,6 +6,8 @@
 		triggerTxt: string,
 		// eslint-disable-next-line @typescript-eslint/no-empty-function
 		closeDrawer: () => void = () => {};
+
+	$: console.log($session);
 </script>
 
 {#if $session.user}

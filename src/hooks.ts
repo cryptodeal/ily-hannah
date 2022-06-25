@@ -1,4 +1,4 @@
-import type { Handle } from '@sveltejs/kit';
+import type { GetSession, Handle } from '@sveltejs/kit';
 import decodeToken from '$lib/_auth/decodeToken';
 import refreshAuth from '$lib/_auth/refreshAuth';
 import cookie from 'cookie';
@@ -38,4 +38,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	return response;
+};
+
+export const getSession: GetSession = async (event) => {
+	return event.locals.user ? { user: event.locals.user } : {};
 };

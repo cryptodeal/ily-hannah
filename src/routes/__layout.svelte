@@ -58,8 +58,10 @@
 			}).then((res) => {
 				if (res.status === 200) {
 					notifications.success('Success; check your email!');
-				} else {
+				} else if (res.status === 401) {
 					notifications.error('Error... Please try again!');
+				} else {
+					notifications.error('Error; not authorized persons... or check spelling ;)');
 				}
 			});
 		}

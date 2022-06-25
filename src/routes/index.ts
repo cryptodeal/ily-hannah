@@ -1,3 +1,5 @@
+import type { JWTPayload } from '$lib/types';
+import protect from '$lib/_auth/protect';
 import { Content } from '$lib/_db/models/Content';
 import type { CategoryDocument, ContentDocument, UserDocument } from '$lib/_db/mongoose.gen';
 import type { RequestHandler } from '@sveltejs/kit';
@@ -15,6 +17,17 @@ export type SaveContentData = {
 };
 
 export const post: RequestHandler = async (event) => {
+	/* auth first; save work if not auth ;) */
+	const userAuth = (await protect(event.request.headers)) as JWTPayload;
+	if (!userAuth) {
+		return {
+			status: 401,
+			body: {
+				error: 'Must login to save posts!'
+			}
+		};
+	}
+
 	const data = (await event.request.json()) as SaveContentData;
 	const { _id, title, state, authors, content, categories } = data;
 	const res = await Content.saveContent(title, authors, content, categories, state, _id);
