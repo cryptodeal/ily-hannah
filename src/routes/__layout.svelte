@@ -101,7 +101,7 @@
 		<div class="pt-6 px-2 pb-10 md:px-6">
 			<slot />
 		</div>
-		<footer class="fixed bottom-0 footer footer-center p-2 lg:p-4 bg-base-300 text-base-content">
+		<footer class="fixed bottom-0 footer footer-center p-2 2xl:p-4 bg-base-300 text-base-content">
 			<div>
 				<p>Copyright © 2022 - All right reserved by Hannah Williams</p>
 			</div>

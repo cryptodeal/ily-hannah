@@ -1,8 +1,11 @@
 import { Content } from '$lib/_db/models/Content';
 import type { UserDocument, ContentObject } from '../mongoose.gen';
+export type ContentObjectSelect = ContentObject & {
+	checked: boolean;
+};
 
 export type PaginatedContentData = {
-	itemList: ContentObject[];
+	itemList: ContentObjectSelect[];
 	itemCount: number;
 	perPage: number;
 	currentPage: number;
@@ -29,14 +32,14 @@ export const getPaginatedContent = (
 	]).then((res: [ContentObject[], number]) => {
 		const pageCount = Math.ceil(res[1] / limit);
 		return {
-			itemList: res[0] as ContentObject[],
+			itemList: res[0] as ContentObjectSelect[],
 			itemCount: res[1],
 			perPage: limit,
 			currentPage: page,
 			pageCount,
-			next: page + 1 <= pageCount ? page + 1 : undefined,
+			next: page <= pageCount ? page : undefined,
 			prev: page - 1 >= 1 ? page - 1 : undefined,
-			hasNextPage: page + 1 < pageCount,
+			hasNextPage: page < pageCount,
 			hasPrevPage: page - 1 > 1
 		};
 	});
