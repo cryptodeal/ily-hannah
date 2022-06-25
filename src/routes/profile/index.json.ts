@@ -3,7 +3,7 @@ import protect from '$lib/_auth/protect';
 // import { validateUserForm } from '$lib/functions/helpers';
 import type { RequestHandler } from '@sveltejs/kit';
 import type { UserFormData, JWTPayload } from '$lib/types';
-import { getContentList } from '$lib/_db/controllers/content';
+import { getPaginatedContent } from '$lib/_db/controllers/content';
 import type { ContentObject } from '$lib/_db/mongoose.gen';
 
 export const get: RequestHandler = async ({ url }) => {
@@ -12,13 +12,13 @@ export const get: RequestHandler = async ({ url }) => {
 
 	const userData = await findUserById(userId);
 	/* TODO: only load posts author has access too */
-	const contentData = await getContentList();
+	const contentData = await getPaginatedContent();
 
 	if (userData && userData) {
 		return {
 			body: {
 				userData,
-				contentData: contentData as ContentObject[]
+				contentData: contentData as unknown as ContentObject[]
 			}
 		};
 	}

@@ -59,11 +59,6 @@ const UserSchema: UserSchema = new mongoose.Schema(
 			//TODO: Change default scope to 'user'
 			default: 'admin'
 		},
-		//password: { type: String, required: true },
-		subscriptions: {
-			teams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Team2', many: true }],
-			players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player2', many: true }]
-		},
 		premiumUser: {
 			isPaid: {
 				type: Boolean,

@@ -138,7 +138,9 @@ export type ContentQuery = mongoose.Query<any, ContentDocument, ContentQueries> 
  *
  * This type represents `ContentSchema.query`. For most use cases, you should not need to use this type explicitly.
  */
-export type ContentQueries = {};
+export type ContentQueries = {
+	paginateQuery: (this: ContentQuery, ...args: any[]) => ContentQuery;
+};
 
 export type ContentMethods = {};
 
@@ -224,10 +226,6 @@ export type User = {
 	active?: boolean;
 	username?: string;
 	scope: string;
-	subscriptions: {
-		teams: (Team2['_id'] | Team2)[];
-		players: (Player2['_id'] | Player2)[];
-	};
 	premiumUser: {
 		isPaid?: boolean;
 		subscriptionDate?: Date;
@@ -327,10 +325,6 @@ export type UserDocument = mongoose.Document<mongoose.Types.ObjectId, UserQuerie
 		active?: boolean;
 		username?: string;
 		scope: string;
-		subscriptions: {
-			teams: mongoose.Types.Array<Team2Document['_id'] | Team2Document>;
-			players: mongoose.Types.Array<Player2Document['_id'] | Player2Document>;
-		};
 		premiumUser: {
 			isPaid?: boolean;
 			subscriptionDate?: Date;

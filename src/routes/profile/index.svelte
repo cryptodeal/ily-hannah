@@ -27,8 +27,10 @@
 	import IconEdit from '~icons/fluent/document-edit-24-regular';
 	import IconPerson from '~icons/fluent/person-24-regular';
 	import type { ContentObject, UserDocument } from '$lib/_db/mongoose.gen';
+	import List from '$lib/ux/Content/List.svelte';
+	import type { PaginatedContentData } from '$lib/_db/controllers/content';
 
-	export let user: UserDocument, contentData: ContentObject[];
+	export let user: UserDocument, contentData: PaginatedContentData;
 	$: console.log(user);
 	$: console.log(contentData);
 	if (!user.name)
@@ -193,19 +195,11 @@
           </button>
         -->
 			</div>
-			<!-- End of about section -->
-			<!-- Experience and education -->
+
 			<div class="glassmorphicBg p-3 shadow-sm rounded-sm my-4">
 				<div class="flex flex-col gap-4">
 					<h2 class="text-center">Posts</h2>
-					<div class="w-1/2 mx-auto">
-						{#each contentData as { content, title }}
-							<h5>{title}</h5>
-							{#if content?.extended}
-								{content.extended}
-							{/if}
-						{/each}
-					</div>
+					<List paginatedData={contentData} />
 				</div>
 			</div>
 			<!-- End of profile tab -->

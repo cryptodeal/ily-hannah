@@ -42,6 +42,7 @@ ContentSchema.statics = {
 					title,
 					state,
 					author: authors,
+					content,
 					publishedDate: state === 'published' ? new Date() : undefined,
 					categories
 				}
@@ -51,10 +52,17 @@ ContentSchema.statics = {
 				title,
 				state,
 				author: authors,
+				content,
 				publishedDate: state === 'published' ? new Date() : undefined,
 				categories
 			}).save();
 		}
+	}
+};
+
+ContentSchema.query = {
+	paginateQuery(page = 0, limit = 25) {
+		return this.limit(limit).skip(page * limit);
 	}
 };
 
