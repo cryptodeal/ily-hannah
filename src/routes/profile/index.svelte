@@ -26,8 +26,8 @@
 	import { getNotificationsStore } from '$lib/data/stores/notifs';
 	import IconEdit from '~icons/fluent/document-edit-24-regular';
 	import IconPerson from '~icons/fluent/person-24-regular';
-	import type { ContentObject, UserDocument } from '$lib/_db/mongoose.gen';
-	import List from '$lib/ux/Content/List.svelte';
+	import type { UserDocument } from '$lib/_db/mongoose.gen';
+	import List from '$lib/ux/content/List.svelte';
 	import type { PaginatedContentData } from '$lib/_db/controllers/content';
 
 	export let user: UserDocument, contentData: PaginatedContentData;
