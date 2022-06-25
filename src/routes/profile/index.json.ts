@@ -8,24 +8,42 @@ import type { ContentObject } from '$lib/_db/mongoose.gen';
 
 export const get: RequestHandler = async ({ url }) => {
 	const userId = url.searchParams.get('userId');
-	if (!userId) throw Error('userId is required');
 
-	const userData = await findUserById(userId);
-	/* TODO: only load posts author has access too */
-	const contentData = await getPaginatedContent();
+	if (!userId) {
+		const page = url.searchParams.get('pg');
+		if (!page) throw new Error('page is required');
 
-	if (userData && userData) {
+		const contentData = await getPaginatedContent(Number(page));
+
+		if (contentData) {
+			return {
+				body: {
+					contentData: contentData as unknown as ContentObject[]
+				}
+			};
+		}
+
 		return {
-			body: {
-				userData,
-				contentData: contentData as unknown as ContentObject[]
-			}
+			status: 500
+		};
+	} else {
+		const userData = await findUserById(userId);
+		/* TODO: only load posts author has access too */
+		const contentData = await getPaginatedContent();
+
+		if (userData && contentData) {
+			return {
+				body: {
+					userData,
+					contentData: contentData as unknown as ContentObject[]
+				}
+			};
+		}
+
+		return {
+			status: 500
 		};
 	}
-
-	return {
-		status: 500
-	};
 };
 
 export type ProfilePostType = 'Add' | 'Update';

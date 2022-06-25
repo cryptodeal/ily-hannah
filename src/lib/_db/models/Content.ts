@@ -27,6 +27,9 @@ const ContentSchema: ContentSchema = new mongoose.Schema({
 });
 
 ContentSchema.statics = {
+	deleteById(id: UserDocument['_id'] | UserDocument['_id'][]) {
+		return this.deleteMany({ _id: { $in: Array.isArray(id) ? id : [id] } }).exec();
+	},
 	saveContent(
 		title: string,
 		authors: UserDocument['_id'][],

@@ -145,6 +145,7 @@ export type ContentQueries = {
 export type ContentMethods = {};
 
 export type ContentStatics = {
+	deleteById: (this: ContentModel, ...args: any[]) => any;
 	saveContent: (this: ContentModel, ...args: any[]) => any;
 };
 

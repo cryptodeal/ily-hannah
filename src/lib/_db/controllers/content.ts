@@ -37,10 +37,10 @@ export const getPaginatedContent = (
 			perPage: limit,
 			currentPage: page,
 			pageCount,
-			next: page <= pageCount ? page : undefined,
+			next: page + 1 <= pageCount ? page + 1 : undefined,
 			prev: page - 1 >= 1 ? page - 1 : undefined,
 			hasNextPage: page < pageCount,
-			hasPrevPage: page - 1 > 1
+			hasPrevPage: page - 1 > 0
 		};
 	});
 };

@@ -33,11 +33,44 @@
 	export let user: UserDocument, contentData: PaginatedContentData;
 	$: console.log(user);
 	$: console.log(contentData);
-	if (!user.name)
+	if (!user.name) {
 		user.name = {
 			first: '',
 			last: ''
 		};
+	}
+	const prevPaginated = () => {
+		return fetch(`/profile.json?pg=${contentData.prev}`)
+			.then((res) => res.json())
+			.then((res) => {
+				console.log(res);
+				contentData = res.contentData;
+			});
+	};
+
+	const nextPaginated = () => {
+		return fetch(`/profile.json?pg=${contentData.next}`)
+			.then((res) => res.json())
+			.then((res) => {
+				contentData = res.contentData;
+			});
+	};
+
+	const delContent = () => {
+		return fetch(`/api/content`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				ids: contentData.itemList.filter((i) => i.checked).map((i) => i._id)
+			})
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				console.log(res);
+			});
+	};
 
 	const notifications = getNotificationsStore(),
 		saveUserData = () => {
@@ -69,10 +102,10 @@
 	$: if (user.name.first === '' || user.name.last === '') edit = true;
 </script>
 
-<div class="container mx-auto">
+<div class="sm:container mx-auto p-5">
 	<div class="md:flex no-wrap p-5 md:-mx-2">
 		<!-- Left Side -->
-		<div class="w-full md:w-3/12 md:mx-2 md:my-auto">
+		<div class="w-full md:w-3/12 md:mx-2">
 			<!-- Profile Card -->
 			<div class="glassmorphicBg p-3 my-4 border-t-4 border-primary">
 				<div class="image overflow-hidden">
@@ -199,7 +232,12 @@
 			<div class="glassmorphicBg p-3 shadow-sm rounded-sm my-4">
 				<div class="flex flex-col gap-4">
 					<h2 class="text-center">Posts</h2>
-					<List paginatedData={contentData} />
+					<button
+						class="btn btn-error"
+						class:btn-disabled={!contentData.itemList.filter((i) => i.checked).length}
+						on:click={delContent}>Delete</button
+					>
+					<List paginatedData={contentData} {nextPaginated} {prevPaginated} />
 				</div>
 			</div>
 			<!-- End of profile tab -->

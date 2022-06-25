@@ -6,7 +6,9 @@
 	import TFoot from '$lib/ux/tables/core/TFoot.svelte';
 	import type { PaginatedContentData } from '$lib/_db/controllers/content';
 	import Paginate from '../Paginate.svelte';
-	export let paginatedData: PaginatedContentData;
+	export let paginatedData: PaginatedContentData,
+		nextPaginated: () => void,
+		prevPaginated: () => void;
 
 	const colHeaders: IColHeader[] = [{ title: 'Select' }, { title: 'Title' }];
 </script>
@@ -29,6 +31,8 @@
 	<TFoot slot="tfoot" {colHeaders} />
 </Table>
 <Paginate
+	fetchNext={nextPaginated}
+	fetchPrev={prevPaginated}
 	page={paginatedData.currentPage}
 	pageCount={paginatedData.pageCount}
 	hasNextPage={paginatedData.hasNextPage}
