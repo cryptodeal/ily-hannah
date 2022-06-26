@@ -17,6 +17,11 @@ declare namespace globalThis {
 	// eslint-disable-next-line no-var
 	var mongoose: any;
 }
+
+declare interface Navigator {
+	// eslint-disable-next-line no-var
+	connection: any;
+}
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare namespace App {

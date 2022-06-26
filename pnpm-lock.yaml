@@ -45,6 +45,7 @@ specifiers:
   typescript: ^4.7.4
   ua-parser-js: ^1.0.2
   unplugin-icons: ^0.14.5
+  web-vitals: ^2.1.4
   yup: ^0.32.11
 
 dependencies:
@@ -94,6 +95,7 @@ devDependencies:
   typescript: 4.7.4
   ua-parser-js: 1.0.2
   unplugin-icons: 0.14.5
+  web-vitals: 2.1.4
   yup: 0.32.11
 
 packages:
@@ -4521,6 +4523,10 @@ packages:
       safer-buffer: 2.1.2
       valid-data-url: 2.0.0
       xtend: 4.0.2
+    dev: true
+
+  /web-vitals/2.1.4:
+    resolution: {integrity: sha512-sVWcwhU5mX6crfI5Vd2dC4qchyTqxV8URinzt25XqVh+bHEPGH4C3NPrNionCP7Obx59wrYEbNlw4Z8sjALzZg==}
     dev: true
 
   /webidl-conversions/3.0.1:

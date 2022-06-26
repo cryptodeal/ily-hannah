@@ -9,10 +9,11 @@
 		drawerContentScrollY: number;
 
 	$: switchNavbarStyle = drawerContentScrollY > 40 ? true : false;
+	$: console.log($page.url.pathname);
 </script>
 
 <div
-	class="sticky top-0 z-30 flex h-16 w-full justify-center shadow-sm ${$page.url.pathname == '/'
+	class="sticky top-0 z-30 flex h-16 w-full justify-center {$page.url.pathname == '/'
 		? switchNavbarStyle
 			? 'bg-base-100 text-base-content shadow-sm'
 			: 'text-primary-content'
@@ -39,10 +40,15 @@
 				</svg>
 			</label>
 		</div>
-		<div class="hidden lg:flex navbar-start">
+		<div
+			class="hidden navbar-start {$page.url.pathname == '/' && switchNavbarStyle ? 'lg:flex' : ''}"
+		>
 			<a sveltekit:prefetch href="/" class="btn btn-ghost normal-case text-xl">ILY Hannah ❤️</a>
 		</div>
-		<div class={switchNavbarStyle ? 'navbar-start lg:hidden' : 'hidden'}>
+
+		<div
+			class="navbar-start flex {$page.url.pathname == '/' && switchNavbarStyle ? 'lg:hidden' : ''}"
+		>
 			<a
 				sveltekit:prefetch
 				href="/"
@@ -51,8 +57,8 @@
 			>
 		</div>
 
-		<div class={switchNavbarStyle ? 'navbar-center hidden lg:flex' : 'hidden'}>
-			<ul class="menu menu-horizontal p-0">
+		<div class="navbar-center hidden lg:flex">
+			<ul class="menu menu-horizontal p-0 {switchNavbarStyle ? '' : 'hidden'}">
 				<!-- Navbar menu content here -->
 				<li>
 					<a

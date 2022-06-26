@@ -1,6 +1,20 @@
+<script context="module" lang="ts">
+	import type { Load } from '@sveltejs/kit';
+	export const load: Load = async ({ url, params }) => {
+		const path = url.pathname;
+		return {
+			props: {
+				params,
+				path
+			}
+		};
+	};
+</script>
+
 <script lang="ts">
 	import '../app.css';
 	import { onMount } from 'svelte';
+	import { webVitals } from '$lib/webvitals';
 	import { afterNavigate } from '$app/navigation';
 	import { themeChange } from 'theme-change';
 	import * as yup from 'yup';
@@ -19,7 +33,17 @@
 		drawerContentScrollY = 0,
 		drawersidebar: { scrollTop: number },
 		drawerSidebarScrollY = 0,
-		checked: boolean = '' as unknown as boolean;
+		checked: boolean = '' as unknown as boolean,
+		analyticsId = import.meta.env.VERCEL_ANALYTICS_ID as string,
+		path: string,
+		params: Record<string, string>;
+
+	page.subscribe((page) => {
+		const tempPath = page.url.pathname;
+		segment = tempPath.split('/')[1];
+		path = tempPath;
+		params = page.params;
+	});
 	function parseContentScroll() {
 		drawerContentScrollY = drawercontent.scrollTop;
 	}
@@ -36,6 +60,7 @@
 		themeChange(false);
 		parseContentScroll();
 		parseSidebarScroll();
+		if (analyticsId) webVitals({ path, params, analyticsId });
 	});
 
 	afterNavigate(() => {

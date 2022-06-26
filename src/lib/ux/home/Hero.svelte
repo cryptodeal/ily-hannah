@@ -20,7 +20,6 @@
 				</a>
 				<a href="/works" class="btn lg:btn-lg normal-case">Works</a>
 				<a href="/works" class="btn lg:btn-lg normal-case">Musings</a>
-				<a href="/works" class="btn lg:btn-lg normal-case">Other</a>
 			</div>
 		</div>
 	</div>
