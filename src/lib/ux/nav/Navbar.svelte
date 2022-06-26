@@ -9,7 +9,6 @@
 		drawerContentScrollY: number;
 
 	$: switchNavbarStyle = drawerContentScrollY > 40 ? true : false;
-	$: console.log($page.url.pathname);
 </script>
 
 <div

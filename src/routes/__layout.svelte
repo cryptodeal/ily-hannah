@@ -24,10 +24,10 @@
 	import Nav from '$lib/ux/nav/Navbar.svelte';
 	import SideNav from '$lib/ux/nav/SideNav.svelte';
 	import Toast from '$lib/ux/Toast.svelte';
+	export let params: Record<string, string>, path: string;
 
 	const modalId = 'auth-modal',
 		triggerTxt = 'login / register';
-	$: segment = $page.url.pathname.split('/')[1];
 	const notifications = getNotificationsStore();
 	let drawercontent: { scrollTop: number },
 		drawerContentScrollY = 0,
@@ -35,8 +35,7 @@
 		drawerSidebarScrollY = 0,
 		checked: boolean = '' as unknown as boolean,
 		analyticsId = import.meta.env.VERCEL_ANALYTICS_ID as string,
-		path: string,
-		params: Record<string, string>;
+		segment: string;
 
 	page.subscribe((page) => {
 		const tempPath = page.url.pathname;
