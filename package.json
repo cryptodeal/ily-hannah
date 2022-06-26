@@ -2,8 +2,8 @@
 	"name": "ily-hannah",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "svelte-kit dev",
-		"build": "svelte-kit build",
+		"dev": "mtgen && svelte-kit dev",
+		"build": "mtgen && svelte-kit build",
 		"mtgen": "mtgen",
 		"package": "svelte-kit package",
 		"preview": "svelte-kit preview",
@@ -14,7 +14,7 @@
 		"format": "prettier --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
-		"@iconify/json": "^2.1.66",
+		"@iconify/json": "^2.1.68",
 		"@sveltejs/adapter-vercel": "1.0.0-next.58",
 		"@sveltejs/kit": "next",
 		"@tailwindcss/typography": "^0.5.2",
@@ -45,7 +45,7 @@
 		"prettier": "^2.7.1",
 		"prettier-plugin-svelte": "^2.7.0",
 		"svelte": "^3.48.0",
-		"svelte-check": "^2.7.2",
+		"svelte-check": "^2.8.0",
 		"svelte-forms-lib": "^2.0.1",
 		"svelte-mail": "^0.1.1",
 		"svelte-preprocess": "^4.10.7",

@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@fontsource/fira-mono': ^4.5.8
-  '@iconify/json': ^2.1.66
+  '@iconify/json': ^2.1.68
   '@sveltejs/adapter-vercel': 1.0.0-next.58
   '@sveltejs/kit': next
   '@tailwindcss/typography': ^0.5.2
@@ -34,7 +34,7 @@ specifiers:
   prettier: ^2.7.1
   prettier-plugin-svelte: ^2.7.0
   svelte: ^3.48.0
-  svelte-check: ^2.7.2
+  svelte-check: ^2.8.0
   svelte-forms-lib: ^2.0.1
   svelte-mail: ^0.1.1
   svelte-preprocess: ^4.10.7
@@ -53,7 +53,7 @@ dependencies:
   cookie: 0.4.2
 
 devDependencies:
-  '@iconify/json': 2.1.66
+  '@iconify/json': 2.1.68
   '@sveltejs/adapter-vercel': 1.0.0-next.58
   '@sveltejs/kit': 1.0.0-next.354_svelte@3.48.0
   '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
@@ -84,7 +84,7 @@ devDependencies:
   prettier: 2.7.1
   prettier-plugin-svelte: 2.7.0_nakrehnrzdf7fdea5k3a4dfy4m
   svelte: 3.48.0
-  svelte-check: 2.7.2_x4nqt44wnukty73um2kz4qdzya
+  svelte-check: 2.8.0_x4nqt44wnukty73um2kz4qdzya
   svelte-forms-lib: 2.0.1
   svelte-mail: 0.1.1
   svelte-preprocess: 4.10.7_3zakmmfkrfgnjsltlgxikg2if4
@@ -162,11 +162,11 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@iconify/json/2.1.66:
-    resolution: {integrity: sha512-1iy+euT4aHh1G0ZILEtk/nf4iSur4yQqgM91yj6fndiG673iU5gQS5mX6rp905GR8eWbhpGwS1losoT3WCi5Mg==}
+  /@iconify/json/2.1.68:
+    resolution: {integrity: sha512-OlnC9xhqRcnCwDutY1ZGkNpK2QvxCZfBkn+yZaNQ2wYuhuPQWPlr4RdEvZUA7Yle1IDrBqq+2SVOVbAPCIsupQ==}
     dependencies:
       '@iconify/types': 1.1.0
-      pathe: 0.2.0
+      pathe: 0.3.0
     dev: true
 
   /@iconify/types/1.1.0:
@@ -186,20 +186,20 @@ packages:
       - supports-color
     dev: true
 
-  /@jridgewell/resolve-uri/3.0.7:
-    resolution: {integrity: sha512-8cXDaBBHOr2pQ7j77Y6Vp5VDT2sIqWyWQ56TjEq4ih/a4iST3dItRe8Q9fp0rrIl9DoKhWQtUQz/YpOxLkXbNA==}
+  /@jridgewell/resolve-uri/3.0.8:
+    resolution: {integrity: sha512-YK5G9LaddzGbcucK4c8h5tWFmMPBvRZ/uyWmN1/SbBdIvqGUdWGkJ5BAaccgs6XbzVLsqbPJrBSFwKv3kT9i7w==}
     engines: {node: '>=6.0.0'}
     dev: true
 
-  /@jridgewell/sourcemap-codec/1.4.13:
-    resolution: {integrity: sha512-GryiOJmNcWbovBxTfZSF71V/mXbgcV3MewDe3kIMCLyIh5e7SKAeUZs+rMnJ8jkMolZ/4/VsdBmMrw3l+VdZ3w==}
+  /@jridgewell/sourcemap-codec/1.4.14:
+    resolution: {integrity: sha512-XPSJHWmi394fuUuzDnGz1wiKqWfo1yXecHQMRf2l6hztTO+nPru658AyDngaBe7isIxEkRsPR3FZh+s7iVa4Uw==}
     dev: true
 
-  /@jridgewell/trace-mapping/0.3.13:
-    resolution: {integrity: sha512-o1xbKhp9qnIAoHJSWd6KlCZfqslL4valSF81H8ImioOAxluWYWOpWkpyktY2vnt4tbrX9XYaxovq6cgowaJp2w==}
+  /@jridgewell/trace-mapping/0.3.14:
+    resolution: {integrity: sha512-bJWEfQ9lPTvm3SneWwRFVLzrh6nhjwqw7TUFFBEMzwvg7t7PCDenf2lDwqo4NQXzdpgBXyFgDWnQA+2vkruksQ==}
     dependencies:
-      '@jridgewell/resolve-uri': 3.0.7
-      '@jridgewell/sourcemap-codec': 1.4.13
+      '@jridgewell/resolve-uri': 3.0.8
+      '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
   /@mapbox/node-pre-gyp/1.0.9:
@@ -464,7 +464,7 @@ packages:
       '@rollup/pluginutils': 4.2.1
       debug: 4.3.4
       deepmerge: 4.2.2
-      kleur: 4.1.4
+      kleur: 4.1.5
       magic-string: 0.26.2
       svelte: 3.48.0
       svelte-hmr: 0.14.12_svelte@3.48.0
@@ -1291,8 +1291,8 @@ packages:
       escape-string-regexp: 4.0.0
     dev: true
 
-  /cli-progress/3.11.1:
-    resolution: {integrity: sha512-TTMA2LHrYaZeNMcgZGO10oYqj9hvd03pltNtVbu4ddeyDTHlYV7gWxsFiuvaQlgwMBFCv1TukcjiODWFlb16tQ==}
+  /cli-progress/3.11.2:
+    resolution: {integrity: sha512-lCPoS6ncgX4+rJu5bS3F/iCz17kZ9MPZ6dpuTtI0KXKABkhyXIdYB3Inby1OpaGti3YlI3EeEkM9AuWpelJrVA==}
     engines: {node: '>=4'}
     dependencies:
       string-width: 4.2.3
@@ -1312,7 +1312,7 @@ packages:
       cardinal: 2.1.1
       chalk: 4.1.2
       clean-stack: 3.0.1
-      cli-progress: 3.11.1
+      cli-progress: 3.11.2
       extract-stack: 2.0.0
       fs-extra: 8.1.0
       hyperlinker: 1.0.0
@@ -2743,8 +2743,8 @@ packages:
     resolution: {integrity: sha512-qxCyQtp3ioawkiRNQr/v8xw9KIviMSSNmy+63Wubj7KmMn3g7noRXIZB4vPCAP+ETi2SR8eH6CvmlKZuGpoHOg==}
     dev: true
 
-  /kleur/4.1.4:
-    resolution: {integrity: sha512-8QADVssbrFjivHWQU7KkMgptGTl6WAcSdlbBPY4uNF+mWr6DGcKrvY2w4FQJoXch7+fKMjj0dRrL75vk3k23OA==}
+  /kleur/4.1.5:
+    resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
     dev: true
 
@@ -3386,8 +3386,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /pathe/0.2.0:
-    resolution: {integrity: sha512-sTitTPYnn23esFR3RlqYBWn4c45WGeLcsKzQiUpXJAyfcWkolvlYpV8FLo7JishK946oQwMFUCHXQ9AjGPKExw==}
+  /pathe/0.3.0:
+    resolution: {integrity: sha512-3vUjp552BJzCw9vqKsO5sttHkbYqqsZtH0x1PNtItgqx8BXEXzoY1SYRKcL6BTyVh4lGJGLj0tM42elUDMvcYA==}
     dev: true
 
   /performance-now/2.1.0:
@@ -4056,13 +4056,13 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /svelte-check/2.7.2_x4nqt44wnukty73um2kz4qdzya:
-    resolution: {integrity: sha512-TuVX4YtXHbRM8sVuK5Jk+mKWdm3f0d6hvAC6qCTp8yUszGZewpEBCo2V5fRWZCiz+0J4OCiDHOS+DFMxv39rJA==}
+  /svelte-check/2.8.0_x4nqt44wnukty73um2kz4qdzya:
+    resolution: {integrity: sha512-HRL66BxffMAZusqe5I5k26mRWQ+BobGd9Rxm3onh7ZVu0nTk8YTKJ9vu3LVPjUGLU9IX7zS+jmwPVhJYdXJ8vg==}
     hasBin: true
     peerDependencies:
       svelte: ^3.24.0
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.13
+      '@jridgewell/trace-mapping': 0.3.14
       chokidar: 3.5.3
       fast-glob: 3.2.11
       import-fresh: 3.3.0

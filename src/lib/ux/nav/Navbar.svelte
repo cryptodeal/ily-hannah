@@ -16,8 +16,6 @@
 		? switchNavbarStyle
 			? 'bg-base-100 text-base-content shadow-sm'
 			: 'text-primary-content'
-		: switchNavbarStyle
-		? 'bg-base-100 text-base-content shadow-sm'
 		: 'bg-base-100 text-base-content'}"
 >
 	<!-- Navbar -->

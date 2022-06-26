@@ -12,6 +12,10 @@ const config = {
 	// for more information about preprocessors
 	preprocess: [
 		preprocess({
+			replace: [
+				/* allows importing as import.meta.env.VERCEL_ANALYTICS_ID */
+				['import.meta.env.VERCEL_ANALYTICS_ID', JSON.stringify(process.env.VERCEL_ANALYTICS_ID)]
+			],
 			postcss: true
 		})
 	],

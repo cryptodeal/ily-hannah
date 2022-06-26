@@ -50,6 +50,8 @@
 		checked = '' as unknown as boolean;
 	}
 
+	$: console.log(analyticsId);
+
 	onMount(() => {
 		themeChange(false);
 		parseContentScroll();
