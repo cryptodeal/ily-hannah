@@ -1,11 +1,24 @@
 <script lang="ts">
 	import ThemeToggle from '$lib/ux/nav/ThemeToggle.svelte';
 	import AuthButton from '$lib/ux/nav/AuthButton.svelte';
-	export let segment: string, modalId: string, triggerTxt: string, closeDrawer: () => void;
+	import { page } from '$app/stores';
+	export let segment: string,
+		modalId: string,
+		triggerTxt: string,
+		closeDrawer: () => void,
+		drawerContentScrollY: number;
+
+	$: switchNavbarStyle = drawerContentScrollY > 40 ? true : false;
 </script>
 
 <div
-	class="sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur bg-base-100 text-base-content shadow-sm"
+	class="sticky top-0 z-30 flex h-16 w-full justify-center shadow-sm ${$page.url.pathname == '/'
+		? switchNavbarStyle
+			? 'bg-base-100 text-base-content shadow-sm'
+			: 'text-primary-content'
+		: switchNavbarStyle
+		? 'bg-base-100 text-base-content shadow-sm'
+		: 'bg-base-100 text-base-content'}"
 >
 	<!-- Navbar -->
 	<nav class="w-full navbar">
@@ -26,10 +39,10 @@
 				</svg>
 			</label>
 		</div>
-		<div class="hidden lg:flex navbar-start bg-base-100">
+		<div class="hidden lg:flex navbar-start">
 			<a sveltekit:prefetch href="/" class="btn btn-ghost normal-case text-xl">ILY Hannah ❤️</a>
 		</div>
-		<div class="navbar-start lg:hidden bg-base-100">
+		<div class={switchNavbarStyle ? 'navbar-start lg:hidden' : 'hidden'}>
 			<a
 				sveltekit:prefetch
 				href="/"
@@ -38,7 +51,7 @@
 			>
 		</div>
 
-		<div class="navbar-center hidden lg:flex">
+		<div class={switchNavbarStyle ? 'navbar-center hidden lg:flex' : 'hidden'}>
 			<ul class="menu menu-horizontal p-0">
 				<!-- Navbar menu content here -->
 				<li>

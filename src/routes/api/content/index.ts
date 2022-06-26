@@ -5,16 +5,16 @@ import type { ContentDocument } from '$lib/_db/mongoose.gen';
 import protect from '$lib/_auth/protect';
 import type { JWTPayload } from '$lib/types';
 
-type ContentDeleteForm = {
+type ContentDeleteForm = Record<string, string> & {
 	ids: string[] | string;
 };
 
-export const del: RequestHandler = async ({ request }) => {
+export const del: RequestHandler<ContentDeleteForm> = async ({ request }) => {
 	const userAuth = (await protect(request.headers)) as JWTPayload;
 	if (!userAuth) {
 		throw new Error(`Error: unable to authenticate request`);
 	}
-	const { ids } = request.formData() as unknown as ContentDeleteForm;
+	const { ids } = (await request.json()) as ContentDeleteForm;
 	let id: ContentDocument['_id'] | undefined = undefined;
 	if (Array.isArray(ids)) {
 		ids.map((id) => castToObjectId(id));
@@ -27,7 +27,8 @@ export const del: RequestHandler = async ({ request }) => {
 				status: 200
 			};
 		})
-		.catch(() => {
+		.catch((err: any) => {
+			console.error(err);
 			return {
 				//TODO: handle error and verify best status code for case
 				status: 500

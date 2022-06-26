@@ -1,5 +1,6 @@
 import { Content } from '$lib/_db/models/Content';
 import type { UserDocument, ContentObject } from '../mongoose.gen';
+
 export type ContentObjectSelect = ContentObject & {
 	checked: boolean;
 };

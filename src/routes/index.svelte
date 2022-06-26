@@ -1,7 +1,5 @@
 <script lang="ts">
-	import Tiptap from '$lib/editor/Tiptap.svelte';
+	import Hero from '$lib/ux/home/Hero.svelte';
 </script>
 
-<main>
-	<Tiptap />
-</main>
+<Hero />

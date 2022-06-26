@@ -97,8 +97,8 @@
 		class="drawer-content flex flex-col"
 		style="scroll-behavior: smooth; scroll-padding-top: 5rem;"
 	>
-		<Nav {modalId} {triggerTxt} {segment} {closeDrawer} />
-		<div class="pt-6 px-2 pb-10 md:px-6">
+		<Nav {modalId} {triggerTxt} {segment} {closeDrawer} {drawerContentScrollY} />
+		<div class="p-6 pb-16">
 			<slot />
 		</div>
 		<footer class="fixed bottom-0 footer footer-center p-2 2xl:p-4 bg-base-300 text-base-content">

@@ -22,38 +22,57 @@
 </script>
 
 <script lang="ts">
+	import Tiptap from '$lib/editor/Tiptap.svelte';
 	import dayjs from 'dayjs';
+	import { setContext } from 'svelte';
+	import { writable } from 'svelte/store';
 	import { getNotificationsStore } from '$lib/data/stores/notifs';
 	import IconEdit from '~icons/fluent/document-edit-24-regular';
 	import IconPerson from '~icons/fluent/person-24-regular';
-	import type { UserDocument } from '$lib/_db/mongoose.gen';
 	import List from '$lib/ux/content/List.svelte';
-	import type { PaginatedContentData } from '$lib/_db/controllers/content';
+	import type { PaginatedContentData, ContentObjectSelect } from '$lib/_db/controllers/content';
+	import type { UserDocument } from '$lib/_db/mongoose.gen';
 
 	export let user: UserDocument, contentData: PaginatedContentData;
-	$: console.log(user);
-	$: console.log(contentData);
+	let { currentPage, hasPrevPage, hasNextPage, pageCount, prev, next, itemList } = contentData;
+	const contentDataStore = writable<ContentObjectSelect[]>(itemList);
+	setContext('content-list', contentDataStore);
 	if (!user.name) {
 		user.name = {
 			first: '',
 			last: ''
 		};
 	}
-	const prevPaginated = () => {
-		return fetch(`/profile.json?pg=${contentData.prev}`)
+
+	const loadContent = (page?: number) => {
+		if (!page) return;
+		return fetch(`/profile.json?pg=${page}`)
 			.then((res) => res.json())
 			.then((res) => {
-				console.log(res);
-				contentData = res.contentData;
+				const {
+					currentPage: tempCurrentPage,
+					hasPrevPage: tempHasPrev,
+					hasNextPage: tempHasNext,
+					pageCount: tempPgCount,
+					prev: tempPrev,
+					next: tempNext,
+					itemList: tempItems
+				} = res.contentData;
+				contentDataStore.set(tempItems);
+				currentPage = tempCurrentPage;
+				hasPrevPage = tempHasPrev;
+				hasNextPage = tempHasNext;
+				pageCount = tempPgCount;
+				prev = tempPrev;
+				next = tempNext;
 			});
+	};
+	const prevPaginated = () => {
+		return loadContent(prev);
 	};
 
 	const nextPaginated = () => {
-		return fetch(`/profile.json?pg=${contentData.next}`)
-			.then((res) => res.json())
-			.then((res) => {
-				contentData = res.contentData;
-			});
+		return loadContent(next);
 	};
 
 	const delContent = () => {
@@ -63,13 +82,16 @@
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				ids: contentData.itemList.filter((i) => i.checked).map((i) => i._id)
+				ids: $contentDataStore.filter((i) => i.checked).map((i) => i._id)
 			})
-		})
-			.then((res) => res.json())
-			.then((res) => {
-				console.log(res);
-			});
+		}).then((res) => {
+			if (res.status === 200) {
+				loadContent(currentPage);
+				notifications.success('Successfully deleted requested content items');
+			} else {
+				notifications.error('Error deleting content items');
+			}
+		});
 	};
 
 	const notifications = getNotificationsStore(),
@@ -234,13 +256,24 @@
 					<h2 class="text-center">Posts</h2>
 					<button
 						class="btn btn-error"
-						class:btn-disabled={!contentData.itemList.filter((i) => i.checked).length}
+						class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
 						on:click={delContent}>Delete</button
 					>
-					<List paginatedData={contentData} {nextPaginated} {prevPaginated} />
+					<List
+						{currentPage}
+						{hasPrevPage}
+						{pageCount}
+						{hasNextPage}
+						{nextPaginated}
+						{prevPaginated}
+					/>
 				</div>
 			</div>
 			<!-- End of profile tab -->
 		</div>
 	</div>
 </div>
+
+<main>
+	<Tiptap />
+</main>

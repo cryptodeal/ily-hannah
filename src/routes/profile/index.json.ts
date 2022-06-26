@@ -14,6 +14,10 @@ export const get: RequestHandler = async ({ url }) => {
 		if (!page) throw new Error('page is required');
 
 		const contentData = await getPaginatedContent(Number(page));
+		contentData.itemList.map((i) => {
+			i.checked = false;
+			return i;
+		});
 
 		if (contentData) {
 			return {
@@ -30,6 +34,10 @@ export const get: RequestHandler = async ({ url }) => {
 		const userData = await findUserById(userId);
 		/* TODO: only load posts author has access too */
 		const contentData = await getPaginatedContent();
+		contentData.itemList.map((i) => {
+			i.checked = false;
+			return i;
+		});
 
 		if (userData && contentData) {
 			return {

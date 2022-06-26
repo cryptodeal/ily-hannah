@@ -4,11 +4,18 @@
 
 	import type { IColHeader } from '$lib/ux/tables/types';
 	import TFoot from '$lib/ux/tables/core/TFoot.svelte';
-	import type { PaginatedContentData } from '$lib/_db/controllers/content';
+	import type { ContentObjectSelect } from '$lib/_db/controllers/content';
 	import Paginate from '../Paginate.svelte';
-	export let paginatedData: PaginatedContentData,
+	import type { Writable } from 'svelte/store';
+	import { getContext } from 'svelte';
+	export let currentPage: number,
+		pageCount: number,
+		hasNextPage: boolean,
+		hasPrevPage: boolean,
 		nextPaginated: () => void,
 		prevPaginated: () => void;
+
+	const items = getContext('content-list') as Writable<ContentObjectSelect[]>;
 
 	const colHeaders: IColHeader[] = [{ title: 'Select' }, { title: 'Title' }];
 </script>
@@ -16,12 +23,12 @@
 <Table compact={true}>
 	<THead slot="thead" {colHeaders} />
 	<svelte:fragment slot="tbody">
-		{#each paginatedData.itemList as { title, checked }, i}
+		{#each $items as { title, checked }, i}
 			<tr class="hover">
 				<!-- Display Player Name -->
 				<th>
 					<label>
-						<input type="checkbox" class="checkbox" bind:value={checked} />
+						<input type="checkbox" class="checkbox" bind:checked />
 					</label>
 				</th>
 				<td>{title}</td>
@@ -33,8 +40,8 @@
 <Paginate
 	fetchNext={nextPaginated}
 	fetchPrev={prevPaginated}
-	page={paginatedData.currentPage}
-	pageCount={paginatedData.pageCount}
-	hasNextPage={paginatedData.hasNextPage}
-	hasPrevPage={paginatedData.hasPrevPage}
+	page={currentPage}
+	{pageCount}
+	{hasNextPage}
+	{hasPrevPage}
 />
