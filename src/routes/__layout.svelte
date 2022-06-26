@@ -1,14 +1,10 @@
 <script context="module" lang="ts">
 	import type { Load } from '@sveltejs/kit';
-	export const load: Load = async ({ url, params }) => {
-		const path = url.pathname;
-		return {
-			props: {
-				params,
-				path
-			}
-		};
-	};
+	export const load: Load = async ({ url }) => ({
+		props: {
+			path: url.pathname
+		}
+	});
 </script>
 
 <script lang="ts">
@@ -24,7 +20,7 @@
 	import Nav from '$lib/ux/nav/Navbar.svelte';
 	import SideNav from '$lib/ux/nav/SideNav.svelte';
 	import Toast from '$lib/ux/Toast.svelte';
-	export let params: Record<string, string>, path: string;
+	export let path: string;
 
 	const modalId = 'auth-modal',
 		triggerTxt = 'login / register';
@@ -38,10 +34,9 @@
 		segment: string;
 
 	page.subscribe((page) => {
-		const tempPath = page.url.pathname;
-		segment = tempPath.split('/')[1];
-		path = tempPath;
-		params = page.params;
+		const tempPage = page.url.pathname;
+		path = tempPage;
+		segment = tempPage.split('/')[1];
 	});
 	function parseContentScroll() {
 		drawerContentScrollY = drawercontent.scrollTop;
@@ -59,7 +54,7 @@
 		themeChange(false);
 		parseContentScroll();
 		parseSidebarScroll();
-		if (analyticsId) webVitals({ path, params, analyticsId });
+		if (analyticsId) webVitals({ path, analyticsId });
 	});
 
 	afterNavigate(() => {
