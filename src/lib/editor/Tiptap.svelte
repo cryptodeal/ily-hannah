@@ -121,7 +121,7 @@
 		});
 	};
 
-	$: if (!title) editMeta = true;
+	$: if (!title || title === '') editMeta = true;
 
 	const undo = () => {
 		($editor as unknown as CoreEditor).chain().focus().undo().run();
@@ -155,7 +155,11 @@
 					<h2 class="card-title">{title}</h2>
 				{/if}
 				<div class="card-actions justify-center">
-					<button class="btn btn-accent gap-1" on:click={() => (editMeta = !editMeta)}>
+					<button
+						class="btn btn-accent gap-1"
+						class:btn-disabled={!title || title === ''}
+						on:click={() => (editMeta = !editMeta)}
+					>
 						<Edit class="w-6 h-6" />
 						Edit
 					</button>
