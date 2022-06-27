@@ -6,8 +6,6 @@
 		triggerTxt: string,
 		// eslint-disable-next-line @typescript-eslint/no-empty-function
 		closeDrawer: () => void = () => {};
-
-	$: console.log($session);
 </script>
 
 {#if $session.user}
@@ -19,13 +17,13 @@
 		<ul
 			tabindex="0"
 			id="profileDropdown"
-			class="dropdown-content menu p-2 shadow bg-base-300 rounded-box w-52"
+			class="dropdown-content bg-base-300 text-base-content menu p-2 shadow rounded-box w-52"
 		>
 			<li>
-				<a sveltekit:prefetch class="uppercase" href="/profile"> profile </a>
+				<a sveltekit:prefetch class="uppercase" href="/profile">profile</a>
 			</li>
 			<li>
-				<a class="uppercase" href="/logout"> logout </a>
+				<a class="uppercase" href="/logout">logout</a>
 			</li>
 		</ul>
 	</div>
@@ -37,7 +35,7 @@
 			<ul
 				tabindex="0"
 				id="smProfileDropdown"
-				class="dropdown-content menu p-2 shadow bg-base-300 rounded-box w-32"
+				class="dropdown-content menu bg-base-300 text-base-content p-2 shadow rounded-box w-32"
 			>
 				<li>
 					<a on:click={closeDrawer} sveltekit:prefetch class="uppercase" href="/profile">
@@ -45,7 +43,7 @@
 					</a>
 				</li>
 				<li>
-					<a on:click={closeDrawer} class="uppercase" href="/logout"> logout </a>
+					<a on:click={closeDrawer} class="uppercase" href="/logout">logout</a>
 				</li>
 			</ul>
 		</div>

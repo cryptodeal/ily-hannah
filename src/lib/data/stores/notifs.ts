@@ -6,6 +6,7 @@ export interface INotification {
 	type: NotificationType;
 	message: string;
 	timeout: number;
+	remove: () => void;
 }
 
 export type NotificationStore = {
@@ -16,6 +17,7 @@ export type NotificationStore = {
 	success: (message: string, timeout?: number) => void;
 	warning: (message: string, timeout?: number) => void;
 	error: (message: string, timeout?: number) => void;
+	remove: (notificationId: string) => void;
 };
 
 export function createNotificationStore(tempTimeout = 2500) {
@@ -23,7 +25,12 @@ export function createNotificationStore(tempTimeout = 2500) {
 
 	function send(message: string, type: NotificationType = 'default', timeout = tempTimeout) {
 		_notifications.update((state) => {
-			return [...state, { id: id(), type, message, timeout }];
+			const tempId = id();
+			const remove = () =>
+				_notifications.update((state) =>
+					state.filter((notification) => notification.id !== tempId)
+				);
+			return [...state, { id: tempId, type, message, timeout, remove }];
 		});
 	}
 
@@ -44,6 +51,7 @@ export function createNotificationStore(tempTimeout = 2500) {
 			}
 		}
 	);
+	const { update } = _notifications;
 	const { subscribe } = notifications;
 
 	const notifStore = {
@@ -53,7 +61,9 @@ export function createNotificationStore(tempTimeout = 2500) {
 		info: (msg: string, timeout?: number) => send(msg, 'info', timeout),
 		success: (msg: string, timeout?: number) => send(msg, 'success', timeout),
 		warning: (msg: string, timeout?: number) => send(msg, 'warning', timeout),
-		error: (msg: string, timeout?: number) => send(msg, 'error', timeout)
+		error: (msg: string, timeout?: number) => send(msg, 'error', timeout),
+		remove: (notificationId: string) =>
+			update((state) => state.filter((notification) => notification.id !== notificationId))
 	};
 
 	setContext('notifications', notifStore);

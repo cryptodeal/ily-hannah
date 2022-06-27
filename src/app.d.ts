@@ -19,9 +19,9 @@ declare namespace globalThis {
 }
 
 declare interface Navigator {
-	// eslint-disable-next-line no-var
-	connection: any;
+	connection: NetworkInformation;
 }
+
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare namespace App {

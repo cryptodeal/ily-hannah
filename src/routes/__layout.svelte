@@ -1,4 +1,5 @@
-<script context="module" lang="ts">
+<!--
+  <script context="module" lang="ts">
 	import type { Load } from '@sveltejs/kit';
 	export const load: Load = async ({ url }) => ({
 		props: {
@@ -6,11 +7,11 @@
 		}
 	});
 </script>
-
+-->
 <script lang="ts">
 	import '../app.css';
 	import { onMount } from 'svelte';
-	import { webVitals } from '$lib/webvitals';
+	// import { webVitals } from '$lib/webvitals';
 	import { afterNavigate } from '$app/navigation';
 	import { themeChange } from 'theme-change';
 	import * as yup from 'yup';
@@ -20,7 +21,7 @@
 	import Nav from '$lib/ux/nav/Navbar.svelte';
 	import SideNav from '$lib/ux/nav/SideNav.svelte';
 	import Toast from '$lib/ux/Toast.svelte';
-	export let path: string;
+	// export let path: string;
 
 	const modalId = 'auth-modal',
 		triggerTxt = 'login / register';
@@ -30,14 +31,15 @@
 		drawersidebar: { scrollTop: number },
 		drawerSidebarScrollY = 0,
 		checked: boolean = '' as unknown as boolean,
-		analyticsId = import.meta.env.VERCEL_ANALYTICS_ID as string,
+		// analyticsId = import.meta.env.VERCEL_ANALYTICS_ID as string,
 		segment: string;
 
 	page.subscribe((page) => {
 		const tempPage = page.url.pathname;
-		path = tempPage;
+		//path = tempPage;
 		segment = tempPage.split('/')[1];
 	});
+
 	function parseContentScroll() {
 		drawerContentScrollY = drawercontent.scrollTop;
 	}
@@ -50,13 +52,11 @@
 		checked = '' as unknown as boolean;
 	}
 
-	$: console.log(analyticsId);
-
 	onMount(() => {
 		themeChange(false);
 		parseContentScroll();
 		parseSidebarScroll();
-		if (analyticsId) webVitals({ path, analyticsId });
+		// if (analyticsId) webVitals({ path, analyticsId });
 	});
 
 	afterNavigate(() => {
@@ -143,8 +143,6 @@
 		</aside>
 	</div>
 </div>
-<Toast {notifications} />
-
 <input type="checkbox" id={modalId} class="modal-toggle" />
 <label for={modalId} class="modal modal-bottom sm:modal-middle cursor-pointer">
 	<label class="modal-box relative" for="">
@@ -165,3 +163,4 @@
 		</div>
 	</label>
 </label>
+<Toast />

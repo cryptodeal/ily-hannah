@@ -9,10 +9,11 @@
 		drawerContentScrollY: number;
 
 	$: switchNavbarStyle = drawerContentScrollY > 40 ? true : false;
+	$: isHomePage = $page.url.pathname === '/';
 </script>
 
 <div
-	class="sticky top-0 z-30 flex h-16 w-full justify-center {$page.url.pathname == '/'
+	class="sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100 {isHomePage
 		? switchNavbarStyle
 			? 'bg-base-100 text-base-content shadow-sm'
 			: 'text-primary-content'
@@ -37,15 +38,11 @@
 				</svg>
 			</label>
 		</div>
-		<div
-			class="hidden navbar-start {$page.url.pathname == '/' && switchNavbarStyle ? 'lg:flex' : ''}"
-		>
+		<div class="hidden navbar-start {!isHomePage || switchNavbarStyle ? 'lg:flex' : ''}">
 			<a sveltekit:prefetch href="/" class="btn btn-ghost normal-case text-xl">ILY Hannah ❤️</a>
 		</div>
 
-		<div
-			class="navbar-start flex {$page.url.pathname == '/' && switchNavbarStyle ? 'lg:hidden' : ''}"
-		>
+		<div class="navbar-start flex {!isHomePage || switchNavbarStyle ? 'lg:hidden' : ''}">
 			<a
 				sveltekit:prefetch
 				href="/"
@@ -55,15 +52,10 @@
 		</div>
 
 		<div class="navbar-center hidden lg:flex">
-			<ul class="menu menu-horizontal p-0 {switchNavbarStyle ? '' : 'hidden'}">
+			<ul class="menu menu-horizontal p-0 {!isHomePage || switchNavbarStyle ? '' : 'hidden'}">
 				<!-- Navbar menu content here -->
 				<li>
-					<a
-						sveltekit:prefetch
-						href="/about"
-						class="uppercase"
-						class:active={segment === 'about' ? true : false}
-					>
+					<a sveltekit:prefetch href="/about" class="uppercase" class:active={segment === 'about'}>
 						about
 					</a>
 				</li>
