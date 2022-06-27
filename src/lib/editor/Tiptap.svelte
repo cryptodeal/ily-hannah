@@ -121,6 +121,8 @@
 		});
 	};
 
+	$: if (!title) editMeta = true;
+
 	const undo = () => {
 		($editor as unknown as CoreEditor).chain().focus().undo().run();
 	};
@@ -144,6 +146,7 @@
 						</label>
 						<textarea
 							class="textarea bg-primary textarea-secondary text-primary-content placeholder:text-primary-content"
+							class:textarea-error={!title}
 							bind:value={title}
 							placeholder="Title"
 						/>

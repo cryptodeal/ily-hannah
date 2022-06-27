@@ -51,9 +51,9 @@ export const get: RequestHandler<VerifyTokenParams> = async (event) => {
 	}
 
 	return {
-		status: 404,
-		body: {
-			error: 'Could not locate user to authenticate'
+		status: 302,
+		headers: {
+			location: '/'
 		}
 	};
 };

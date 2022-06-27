@@ -254,11 +254,15 @@
 			<div class="glassmorphicBg p-3 shadow-sm rounded-sm my-4">
 				<div class="flex flex-col gap-4">
 					<h2 class="text-center">Posts</h2>
-					<button
-						class="btn btn-error"
-						class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
-						on:click={delContent}>Delete</button
-					>
+					<div class="flex flex-wrap gap-4">
+						<button
+							class="btn btn-error"
+							class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
+							on:click={delContent}
+						>
+							Delete
+						</button>
+					</div>
 					<List
 						{currentPage}
 						{hasPrevPage}
