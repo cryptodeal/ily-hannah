@@ -30,6 +30,9 @@
 	import IconEdit from '~icons/fluent/document-edit-24-regular';
 	import IconPerson from '~icons/fluent/person-24-regular';
 	import List from '$lib/ux/content/List.svelte';
+	import Tabs from '$lib/ux/tabs/Tabs.svelte';
+	import TabList from '$lib/ux/tabs/TabList.svelte';
+	import TabPanel from '$lib/ux/tabs/TabPanel.svelte';
 	import type { PaginatedContentData, ContentObjectSelect } from '$lib/_db/controllers/content';
 	import type { UserDocument } from '$lib/_db/mongoose.gen';
 
@@ -124,137 +127,151 @@
 	$: if (user.name.first === '' || user.name.last === '') edit = true;
 </script>
 
-<div class="sm:container mx-auto p-5">
-	<div class="md:flex no-wrap p-5 md:-mx-2">
-		<!-- Left Side -->
-		<div class="w-full md:w-3/12 md:mx-2">
-			<!-- Profile Card -->
-			<div class="glassmorphicBg p-3 my-4 border-t-4 border-primary">
-				<div class="image overflow-hidden">
-					<!--
-              <img class="h-auto w-full mx-auto"
-                  src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
-                  alt="">
-            -->
-				</div>
-				<h1 class="font-bold text-xl leading-8 my-1">{user.name.first} {user.name.last}</h1>
-				<!--
-              <h3 class="text-lg text-semibold leading-6">Owner at Her Company Inc.</h3>
-              <p class="text-sm text-gray-700 leading-6 dark:text-gray-300">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, eligendi
-                dolorum sequi illum qui unde aspernatur non deserunt
-              </p>
-            -->
-				<ul class="glassmorphicBg gap-4 p-4 rounded shadow-sm">
-					<li class="flex items-center">
-						<span class="font-semibold">Status</span>
-						<div class="badge badge-lg badge-success ml-auto">
-							<span class="text-sm">Active</span>
-						</div>
-					</li>
-					<div class="divider" />
-					<li class="flex items-center">
-						<span class="font-semibold">Member since</span>
-						<span class="ml-auto">{dayjs(user.createdAt).format('MMM DD, YYYY')}</span>
-					</li>
-				</ul>
-			</div>
+<Tabs>
+	<div class="container mx-auto p-5">
+		<div class="mx-1 px-2 py-1">
+			<TabList links={[{ title: 'Profile' }, { title: 'My Works' }, { title: 'Add Content' }]} />
 		</div>
 
-		<!-- Right Side -->
-		<div class="w-full md:w-9/12 md:px-2 mb-4">
-			<!-- Profile tab -->
-			<!-- About Section -->
-			<div class="glassmorphicBg p-3 shadow-sm rounded-sm my-4">
-				<div class="flex my-2 gap-4 items-center font-semibold leading-8">
-					<div class="flex-1 inline-flex items-center">
-						<IconPerson class="mr-2 fill-current" />
-						<span class="tracking-wide">About</span>
-					</div>
-					<div class="btn-group">
-						{#if edit}
-							<button class="btn btn-sm btn-primary" on:click={saveUserData}>Save</button>
-						{/if}
-						<button class="btn btn-sm gap-2" on:click={() => (edit = !edit)}>
-							<IconEdit />
-							<span>Edit</span>
-						</button>
+		<!-- Schedule Data Tab -->
+		<TabPanel>
+			<div class="md:flex no-wrap p-5 md:-mx-2">
+				<!-- Left Side -->
+				<div class="w-full md:w-3/12 md:mx-2">
+					<!-- Profile Card -->
+					<div class="glassmorphicBg p-3 my-4 border-t-4 border-primary">
+						<div class="image overflow-hidden">
+							<!--
+                  <img class="h-auto w-full mx-auto"
+                      src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
+                      alt="">
+                -->
+						</div>
+						<h1 class="font-bold text-xl leading-8 my-1">{user.name.first} {user.name.last}</h1>
+						<!--
+                  <h3 class="text-lg text-semibold leading-6">Owner at Her Company Inc.</h3>
+                  <p class="text-sm text-gray-700 leading-6 dark:text-gray-300">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, eligendi
+                    dolorum sequi illum qui unde aspernatur non deserunt
+                  </p>
+                -->
+						<ul class="glassmorphicBg gap-4 p-4 rounded shadow-sm">
+							<li class="flex items-center">
+								<span class="font-semibold">Status</span>
+								<div class="badge badge-lg badge-success ml-auto">
+									<span class="text-sm">Active</span>
+								</div>
+							</li>
+							<div class="divider" />
+							<li class="flex items-center">
+								<span class="font-semibold">Member since</span>
+								<span class="ml-auto">{dayjs(user.createdAt).format('MMM DD, YYYY')}</span>
+							</li>
+						</ul>
 					</div>
 				</div>
-				<div class="grid text-sm md:grid-cols-2 md:gap-4 md:gap-y-4">
-					{#if edit}
-						<div class="form-control w-full max-w-xs">
-							<label for="firstName" class="label">
-								<span class="label-text">First Name</span>
-							</label>
-							<input
-								type="text"
-								placeholder="First name..."
-								id="firstName"
-								name="firstName"
-								class="form-field"
-								bind:value={user.name.first}
-							/>
-						</div>
-						<div class="form-control w-full max-w-xs">
-							<label for="lastName" class="label">
-								<span class="label-text">Last Name</span>
-							</label>
-							<input
-								type="text"
-								placeholder="Last name..."
-								id="lastName"
-								name="lastName"
-								class="form-field"
-								bind:value={user.name.last}
-							/>
-						</div>
-					{:else}
-						<div class="form-control w-full max-w-xs">
-							<div class="label">
-								<span class="label-text">First Name</span>
-							</div>
-							<div
-								class="inline-flex flex-shrink items-center justify-start h-12 px-8 pl-4 w-full max-w-xs"
-							>
-								{user.name.first}
-							</div>
-						</div>
 
-						<div class="form-control w-full max-w-xs">
-							<div class="label">
-								<span class="label-text">Last Name</span>
+				<!-- Right Side -->
+				<div class="w-full md:w-9/12 md:px-2 mb-4">
+					<!-- Profile tab -->
+					<!-- About Section -->
+					<div class="glassmorphicBg p-3 shadow-sm rounded-sm my-4">
+						<div class="flex my-2 gap-4 items-center font-semibold leading-8">
+							<div class="flex-1 inline-flex items-center">
+								<IconPerson class="mr-2 fill-current" />
+								<span class="tracking-wide">About</span>
 							</div>
-							<div
-								class="inline-flex flex-shrink justify-start items-center h-12 px-8 pl-4 w-full max-w-xs"
-							>
-								{user.name.last}
+							<div class="btn-group">
+								{#if edit}
+									<button class="btn btn-sm btn-primary" on:click={saveUserData}>Save</button>
+								{/if}
+								<button class="btn btn-sm gap-2" on:click={() => (edit = !edit)}>
+									<IconEdit />
+									<span>Edit</span>
+								</button>
 							</div>
 						</div>
-					{/if}
-					<div class="form-control w-full max-w-xs">
-						<div class="label">
-							<span class="label-text">Email</span>
+						<div class="grid text-sm md:grid-cols-2 md:gap-4 md:gap-y-4">
+							{#if edit}
+								<div class="form-control w-full max-w-xs">
+									<label for="firstName" class="label">
+										<span class="label-text">First Name</span>
+									</label>
+									<input
+										type="text"
+										placeholder="First name..."
+										id="firstName"
+										name="firstName"
+										class="form-field"
+										bind:value={user.name.first}
+									/>
+								</div>
+								<div class="form-control w-full max-w-xs">
+									<label for="lastName" class="label">
+										<span class="label-text">Last Name</span>
+									</label>
+									<input
+										type="text"
+										placeholder="Last name..."
+										id="lastName"
+										name="lastName"
+										class="form-field"
+										bind:value={user.name.last}
+									/>
+								</div>
+							{:else}
+								<div class="form-control w-full max-w-xs">
+									<div class="label">
+										<span class="label-text">First Name</span>
+									</div>
+									<div
+										class="inline-flex flex-shrink items-center justify-start h-12 px-8 pl-4 w-full max-w-xs"
+									>
+										{user.name.first}
+									</div>
+								</div>
+
+								<div class="form-control w-full max-w-xs">
+									<div class="label">
+										<span class="label-text">Last Name</span>
+									</div>
+									<div
+										class="inline-flex flex-shrink justify-start items-center h-12 px-8 pl-4 w-full max-w-xs"
+									>
+										{user.name.last}
+									</div>
+								</div>
+							{/if}
+							<div class="form-control w-full max-w-xs">
+								<div class="label">
+									<span class="label-text">Email</span>
+								</div>
+								<div
+									class="inline-flex flex-shrink items-center justify-start h-12 px-8 pl-4 w-full max-w-xs"
+								>
+									{user.email}
+								</div>
+							</div>
 						</div>
-						<div
-							class="inline-flex flex-shrink items-center justify-start h-12 px-8 pl-4 w-full max-w-xs"
-						>
-							{user.email}
-						</div>
+						<!--
+              <button
+                class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Show
+                Full Information
+              </button>
+            -->
 					</div>
+
+					<!-- End of profile tab -->
 				</div>
-				<!--
-          <button
-            class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Show
-            Full Information
-          </button>
-        -->
 			</div>
+		</TabPanel>
 
+		<!-- Roster Data Tab -->
+		<TabPanel>
 			<div class="glassmorphicBg p-3 shadow-sm rounded-sm my-4">
 				<div class="flex flex-col gap-4">
 					<h2 class="text-center">Posts</h2>
-					<div class="flex flex-wrap gap-4">
+					<div class="flex justify-evenly flex-wrap gap-4">
 						<button
 							class="btn btn-error"
 							class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
@@ -273,11 +290,12 @@
 					/>
 				</div>
 			</div>
-			<!-- End of profile tab -->
-		</div>
-	</div>
-</div>
+		</TabPanel>
 
-<main>
-	<Tiptap />
-</main>
+		<TabPanel>
+			<div class="glassmorphicBg p-3 shadow-sm rounded-sm my-4">
+				<Tiptap />
+			</div>
+		</TabPanel>
+	</div>
+</Tabs>
