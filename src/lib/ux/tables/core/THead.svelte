@@ -1,14 +1,15 @@
 <script lang="ts">
 	import Triangle from '~icons/fluent/triangle-12-regular';
 	import type { IColHeader, ISortBy } from '../types';
-	export let sort: any = null,
+	export let sort: (column: string) => void | undefined,
 		colHeaders: IColHeader[],
 		sortBy: ISortBy | undefined = undefined;
 </script>
 
 {#each colHeaders as { title, subtext, key }, i}
-	{#if sort && sortBy}
-		<th on:click={sort(key)}>
+	{@const updateSort = () => sort(key || '')}
+	{#if sortBy}
+		<th on:click={updateSort}>
 			<div class="flex items-center space-x-3">
 				<div class="avatar">
 					{#if sortBy && sortBy.col === key}

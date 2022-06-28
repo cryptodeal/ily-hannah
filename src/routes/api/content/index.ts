@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { Content } from '$lib/_db/models/Content';
 import { castToObjectId } from '$lib/_db/controllers/utils';
-import type { ContentDocument, ContentObject } from '$lib/_db/mongoose.gen';
+import type { ContentObject } from '$lib/_db/mongoose.gen';
 import protect from '$lib/_auth/protect';
 import type { JWTPayload } from '$lib/types';
 import type { SaveContentData } from 'src/routes';
@@ -63,19 +63,16 @@ export const del: RequestHandler<ContentDeleteForm> = async ({ request }) => {
 		throw new Error(`Error: unable to authenticate request`);
 	}
 	const { ids } = (await request.json()) as ContentDeleteForm;
-	let id: ContentDocument['_id'] | undefined = undefined;
-	if (Array.isArray(ids)) {
-		ids.map((id) => castToObjectId(id));
-	} else {
-		id = castToObjectId(ids);
-	}
-	return Content.deleteById(id ? id : ids)
+
+	return Content.deleteById(
+		Array.isArray(ids) ? ids.map((id) => castToObjectId(id)) : castToObjectId(ids)
+	)
 		.then(() => {
 			return {
 				status: 200
 			};
 		})
-		.catch((err: any) => {
+		.catch((err: unknown) => {
 			console.error(err);
 			return {
 				//TODO: handle error and verify best status code for case

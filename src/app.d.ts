@@ -15,7 +15,10 @@ declare namespace NodeJS {
 
 declare namespace globalThis {
 	// eslint-disable-next-line no-var
-	var mongoose: any;
+	var mongoose: {
+		conn: null | typeof import('mongoose');
+		promise: null | Promise<typeof import('mongoose')>;
+	};
 }
 
 declare interface Navigator {

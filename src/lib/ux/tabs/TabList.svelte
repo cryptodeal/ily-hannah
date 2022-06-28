@@ -8,10 +8,12 @@
 <!-- {JSON.stringify($page, null, '  ')} -->
 
 <!-- {JSON.stringify($navigating, null, '  ')} -->
-<ul class="tabs tabs-boxed justify-center">
-	{#each links as link}
-		<Tab>
-			{link.title}
-		</Tab>
-	{/each}
-</ul>
+<div class="flex w-full justify-center">
+	<ul class="tabs tabs-boxed">
+		{#each links as link}
+			<Tab>
+				{link.title}
+			</Tab>
+		{/each}
+	</ul>
+</div>

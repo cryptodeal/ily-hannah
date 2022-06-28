@@ -107,7 +107,7 @@ export type Content = {
 	publishedDate?: Date;
 	content: {
 		brief?: string;
-		extended?: any;
+		extended?: ContentJSON['_id'] | ContentJSON;
 	};
 	categories: (Category['_id'] | Category)[];
 	_id: mongoose.Types.ObjectId;
@@ -139,14 +139,31 @@ export type ContentQuery = mongoose.Query<any, ContentDocument, ContentQueries> 
  * This type represents `ContentSchema.query`. For most use cases, you should not need to use this type explicitly.
  */
 export type ContentQueries = {
-	paginateQuery: (this: ContentQuery, ...args: any[]) => ContentQuery;
+	paginateQuery: (this: ContentQuery, page?: number, limit?: number) => ContentQuery;
+	populateContent: (this: ContentQuery) => ContentQuery;
 };
 
 export type ContentMethods = {};
 
 export type ContentStatics = {
-	deleteById: (this: ContentModel, ...args: any[]) => any;
-	saveContent: (this: ContentModel, ...args: any[]) => any;
+	deleteById: (this: ContentModel, id: ContentDocument['_id'] | ContentDocument['_id'][]) => any;
+	addContent: (
+		this: ContentModel,
+		title: string,
+		authors: UserDocument['_id'][],
+		content: { brief?: string; extended: JSONContent },
+		categories?: CategoryDocument['_id'][],
+		state?: 'draft' | 'published' | 'archived'
+	) => any;
+	saveContent: (
+		this: ContentModel,
+		title: string,
+		authors: UserDocument['_id'][],
+		content: { brief?: string; extended: JSONContent },
+		categories?: CategoryDocument['_id'][],
+		state?: 'draft' | 'published' | 'archived',
+		_id?: ContentDocument['_id']
+	) => any;
 };
 
 /**
@@ -190,9 +207,97 @@ export type ContentDocument = mongoose.Document<mongoose.Types.ObjectId, Content
 		publishedDate?: Date;
 		content: {
 			brief?: string;
-			extended?: any;
+			extended?: ContentJSONDocument['_id'] | ContentJSONDocument;
 		};
 		categories: mongoose.Types.Array<CategoryDocument['_id'] | CategoryDocument>;
+		_id: mongoose.Types.ObjectId;
+	};
+
+/**
+ * Lean version of ContentJSONDocument
+ *
+ * This has all Mongoose getters & functions removed. This type will be returned from `ContentJSONDocument.toObject()`. To avoid conflicts with model names, use the type alias `ContentJSONObject`.
+ * ```
+ * const contentjsonObject = contentjson.toObject();
+ * ```
+ */
+export type ContentJSON = {
+	_id: mongoose.Types.ObjectId;
+};
+
+/**
+ * Lean version of ContentJSONDocument (type alias of `ContentJSON`)
+ *
+ * Use this type alias to avoid conflicts with model names:
+ * ```
+ * import { ContentJSON } from "../models"
+ * import { ContentJSONObject } from "../interfaces/mongoose.gen.ts"
+ *
+ * const contentjsonObject: ContentJSONObject = contentjson.toObject();
+ * ```
+ */
+export type ContentJSONObject = ContentJSON;
+
+/**
+ * Mongoose Query type
+ *
+ * This type is returned from query functions. For most use cases, you should not need to use this type explicitly.
+ */
+export type ContentJSONQuery = mongoose.Query<any, ContentJSONDocument, ContentJSONQueries> &
+	ContentJSONQueries;
+
+/**
+ * Mongoose Query helper types
+ *
+ * This type represents `ContentJSONSchema.query`. For most use cases, you should not need to use this type explicitly.
+ */
+export type ContentJSONQueries = {};
+
+export type ContentJSONMethods = {};
+
+export type ContentJSONStatics = {
+	deleteById: (
+		this: ContentJSONModel,
+		id: ContentJSONDocument['_id'] | ContentJSONDocument['_id'][]
+	) => any;
+};
+
+/**
+ * Mongoose Model type
+ *
+ * Pass this type to the Mongoose Model constructor:
+ * ```
+ * const ContentJSON = mongoose.model<ContentJSONDocument, ContentJSONModel>("ContentJSON", ContentJSONSchema);
+ * ```
+ */
+export type ContentJSONModel = mongoose.Model<ContentJSONDocument, ContentJSONQueries> &
+	ContentJSONStatics;
+
+/**
+ * Mongoose Schema type
+ *
+ * Assign this type to new ContentJSON schema instances:
+ * ```
+ * const ContentJSONSchema: ContentJSONSchema = new mongoose.Schema({ ... })
+ * ```
+ */
+export type ContentJSONSchema = mongoose.Schema<
+	ContentJSONDocument,
+	ContentJSONModel,
+	ContentJSONMethods,
+	ContentJSONQueries
+>;
+
+/**
+ * Mongoose Document type
+ *
+ * Pass this type to the Mongoose Model constructor:
+ * ```
+ * const ContentJSON = mongoose.model<ContentJSONDocument, ContentJSONModel>("ContentJSON", ContentJSONSchema);
+ * ```
+ */
+export type ContentJSONDocument = mongoose.Document<mongoose.Types.ObjectId, ContentJSONQueries> &
+	ContentJSONMethods & {
 		_id: mongoose.Types.ObjectId;
 	};
 
@@ -272,7 +377,7 @@ export type UserQuery = mongoose.Query<any, UserDocument, UserQueries> & UserQue
 export type UserQueries = {};
 
 export type UserMethods = {
-	createAuthToken: (this: UserDocument, ...args: any[]) => any;
+	createAuthToken: (this: UserDocument) => any;
 };
 
 export type UserStatics = {};

@@ -27,6 +27,7 @@ export const getPaginatedContent = (
 			.sort('title')
 			.paginateQuery(page - 1, limit)
 			.select('title content')
+			.populateContent()
 			.lean()
 			.exec(),
 		Content.countDocuments(!author ? {} : { author }).exec()

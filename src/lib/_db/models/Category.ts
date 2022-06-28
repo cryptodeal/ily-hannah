@@ -5,6 +5,7 @@ const CategorySchema: CategorySchema = new mongoose.Schema({
 	name: { type: String, unique: true, index: true }
 });
 
-export const Category: CategoryModel =
-	(mongoose.models.Category as CategoryModel) ||
-	mongoose.model<CategoryDocument, CategoryModel>('Category', CategorySchema);
+export const Category: CategoryModel = mongoose.model<CategoryDocument, CategoryModel>(
+	'Category',
+	CategorySchema
+);

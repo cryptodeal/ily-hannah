@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { ContentJSON } from './ContentJSON';
 import type {
 	CategoryDocument,
 	ContentDocument,
@@ -21,14 +22,59 @@ const ContentSchema: ContentSchema = new mongoose.Schema({
 	publishedDate: { type: Date, index: true },
 	content: {
 		brief: { type: String },
-		extended: { type: Object }
+		extended: { type: mongoose.Schema.Types.ObjectId, ref: 'ContentJSON' }
 	},
 	categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category', index: true, many: true }]
 });
 
 ContentSchema.statics = {
-	deleteById(id: UserDocument['_id'] | UserDocument['_id'][]) {
-		return this.deleteMany({ _id: { $in: Array.isArray(id) ? id : [id] } }).exec();
+	deleteById(id: ContentDocument['_id'] | ContentDocument['_id'][]) {
+		if (Array.isArray(id)) {
+			return this.find({ _id: { $in: id } })
+				.select('content.extended')
+				.then((docs) => {
+					if (!docs) return;
+					const toDelete = docs
+						.filter((d) => d.content?.extended)
+						.map(({ content: { extended } }) => extended as mongoose.Types.ObjectId);
+					return Promise.all([
+						ContentJSON.deleteById(toDelete),
+						this.deleteMany({ _id: { $in: id } }).exec()
+					]);
+				});
+		} else {
+			return this.findById(id)
+				.select('content.extended')
+				.then((doc) => {
+					if (!doc) return;
+					const toDelete = doc.content?.extended as mongoose.Types.ObjectId;
+					return Promise.all([
+						ContentJSON.deleteById(toDelete),
+						this.deleteMany({ _id: { $in: id } }).exec()
+					]);
+				});
+		}
+	},
+	addContent(
+		title: string,
+		authors: UserDocument['_id'][],
+		content: { brief?: string; extended: JSONContent },
+		categories: CategoryDocument['_id'][] = [],
+		state: 'draft' | 'published' | 'archived' = 'draft'
+	) {
+		return ContentJSON.create(content.extended).then((contentJSON) => {
+			const savedContent = {
+				brief: content.brief,
+				extended: contentJSON._id
+			};
+			return this.create({
+				title,
+				authors,
+				categories,
+				state,
+				content: savedContent
+			});
+		});
 	},
 	saveContent(
 		title: string,
@@ -39,26 +85,23 @@ ContentSchema.statics = {
 		_id?: ContentDocument['_id']
 	) {
 		if (_id) {
-			return this.findOneAndUpdate(
-				{ _id },
-				{
-					title,
-					state,
-					author: authors,
-					content,
-					publishedDate: state === 'published' ? new Date() : undefined,
-					categories
-				}
-			).exec();
+			return this.findById(_id)
+				.exec()
+				.then((doc) => {
+					if (!doc) throw new Error(`Error: Failed to find Content doc with id: ${_id.toString()}`);
+					if (content.brief) doc.content.brief = content.brief;
+					doc.title = title;
+					doc.author.addToSet(...authors);
+					doc.categories.addToSet(...categories);
+					doc.state = state;
+					return doc.save().then((doc: ContentDocument) => {
+						if (!doc.content.extended)
+							throw new Error(`Error: Document ${doc._id.toString()} has no extended content`);
+						return ContentJSON.findByIdAndUpdate(doc.content.extended._id, content.extended).exec();
+					});
+				});
 		} else {
-			return new this({
-				title,
-				state,
-				author: authors,
-				content,
-				publishedDate: state === 'published' ? new Date() : undefined,
-				categories
-			}).save();
+			return this.addContent(title, authors, content, categories, state);
 		}
 	}
 };
@@ -66,9 +109,13 @@ ContentSchema.statics = {
 ContentSchema.query = {
 	paginateQuery(page = 0, limit = 25) {
 		return this.limit(limit).skip(page * limit);
+	},
+	populateContent() {
+		return this.populate('content.extended');
 	}
 };
 
-export const Content: ContentModel =
-	(mongoose.models.Content as ContentModel) ||
-	mongoose.model<ContentDocument, ContentModel>('Content', ContentSchema);
+export const Content: ContentModel = mongoose.model<ContentDocument, ContentModel>(
+	'Content',
+	ContentSchema
+);
