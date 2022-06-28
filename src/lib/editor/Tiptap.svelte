@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import { getNotificationsStore } from '$lib/data/stores/notifs';
 	import { shortcut } from '$lib/ux/shortcut';
 	import UAParser from 'ua-parser-js';
@@ -22,8 +22,9 @@
 	import { createEditor, EditorContent, type Editor } from 'svelte-tiptap';
 
 	import type { Editor as CoreEditor } from '@tiptap/core';
-	import type { Readable } from 'svelte/store';
+	import type { Readable, Writable } from 'svelte/store';
 	import type { CategoryDocument, UserDocument } from '$lib/_db/mongoose.gen';
+	import type { ContentObjectSelect } from '$lib/_db/controllers/content';
 
 	let editor: Readable<Editor>,
 		isApple = false,
@@ -93,9 +94,10 @@
 	const exportJSON = () => {
 		return ($editor as unknown as CoreEditor).getJSON();
 	};
+	const contentList: Writable<ContentObjectSelect[]> = getContext('content-list');
 
 	const save = () => {
-		return fetch('/', {
+		return fetch('/api/content', {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
@@ -110,15 +112,21 @@
 				},
 				categories
 			})
-		}).then((res) => {
-			if (res.status === 200) {
-				notifications.success('Whoo! Saved Post Successfully :)');
-			} else if (res.status === 401) {
-				notifications.error('Must login to save your content! :)');
-			} else {
-				notifications.error('Error; failed to save content...');
-			}
-		});
+		})
+			.then((res) => {
+				if (res.status === 200) {
+					notifications.success('Whoo! Saved Post Successfully :)');
+				} else if (res.status === 401) {
+					notifications.error('Must login to save your content! :)');
+				} else {
+					notifications.error('Error; failed to save content...');
+				}
+				return res.json();
+			})
+			.then((res) => {
+				const { content } = res as { content: ContentObjectSelect };
+				contentList.update((state) => [...state, content]);
+			});
 	};
 
 	$: if (!title || title === '') editMeta = true;

@@ -154,7 +154,7 @@ export type ContentStatics = {
 		content: { brief?: string; extended: JSONContent },
 		categories?: CategoryDocument['_id'][],
 		state?: 'draft' | 'published' | 'archived'
-	) => any;
+	) => Promise<ContentObjectSelect>;
 	saveContent: (
 		this: ContentModel,
 		title: string,
@@ -163,7 +163,7 @@ export type ContentStatics = {
 		categories?: CategoryDocument['_id'][],
 		state?: 'draft' | 'published' | 'archived',
 		_id?: ContentDocument['_id']
-	) => any;
+	) => Promise<ContentObjectSelect>;
 };
 
 /**

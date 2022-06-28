@@ -20,7 +20,7 @@ body {
   remains pending
 */
 .toast {
-	@apply relative flex max-w-[250px] break-words flex-row w-auto bg-base-200 text-sm p-2 rounded-box items-center justify-between gap-2;
+	@apply relative flex max-w-[400px] flex-row w-auto bg-base-200 text-sm p-2 rounded-box items-center justify-between gap-2;
 }
 
 .toast-info {

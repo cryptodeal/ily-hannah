@@ -48,7 +48,10 @@ export const post: RequestHandler = async (event) => {
 	const res = await Content.saveContent(title, authors, content, categories, state, _id);
 	if (res) {
 		return {
-			status: 200
+			status: 200,
+			body: {
+				content: res
+			}
 		};
 	} else {
 		return {

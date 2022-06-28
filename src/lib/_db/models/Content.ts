@@ -8,6 +8,7 @@ import type {
 	UserDocument
 } from '../mongoose.gen';
 import type { JSONContent } from '@tiptap/core';
+import type { ContentObjectSelect } from '../controllers/content';
 
 const ContentSchema: ContentSchema = new mongoose.Schema({
 	title: { type: String, required: true, unique: true, index: true },
@@ -61,7 +62,7 @@ ContentSchema.statics = {
 		content: { brief?: string; extended: JSONContent },
 		categories: CategoryDocument['_id'][] = [],
 		state: 'draft' | 'published' | 'archived' = 'draft'
-	) {
+	): Promise<ContentObjectSelect> {
 		return ContentJSON.create(content.extended).then((contentJSON) => {
 			const savedContent = {
 				brief: content.brief,
@@ -73,7 +74,7 @@ ContentSchema.statics = {
 				categories,
 				state,
 				content: savedContent
-			});
+			}).then((doc) => doc.toObject() as ContentObjectSelect);
 		});
 	},
 	saveContent(
@@ -83,7 +84,7 @@ ContentSchema.statics = {
 		categories: CategoryDocument['_id'][] = [],
 		state: 'draft' | 'published' | 'archived' = 'draft',
 		_id?: ContentDocument['_id']
-	) {
+	): Promise<ContentObjectSelect> {
 		if (_id) {
 			return this.findById(_id)
 				.exec()
@@ -97,7 +98,9 @@ ContentSchema.statics = {
 					return doc.save().then((doc: ContentDocument) => {
 						if (!doc.content.extended)
 							throw new Error(`Error: Document ${doc._id.toString()} has no extended content`);
-						return ContentJSON.findByIdAndUpdate(doc.content.extended._id, content.extended).exec();
+						return ContentJSON.findByIdAndUpdate(doc.content.extended._id, content.extended)
+							.exec()
+							.then(() => doc.toObject() as ContentObjectSelect);
 					});
 				});
 		} else {

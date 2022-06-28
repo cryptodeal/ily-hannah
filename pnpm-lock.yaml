@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@fontsource/fira-mono': ^4.5.8
-  '@iconify/json': ^2.1.68
+  '@iconify/json': ^2.1.69
   '@sveltejs/adapter-vercel': 1.0.0-next.58
   '@sveltejs/kit': next
   '@tailwindcss/typography': ^0.5.2
@@ -53,7 +53,7 @@ dependencies:
   cookie: 0.4.2
 
 devDependencies:
-  '@iconify/json': 2.1.68
+  '@iconify/json': 2.1.69
   '@sveltejs/adapter-vercel': 1.0.0-next.58
   '@sveltejs/kit': 1.0.0-next.355_svelte@3.48.0
   '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
@@ -162,8 +162,8 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@iconify/json/2.1.68:
-    resolution: {integrity: sha512-OlnC9xhqRcnCwDutY1ZGkNpK2QvxCZfBkn+yZaNQ2wYuhuPQWPlr4RdEvZUA7Yle1IDrBqq+2SVOVbAPCIsupQ==}
+  /@iconify/json/2.1.69:
+    resolution: {integrity: sha512-IJ7InhhWNXfg9apEyDTlGK1Coh5zvSpGStnoOJf36m4Cstqd45qfbObgOevxtUW7zknHlOgMWtw/a9MUNVs1zw==}
     dependencies:
       '@iconify/types': 1.1.0
       pathe: 0.3.1
@@ -1094,7 +1094,7 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      browserslist: 4.21.0
+      browserslist: 4.21.1
       caniuse-lite: 1.0.30001359
       fraction.js: 4.2.0
       normalize-range: 0.1.2
@@ -1154,15 +1154,15 @@ packages:
       fill-range: 7.0.1
     dev: true
 
-  /browserslist/4.21.0:
-    resolution: {integrity: sha512-UQxE0DIhRB5z/zDz9iA03BOfxaN2+GQdBYH/2WrSIWEUrnpzTPJbhqt+umq6r3acaPRTW1FNTkrcp0PXgtFkvA==}
+  /browserslist/4.21.1:
+    resolution: {integrity: sha512-Nq8MFCSrnJXSc88yliwlzQe3qNe3VntIjhsArW9IJOEPSHNx23FalwApUVbzAWABLhYJJ7y8AynWI/XM8OdfjQ==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001359
-      electron-to-chromium: 1.4.171
+      electron-to-chromium: 1.4.172
       node-releases: 2.0.5
-      update-browserslist-db: 1.0.4_browserslist@4.21.0
+      update-browserslist-db: 1.0.4_browserslist@4.21.1
     dev: true
 
   /bson/4.6.4:
@@ -1714,8 +1714,8 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
-  /electron-to-chromium/1.4.171:
-    resolution: {integrity: sha512-DmVNWJlGfCYtdgyxp24Aznd7Ou6a+XBSawxODh4lc39OHdh1a49Sitw8oxwMqzzm8n9m2P93OelvIF09SOTNwA==}
+  /electron-to-chromium/1.4.172:
+    resolution: {integrity: sha512-yDoFfTJnqBAB6hSiPvzmsBJSrjOXJtHSJoqJdI/zSIh7DYupYnIOHt/bbPw/WE31BJjNTybDdNAs21gCMnTh0Q==}
     dev: true
 
   /emoji-regex/8.0.0:
@@ -2249,7 +2249,7 @@ packages:
     resolution: {integrity: sha512-V/JgOLFCS+R6Vcq0slCuaeWEdNC3ouDlJMNIsacH2VtALiu9mV4LPrHc5cDl8k5aw6J8jwgWWpiTo5RYhmIzvg==}
     engines: {node: '>= 8'}
     dependencies:
-      minipass: 3.3.3
+      minipass: 3.3.4
     dev: true
 
   /fs.realpath/1.0.0:
@@ -2971,8 +2971,8 @@ packages:
       yallist: 3.1.1
     dev: true
 
-  /minipass/3.3.3:
-    resolution: {integrity: sha512-N0BOsdFAlNRfmwMhjAsLVWOk7Ljmeb39iqFlsV1At+jqRhSUP9yeof8FyJu4imaJiSUp8vQebWD/guZwGQC8iA==}
+  /minipass/3.3.4:
+    resolution: {integrity: sha512-I9WPbWHCGu8W+6k1ZiGpPu0GkoKBeorkfKNuAFBNS1HNFJvke82sxvI5bzcCNpWPorkOO5QQ+zomzzwRxejXiw==}
     engines: {node: '>=8'}
     dependencies:
       yallist: 4.0.0
@@ -2988,7 +2988,7 @@ packages:
     resolution: {integrity: sha512-bAxsR8BVfj60DWXHE3u30oHzfl4G7khkSuPW+qvpd7jFRHm7dLxOjUk1EHACJ/hxLY8phGJ0YhYHZo7jil7Qdg==}
     engines: {node: '>= 8'}
     dependencies:
-      minipass: 3.3.3
+      minipass: 3.3.4
       yallist: 4.0.0
     dev: true
 
@@ -4228,7 +4228,7 @@ packages:
     dependencies:
       chownr: 2.0.0
       fs-minipass: 2.1.0
-      minipass: 3.3.3
+      minipass: 3.3.4
       minizlib: 2.1.2
       mkdirp: 1.0.4
       yallist: 4.0.0
@@ -4437,13 +4437,13 @@ packages:
       webpack-virtual-modules: 0.4.4
     dev: true
 
-  /update-browserslist-db/1.0.4_browserslist@4.21.0:
+  /update-browserslist-db/1.0.4_browserslist@4.21.1:
     resolution: {integrity: sha512-jnmO2BEGUjsMOe/Fg9u0oczOe/ppIDZPebzccl1yDWGLFP16Pa1/RM5wEoKYPG2zstNcDuAStejyxsOuKINdGA==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
-      browserslist: 4.21.0
+      browserslist: 4.21.1
       escalade: 3.1.1
       picocolors: 1.0.0
     dev: true
@@ -4580,7 +4580,7 @@ packages:
   /wide-align/1.1.5:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
-      string-width: 4.2.3
+      string-width: 1.0.2
     dev: true
 
   /widest-line/3.1.0:
