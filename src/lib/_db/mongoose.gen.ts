@@ -7,6 +7,7 @@
 
 import mongoose from 'mongoose';
 import type { JSONContent } from '@tiptap/core';
+import type { ContentObjectSelect } from './controllers/content';
 
 /**
  * Lean version of CategoryDocument
@@ -164,6 +165,7 @@ export type ContentStatics = {
 		state?: 'draft' | 'published' | 'archived',
 		_id?: ContentDocument['_id']
 	) => Promise<ContentObjectSelect>;
+	publish: (this: ContentModel, id: ContentDocument['_id'][]) => any;
 };
 
 /**

@@ -1,6 +1,9 @@
 {
 	"config": "./src/lib/_db/models",
-	"imports": ["import type { JSONContent } from '@tiptap/core'"],
+	"imports": [
+		"import type { JSONContent } from \"@tiptap/core\"",
+		"import type { ContentObjectSelect } from \"./controllers/content\""
+	],
 	"output": "./src/lib/_db",
 	"project": "./tsconfig.mtgen.json"
 }

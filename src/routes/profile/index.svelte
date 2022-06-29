@@ -70,6 +70,26 @@
 				next = tempNext;
 			});
 	};
+
+	const pubContent = () => {
+		return fetch(`/api/content`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				id: $contentDataStore.filter((i) => i.checked).map((i) => i._id)
+			})
+		}).then((res) => {
+			if (res.status === 200) {
+				loadContent(currentPage);
+				notifications.success('Successfully published requested items');
+			} else {
+				notifications.error('Error publishing content items');
+			}
+		});
+	};
+
 	const prevPaginated = () => {
 		return loadContent(prev);
 	};
@@ -278,6 +298,14 @@
 							on:click={delContent}
 						>
 							Delete
+						</button>
+
+						<button
+							class="btn btn-primary"
+							class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
+							on:click={pubContent}
+						>
+							Publish
 						</button>
 					</div>
 					<List

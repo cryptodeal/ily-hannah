@@ -34,3 +34,18 @@ export interface UserFormData {
 	};
 	//birthdate: Date;
 }
+
+export type PublishContentData = {
+	id: string[];
+};
+
+export type SaveContentData = {
+	state: 'draft' | 'published' | 'archived';
+	authors: UserDocument['_id'][];
+	title: string;
+	content: {
+		extended: JSONContent;
+	};
+	categories: CategoryDocument['_id'][];
+	_id: ContentDocument['_id'];
+};

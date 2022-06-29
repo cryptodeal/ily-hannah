@@ -20,17 +20,14 @@
 	import Save from '~icons/fluent/save-20-regular';
 	import Edit from '~icons/fluent/code-text-edit-20-filled';
 	import { createEditor, EditorContent, type Editor } from 'svelte-tiptap';
-
 	import type { Editor as CoreEditor } from '@tiptap/core';
 	import type { Readable, Writable } from 'svelte/store';
 	import type { CategoryDocument, UserDocument } from '$lib/_db/mongoose.gen';
 	import type { ContentObjectSelect } from '$lib/_db/controllers/content';
-
 	let editor: Readable<Editor>,
 		isApple = false,
 		showHotKeys = true,
 		editMeta = false;
-
 	const notifications = getNotificationsStore();
 
 	onMount(() => {
@@ -52,7 +49,6 @@
 			content: `Hannah, I love you more than anything in the freakin' world and hope you're having a great day at work! ❤️❤️❤️❤️ Cannot wait to come pick you up later and spend tonight all cuddled up watching some TV together. ❤️❤️❤️❤️❤️`
 		});
 	});
-
 	const toggleHeading = (level: 1 | 2 | 3) => {
 		return () => {
 			($editor as unknown as CoreEditor).chain().focus().toggleHeading({ level }).run();
@@ -79,24 +75,22 @@
 	const liftListItem = () => {
 		($editor as unknown as CoreEditor).chain().focus().liftListItem('listItem').run();
 	};
-
 	const setParagraph = () => {
 		($editor as unknown as CoreEditor).chain().focus().setParagraph().run();
 	};
 	const setBlockquote = () => {
 		($editor as unknown as CoreEditor).chain().focus().setBlockquote().run();
 	};
-
 	let title = '',
 		state = 'draft',
 		authors: UserDocument['_id'][] = [],
-		categories: CategoryDocument['_id'][] = [];
+		categories: CategoryDocument['_id'][] = [],
+		_id: string;
 	const exportJSON = () => {
 		return ($editor as unknown as CoreEditor).getJSON();
 	};
 	const contentList: Writable<ContentObjectSelect[]> = getContext('content-list');
-
-	const save = () => {
+	function save() {
 		return fetch('/api/content', {
 			method: 'POST',
 			credentials: 'include',
@@ -104,6 +98,7 @@
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
+				_id,
 				state,
 				title,
 				authors,
@@ -116,29 +111,29 @@
 			.then((res) => {
 				if (res.status === 200) {
 					notifications.success('Whoo! Saved Post Successfully :)');
+					return res.json();
 				} else if (res.status === 401) {
 					notifications.error('Must login to save your content! :)');
+					return false;
 				} else {
 					notifications.error('Error; failed to save content...');
+					return false;
 				}
-				return res.json();
 			})
-			.then((res) => {
+			.then((res: boolean | { content: ContentObjectSelect }) => {
+				if (!res) return;
 				const { content } = res as { content: ContentObjectSelect };
-				contentList.update((state) => [...state, content]);
+				contentList.update((state) => [...state.filter((s) => s._id !== content._id), content]);
+				_id = content._id.toString();
 			});
-	};
-
+	}
 	$: if (!title || title === '') editMeta = true;
-
 	const undo = () => {
 		($editor as unknown as CoreEditor).chain().focus().undo().run();
 	};
-
 	const redo = () => {
 		($editor as unknown as CoreEditor).chain().focus().redo().run();
 	};
-
 	$: isActive = (name: string, attrs = {}) =>
 		($editor as unknown as CoreEditor).isActive(name, attrs);
 </script>
@@ -183,7 +178,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div
 			class="prose prose-sm sm:prose md:container mx-auto border-black border-2 border-b-0 rounded-t-md p-2 flex flex-wrap gap-2"
 		>
@@ -204,7 +198,6 @@
 						<Header1 />
 					</button>
 				</div>
-
 				<div
 					class="tooltip tooltip-primary"
 					data-tip="Heading 2{showHotKeys && isApple
@@ -221,7 +214,6 @@
 						<Header2 />
 					</button>
 				</div>
-
 				<div
 					class="tooltip tooltip-primary"
 					data-tip="Heading 3{showHotKeys && isApple
@@ -239,7 +231,6 @@
 					</button>
 				</div>
 			</div>
-
 			<div
 				class="tooltip tooltip-primary"
 				data-tip="Paragraph{showHotKeys && isApple
@@ -256,7 +247,6 @@
 					<Paragraph />
 				</button>
 			</div>
-
 			<div
 				class="tooltip tooltip-primary"
 				data-tip="Bold{showHotKeys && isApple
@@ -269,7 +259,6 @@
 					<Bold />
 				</button>
 			</div>
-
 			<div
 				class="tooltip tooltip-primary"
 				data-tip="Italic{showHotKeys && isApple
@@ -286,7 +275,6 @@
 					<Italic />
 				</button>
 			</div>
-
 			<div
 				class="tooltip tooltip-primary"
 				data-tip="Blockquote{showHotKeys && isApple
@@ -321,7 +309,6 @@
 							<BulletList />
 						</button>
 					</div>
-
 					<div
 						class="tooltip tooltip-primary"
 						data-tip="Ordered List{showHotKeys && isApple
@@ -339,7 +326,6 @@
 						</button>
 					</div>
 				</div>
-
 				<div class="btn-group flex-row">
 					<div
 						class="tooltip tooltip-primary"
@@ -353,7 +339,6 @@
 							<SplitList class="rotate-90" />
 						</button>
 					</div>
-
 					<div
 						class="tooltip tooltip-primary"
 						data-tip="Sink List Item{showHotKeys ? ' (Tab)' : ''}"
@@ -366,7 +351,6 @@
 							<Indent />
 						</button>
 					</div>
-
 					<div
 						class="tooltip tooltip-primary"
 						data-tip="Lift List Item{showHotKeys ? ' (Shift + Tab)' : ''}"
@@ -398,7 +382,6 @@
 						<Undo />
 					</button>
 				</div>
-
 				<div
 					class="tooltip tooltip-primary"
 					data-tip="Redo{showHotKeys && isApple
@@ -416,7 +399,6 @@
 					</button>
 				</div>
 			</div>
-
 			<div
 				class="tooltip tooltip-primary"
 				data-tip="Save{showHotKeys && isApple
@@ -437,7 +419,6 @@
 		</div>
 	</div>
 {/if}
-
 <EditorContent editor={$editor} />
 
 <style lang="postcss">

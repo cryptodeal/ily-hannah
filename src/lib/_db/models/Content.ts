@@ -106,6 +106,32 @@ ContentSchema.statics = {
 		} else {
 			return this.addContent(title, authors, content, categories, state);
 		}
+	},
+
+	publish(id: ContentDocument['_id'][]) {
+		const update = { state: 'published' };
+		const opts = { new: true };
+		if (id.length > 1) {
+			const filter = { _id: { $in: id } };
+			return this.updateMany(filter, update)
+				.exec()
+				.then((res) => {
+					if (!res.modifiedCount)
+						throw new Error(`Error: Failed to publish batch; IDS:\n${id.join(',\n')}`);
+					return this.find({ _id: { $in: id } })
+						.exec()
+						.then((docs) => docs.map((doc) => doc.toObject() as ContentObjectSelect));
+				});
+		} else {
+			const filter = { _id: id };
+			const update = { state: 'published' };
+			return this.findOneAndUpdate(filter, update, opts)
+				.exec()
+				.then((doc) => {
+					if (!doc) throw new Error(`Error: Failed to find Content doc with id: ${id.toString()}`);
+					return doc.toObject() as ContentObjectSelect;
+				});
+		}
 	}
 };
 
