@@ -165,7 +165,11 @@ export type ContentStatics = {
 		state?: 'draft' | 'published' | 'archived',
 		_id?: ContentDocument['_id']
 	) => Promise<ContentObjectSelect>;
-	publish: (this: ContentModel, id: ContentDocument['_id'][]) => any;
+	updateState: (
+		this: ContentModel,
+		id: ContentDocument['_id'][],
+		state?: 'draft' | 'published' | 'archived'
+	) => any;
 };
 
 /**

@@ -31,7 +31,7 @@ export const get: RequestHandler = async ({ url }) => {
 };
 
 const isPublishContentData = (obj: unknown): obj is PublishContentData => {
-	return obj !== null && typeof obj === 'object' && 'id' in obj;
+	return obj !== null && typeof obj === 'object' && 'id' in obj && 'state' in obj;
 };
 
 export const post: RequestHandler = async (event) => {
@@ -48,8 +48,11 @@ export const post: RequestHandler = async (event) => {
 
 	const data: PublishContentData | SaveContentData = await event.request.json();
 	if (isPublishContentData(data)) {
-		const { id } = data;
-		const res = await Content.publish(id.map((id) => castToObjectId(id)));
+		const { id, state } = data;
+		const res = await Content.updateState(
+			id.map((id) => castToObjectId(id)),
+			state
+		);
 		if (res) {
 			return {
 				status: 200,

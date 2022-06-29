@@ -71,24 +71,35 @@
 			});
 	};
 
-	const pubContent = () => {
+	const updateState = (state: 'draft' | 'published' | 'archived') => {
 		return fetch(`/api/content`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
+				state,
 				id: $contentDataStore.filter((i) => i.checked).map((i) => i._id)
 			})
 		}).then((res) => {
 			if (res.status === 200) {
 				loadContent(currentPage);
-				notifications.success('Successfully published requested items');
+				notifications.success(
+					state === 'archived' || state === 'published'
+						? `Successfully ${state} item(s)!`
+						: `Successfully marked item(s) as ${state}!`
+				);
 			} else {
-				notifications.error('Error publishing content items');
+				notifications.error('Error updating content items');
 			}
 		});
 	};
+
+	const flagPub = () => updateState('published');
+
+	const flagDraft = () => updateState('draft');
+
+	const flagArchive = () => updateState('archived');
 
 	const prevPaginated = () => {
 		return loadContent(prev);
@@ -291,7 +302,7 @@
 			<div class="glassmorphicBg p-3 shadow-sm rounded-sm my-4">
 				<div class="flex flex-col gap-4">
 					<h2 class="text-center">Posts</h2>
-					<div class="flex justify-evenly flex-wrap gap-4">
+					<div class="flex justify-center flex-wrap gap-4">
 						<button
 							class="btn btn-error"
 							class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
@@ -303,9 +314,23 @@
 						<button
 							class="btn btn-primary"
 							class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
-							on:click={pubContent}
+							on:click={flagPub}
 						>
 							Publish
+						</button>
+						<button
+							class="btn btn-secondary"
+							class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
+							on:click={flagDraft}
+						>
+							Draft
+						</button>
+						<button
+							class="btn btn-accent"
+							class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
+							on:click={flagArchive}
+						>
+							Archive
 						</button>
 					</div>
 					<List

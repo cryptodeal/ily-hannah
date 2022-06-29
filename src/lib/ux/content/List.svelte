@@ -14,27 +14,37 @@
 		nextPaginated: () => void,
 		prevPaginated: () => void;
 	const items = getContext('content-list') as Writable<ContentObjectSelect[]>;
-	const colHeaders: IColHeader[] = [
-		{ title: 'Select' },
-		{ title: 'Title' },
-		{ title: 'Published' }
-	];
+	const colHeaders: IColHeader[] = [{ title: 'Select' }, { title: 'Title' }, { title: 'State' }];
 </script>
 
 <Table compact={true}>
 	<THead slot="thead" {colHeaders} />
 	<svelte:fragment slot="tbody">
 		{#each $items as { title, checked, state }, i}
+			{@const badgeColor =
+				state === 'published'
+					? 'badge-primary'
+					: state === 'draft'
+					? 'badge-secondary'
+					: 'badge-accent'}
 			<tr class="hover">
 				<!-- Display Player Name -->
 				<th>
-					<label>
-						<input type="checkbox" class="checkbox" bind:checked />
+					<label for="content_action_select">
+						<input
+							id="content_action_select"
+							name="content_action_select"
+							type="checkbox"
+							class="checkbox"
+							bind:checked
+						/>
 					</label>
 				</th>
-				<td>{title}</td>
 				<td>
-					<input type="checkbox" class="checkbox" disabled checked={state === 'published'} />
+					{title}
+				</td>
+				<td>
+					<div class="badge {badgeColor}">{state}</div>
 				</td>
 			</tr>
 		{/each}

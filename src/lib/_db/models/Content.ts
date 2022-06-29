@@ -108,8 +108,11 @@ ContentSchema.statics = {
 		}
 	},
 
-	publish(id: ContentDocument['_id'][]) {
-		const update = { state: 'published' };
+	updateState(
+		id: ContentDocument['_id'][],
+		state: 'draft' | 'published' | 'archived' = 'published'
+	) {
+		const update = { state };
 		const opts = { new: true };
 		if (id.length > 1) {
 			const filter = { _id: { $in: id } };
@@ -124,7 +127,7 @@ ContentSchema.statics = {
 				});
 		} else {
 			const filter = { _id: id };
-			const update = { state: 'published' };
+			const update = { state };
 			return this.findOneAndUpdate(filter, update, opts)
 				.exec()
 				.then((doc) => {

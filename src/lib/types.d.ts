@@ -37,6 +37,7 @@ export interface UserFormData {
 
 export type PublishContentData = {
 	id: string[];
+	state: 'draft' | 'published' | 'archived';
 };
 
 export type SaveContentData = {
