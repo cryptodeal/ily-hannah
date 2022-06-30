@@ -20,7 +20,7 @@ const config = {
 		})
 	],
 	kit: {
-		adapter: adapter(),
+		adapter: adapter({ external: ['@napi-rs/*'] }),
 		vite: {
 			plugins: [
 				Icons({
