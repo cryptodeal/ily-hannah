@@ -12,7 +12,8 @@ export const post: RequestHandler = async (event) => {
 
 	if (
 		email.toLowerCase() === 'itshannahwilliams@gmail.com' ||
-		email.toLowerCase() === 'james.deal@balleranalytics.ai'
+		email.toLowerCase() === 'james.deal@balleranalytics.ai' ||
+		email.toLowerCase() === 'aslakrb@gmail'
 	) {
 		const result = await sendAuthLink(email, ua, time, host);
 

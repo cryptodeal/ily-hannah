@@ -26,7 +26,11 @@
 	import type { ContentObjectSelect } from '$lib/_db/controllers/content';
 
 	export let content: JSONContent | string = '',
-		_id: string | undefined = undefined;
+		_id: string | undefined = undefined,
+		title = '',
+		state = 'draft',
+		authors: UserDocument['_id'][] = [],
+		categories: CategoryDocument['_id'][] = [];
 	let editor: Readable<Editor>,
 		isApple = false,
 		showHotKeys = true,
@@ -84,10 +88,6 @@
 	const setBlockquote = () => {
 		($editor as unknown as CoreEditor).chain().focus().setBlockquote().run();
 	};
-	let title = '',
-		state = 'draft',
-		authors: UserDocument['_id'][] = [],
-		categories: CategoryDocument['_id'][] = [];
 	const exportJSON = () => {
 		return ($editor as unknown as CoreEditor).getJSON();
 	};
