@@ -14,13 +14,18 @@
 		nextPaginated: () => void,
 		prevPaginated: () => void;
 	const items = getContext('content-list') as Writable<ContentObjectSelect[]>;
-	const colHeaders: IColHeader[] = [{ title: 'Select' }, { title: 'Title' }, { title: 'State' }];
+	const colHeaders: IColHeader[] = [
+		{ title: 'Select' },
+		{ title: 'Title' },
+		{ title: 'State' },
+		{ title: 'Edit' }
+	];
 </script>
 
 <Table compact={true}>
 	<THead slot="thead" {colHeaders} />
 	<svelte:fragment slot="tbody">
-		{#each $items as { title, checked, state }, i}
+		{#each $items as { title, checked, state, slug }, i}
 			{@const badgeColor =
 				state === 'published'
 					? 'badge-primary'
@@ -45,6 +50,9 @@
 				</td>
 				<td>
 					<div class="badge {badgeColor}">{state}</div>
+				</td>
+				<td>
+					<a class="btn btn-sm" sveltekit:prefetch href="/profile/edit/{slug}"> Edit </a>
 				</td>
 			</tr>
 		{/each}

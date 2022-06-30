@@ -103,6 +103,7 @@ export type CategoryDocument = mongoose.Document<mongoose.Types.ObjectId, Catego
  */
 export type Content = {
 	title: string;
+	slug: string;
 	state: 'draft' | 'published' | 'archived';
 	author: (User['_id'] | User)[];
 	publishedDate?: Date;
@@ -170,6 +171,10 @@ export type ContentStatics = {
 		id: ContentDocument['_id'][],
 		state?: 'draft' | 'published' | 'archived'
 	) => any;
+	findBySlug: (
+		this: ContentModel,
+		slug: string
+	) => Promise<PopulatedDocument<ContentDocument, 'content.extended'>>;
 };
 
 /**
@@ -208,6 +213,7 @@ export type ContentSchema = mongoose.Schema<
 export type ContentDocument = mongoose.Document<mongoose.Types.ObjectId, ContentQueries> &
 	ContentMethods & {
 		title: string;
+		slug: string;
 		state: 'draft' | 'published' | 'archived';
 		author: mongoose.Types.Array<UserDocument['_id'] | UserDocument>;
 		publishedDate?: Date;
@@ -228,6 +234,7 @@ export type ContentDocument = mongoose.Document<mongoose.Types.ObjectId, Content
  * ```
  */
 export type ContentJSON = {
+	content?: any;
 	_id: mongoose.Types.ObjectId;
 };
 
@@ -304,6 +311,7 @@ export type ContentJSONSchema = mongoose.Schema<
  */
 export type ContentJSONDocument = mongoose.Document<mongoose.Types.ObjectId, ContentJSONQueries> &
 	ContentJSONMethods & {
+		content?: any;
 		_id: mongoose.Types.ObjectId;
 	};
 

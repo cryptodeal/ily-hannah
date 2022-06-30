@@ -20,10 +20,13 @@
 	import Save from '~icons/fluent/save-20-regular';
 	import Edit from '~icons/fluent/code-text-edit-20-filled';
 	import { createEditor, EditorContent, type Editor } from 'svelte-tiptap';
-	import type { Editor as CoreEditor } from '@tiptap/core';
+	import type { Editor as CoreEditor, JSONContent } from '@tiptap/core';
 	import type { Readable, Writable } from 'svelte/store';
 	import type { CategoryDocument, UserDocument } from '$lib/_db/mongoose.gen';
 	import type { ContentObjectSelect } from '$lib/_db/controllers/content';
+
+	export let content: JSONContent | string = '',
+		_id: string | undefined = undefined;
 	let editor: Readable<Editor>,
 		isApple = false,
 		showHotKeys = true,
@@ -46,7 +49,7 @@
 						'prose text-base min-h-[300px] max-h-[70vh] sm:max-h-[75vh] lg:max-h-[80vh] overflow-scroll prose-sm sm:prose md:container mx-auto border-2 border-black rounded-b-md p-3 outline-none'
 				}
 			},
-			content: `Hannah, I love you more than anything in the freakin' world and hope you're having a great day at work! ❤️❤️❤️❤️ Cannot wait to come pick you up later and spend tonight all cuddled up watching some TV together. ❤️❤️❤️❤️❤️`
+			content
 		});
 	});
 	const toggleHeading = (level: 1 | 2 | 3) => {
@@ -84,13 +87,15 @@
 	let title = '',
 		state = 'draft',
 		authors: UserDocument['_id'][] = [],
-		categories: CategoryDocument['_id'][] = [],
-		_id: string;
+		categories: CategoryDocument['_id'][] = [];
 	const exportJSON = () => {
 		return ($editor as unknown as CoreEditor).getJSON();
 	};
 	const contentList: Writable<ContentObjectSelect[]> = getContext('content-list');
 	function save() {
+		const content = {
+			extended: exportJSON()
+		};
 		return fetch('/api/content', {
 			method: 'POST',
 			credentials: 'include',
@@ -102,9 +107,7 @@
 				state,
 				title,
 				authors,
-				content: {
-					extended: exportJSON()
-				},
+				content,
 				categories
 			})
 		})

@@ -26,7 +26,7 @@ export const getPaginatedContent = (
 		Content.find(!author ? {} : { author })
 			.sort('title')
 			.paginateQuery(page - 1, limit)
-			.select('title content state')
+			.select('title content state slug')
 			.populateContent()
 			.lean()
 			.exec(),

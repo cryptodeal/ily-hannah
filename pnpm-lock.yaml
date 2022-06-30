@@ -27,6 +27,7 @@ specifiers:
   eslint-plugin-svelte3: ^4.0.0
   jsonwebtoken: ^8.5.1
   mongoose: 6.3.1
+  mongoose-slugger-plugin: ^3.0.3
   mongoose-tsgen: ^9.0.7
   nodemailer: ^6.7.5
   postcss: ^8.4.14
@@ -55,7 +56,7 @@ dependencies:
 devDependencies:
   '@iconify/json': 2.1.69
   '@sveltejs/adapter-vercel': 1.0.0-next.58
-  '@sveltejs/kit': 1.0.0-next.355_svelte@3.48.0
+  '@sveltejs/kit': 1.0.0-next.357_svelte@3.48.0
   '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
   '@tiptap/core': 2.0.0-beta.180
   '@tiptap/extension-bubble-menu': 2.0.0-beta.60_4op45timppanpdwy5jxyr3gcny
@@ -77,6 +78,7 @@ devDependencies:
   eslint-plugin-svelte3: 4.0.0_wy4erphnvhealet26qderqv6bu
   jsonwebtoken: 8.5.1
   mongoose: 6.3.1
+  mongoose-slugger-plugin: 3.0.3_mongoose@6.3.1
   mongoose-tsgen: 9.0.7_u2rjjgs6ibuh5gu7y4gqrr5c7q
   nodemailer: 6.7.5
   postcss: 8.4.14
@@ -218,6 +220,149 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: true
+
+  /@napi-rs/pinyin-android-arm-eabi/1.7.0:
+    resolution: {integrity: sha512-gTrDc4GGoesaWdPpsLyEADki8cs3RX0oZ0ePeGvHibsWYHEa6jUVnSor64Kb651qpQas03DSksHpVcDjiykFTA==}
+    engines: {node: '>= 10.0'}
+    cpu: [arm]
+    os: [android]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/pinyin-android-arm64/1.7.0:
+    resolution: {integrity: sha512-EEFWuOonBFLg6LLU+Zszq/GfthiiH5J4KoxvicTVPe+Bs+5eE7La2gXrXAwZid9q9LZTXrj1eHJERAOffD+skQ==}
+    engines: {node: '>= 10.0'}
+    cpu: [arm64]
+    os: [android]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/pinyin-darwin-arm64/1.7.0:
+    resolution: {integrity: sha512-Eaeb1JwMhm4My+c0uuq6x/1xy6aqaNwMhR9BtKECSPuSh1hXd3AA+Y2EetZqnTggPJyb3B4B+R+vNugFv/RTOQ==}
+    engines: {node: '>= 10.0'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/pinyin-darwin-x64/1.7.0:
+    resolution: {integrity: sha512-GBNtO1DlEi3912uVbhi2hIaaX3LTUEKhvRbXCEAanqsAb7MM4Y0iJgDr5xjKGaCDv0+Rbk5bib9yy43wUuTW2A==}
+    engines: {node: '>= 10.0'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/pinyin-freebsd-x64/1.7.0:
+    resolution: {integrity: sha512-3smO3C+Gz3WSBpYjAKm7VlT67hBnAzwIExAe2lYGqQ1SO9jUFhkYbimN/ab4XUCiPoVr0S/6vlqzm58BoEX0xQ==}
+    engines: {node: '>= 10.0'}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/pinyin-linux-arm-gnueabihf/1.7.0:
+    resolution: {integrity: sha512-dMlyC1G2ytGB8sk6Wmty4bNIrloJ2c1lkOBcqhc6kVOXIVcvYdR/9vllreAFvuWJvTlroW10N1vOZmQSpmAI1w==}
+    engines: {node: '>= 10.0'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/pinyin-linux-arm64-gnu/1.7.0:
+    resolution: {integrity: sha512-WA94mKN/0Um+ysI+4Kn2rrowGbGE0NQro109LTy9BuglM0PIEl1hZYHaaQ1vw/h5ZNW0ai25HlBJffxmgQW2eA==}
+    engines: {node: '>= 10.0'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/pinyin-linux-arm64-musl/1.7.0:
+    resolution: {integrity: sha512-RtdoxvuIhbYCcZJ1IQQlvMsTWKzW84teJXqjoQRvkUGeowccM4O6bCztgmXp9WDW5dOGV4DfIMslki2ps9jaRQ==}
+    engines: {node: '>= 10.0'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/pinyin-linux-x64-gnu/1.7.0:
+    resolution: {integrity: sha512-LuTEGUTKTfiC5ra+eLtH4Gft3M9S93Is1avXe1jgeb9YnnrA25UH1VFMo5lxmgWW/5535SVbw7NSxocKIR4CwA==}
+    engines: {node: '>= 10.0'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/pinyin-linux-x64-musl/1.7.0:
+    resolution: {integrity: sha512-WUNYSJFG5E8fe8+D0bYuJUU+F4DF1devfxF/2VHfCxvRKJGo6ZWK8Cfn/iHdroU4Vk4dxXy5krRsSzJxor5ZLw==}
+    engines: {node: '>= 10.0'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/pinyin-win32-arm64-msvc/1.7.0:
+    resolution: {integrity: sha512-C2lpEC/tEO+PzUssfZUmYYQFgop2RTvktiygJl+3jenU17jrzEAnyMqg7c02ClPu3JcGXHk++k7RiKY9cVBnog==}
+    engines: {node: '>= 10.0'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/pinyin-win32-ia32-msvc/1.7.0:
+    resolution: {integrity: sha512-DNMExy0kcyPf11WRunRU8aEwfzknThPLJfPQfUKaYimhJx+v5SMOQ1dapTXufJXsEphdGoXXdle6lV3NdVcKlQ==}
+    engines: {node: '>= 10.0'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/pinyin-win32-x64-msvc/1.7.0:
+    resolution: {integrity: sha512-fseGGv3YCHREmOCp9YY/lrm8LMo0jmQ6qsj1B0UJqmXjTxniWjfvfuwPerjHe1iSWtCAela+7vKtH9UIIWWhHw==}
+    engines: {node: '>= 10.0'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/pinyin/1.7.0:
+    resolution: {integrity: sha512-IZF4k2j3zIc1xKRm9lSbLE0q3/hkg3xVOIqCQzKST1ukjIcXpuWx1ntrSpFJpkKivngG3eeZf7dpQOclf1VCOw==}
+    engines: {node: '>= 10.0'}
+    requiresBuild: true
+    dependencies:
+      '@napi-rs/triples': 1.1.0
+    optionalDependencies:
+      '@napi-rs/pinyin-android-arm-eabi': 1.7.0
+      '@napi-rs/pinyin-android-arm64': 1.7.0
+      '@napi-rs/pinyin-darwin-arm64': 1.7.0
+      '@napi-rs/pinyin-darwin-x64': 1.7.0
+      '@napi-rs/pinyin-freebsd-x64': 1.7.0
+      '@napi-rs/pinyin-linux-arm-gnueabihf': 1.7.0
+      '@napi-rs/pinyin-linux-arm64-gnu': 1.7.0
+      '@napi-rs/pinyin-linux-arm64-musl': 1.7.0
+      '@napi-rs/pinyin-linux-x64-gnu': 1.7.0
+      '@napi-rs/pinyin-linux-x64-musl': 1.7.0
+      '@napi-rs/pinyin-win32-arm64-msvc': 1.7.0
+      '@napi-rs/pinyin-win32-ia32-msvc': 1.7.0
+      '@napi-rs/pinyin-win32-x64-msvc': 1.7.0
+    dev: true
+
+  /@napi-rs/triples/1.1.0:
+    resolution: {integrity: sha512-XQr74QaLeMiqhStEhLn1im9EOMnkypp7MZOwQhGzqp2Weu5eQJbpPxWxixxlYRKWPOmJjsk6qYfYH9kq43yc2w==}
     dev: true
 
   /@nodelib/fs.scandir/2.1.5:
@@ -430,8 +575,8 @@ packages:
       - supports-color
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.355_svelte@3.48.0:
-    resolution: {integrity: sha512-4M+BZL/kKgw5tMRkAYcpg38hxMX80iz6H9+nv2v6VzvKhD4Pw6zatzMs2D6PCT2uBHnrKGrUCheBBcK8kZdWKg==}
+  /@sveltejs/kit/1.0.0-next.357_svelte@3.48.0:
+    resolution: {integrity: sha512-nCAehVybIEpQNnPu61V/EFVdfDb1nBSiQUfW9EcSSDEUbyAMCVBOKZZuzQ0qQDp3xniqRkyDzpBA4wN+ADxHBw==}
     engines: {node: '>=16.7'}
     hasBin: true
     peerDependencies:
@@ -1189,6 +1334,10 @@ packages:
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
+    dev: true
+
+  /bulk-replace/0.0.1:
+    resolution: {integrity: sha1-8JVoKolqvUs9ngjeQJzCIuIT+d0=}
     dev: true
 
   /callsites/3.1.0:
@@ -2399,6 +2548,13 @@ packages:
     hasBin: true
     dev: true
 
+  /hepburn/1.2.0:
+    resolution: {integrity: sha512-xWjHb03dN/ivNcqG2vqA//sHQ0oapYGZ9QV/2TR7m2+cggxzoVpbDxZn9s/Zm1tF88/7a1IpdZyn00tNP5oABA==}
+    engines: {node: '>=4'}
+    dependencies:
+      bulk-replace: 0.0.1
+    dev: true
+
   /html-to-text/5.1.1:
     resolution: {integrity: sha512-Bci6bD/JIfZSvG4s0gW/9mMKwBRoe/1RWLxUME/d6WUSZCdY7T60bssf/jFf7EYXRyqU4P5xdClVqiYU0/ypdA==}
     engines: {node: '>= 4.0.0'}
@@ -2765,6 +2921,15 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /limax/3.0.0:
+    resolution: {integrity: sha512-7O14piibxAkJlQuAvhbJY5uubV7xszi1kQgnr5z+RkDJXyKYoStilqqpH8//LJq+HQpQN7TJmj3qxXzaEJOSfg==}
+    engines: {node: '>=10'}
+    dependencies:
+      '@napi-rs/pinyin': 1.7.0
+      hepburn: 1.2.0
+      speakingurl: 14.0.1
+    dev: true
+
   /local-pkg/0.4.1:
     resolution: {integrity: sha512-lL87ytIGP2FU5PWwNDo0w3WhIo2gopIAxPg9RxDYF7m4rr5ahuZxP22xnJHIvaLTe4Z9P6uKKY2UHiwyB4pcrw==}
     engines: {node: '>=14'}
@@ -3022,6 +3187,16 @@ packages:
       socks: 2.6.2
     optionalDependencies:
       saslprep: 1.0.3
+    dev: true
+
+  /mongoose-slugger-plugin/3.0.3_mongoose@6.3.1:
+    resolution: {integrity: sha512-UBsjbWOpWLxs0KEZUBJRUKyW1X+Qos0ErSqh41GktKcihOwCw+kL0RM0COSBVnBdt+W0j9tQVS977AGp9RxkbQ==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      mongoose: ^5.0.0
+    dependencies:
+      limax: 3.0.0
+      mongoose: 6.3.1
     dev: true
 
   /mongoose-tsgen/9.0.7_u2rjjgs6ibuh5gu7y4gqrr5c7q:
@@ -3930,6 +4105,11 @@ packages:
       memory-pager: 1.5.0
     dev: true
     optional: true
+
+  /speakingurl/14.0.1:
+    resolution: {integrity: sha512-1POYv7uv2gXoyGFpBCmpDVSNV74IfsWlDW216UPjbWufNf+bSU6GdbDsxdcxtfwb4xlI3yxzOTKClUosxARYrQ==}
+    engines: {node: '>=0.10.0'}
+    dev: true
 
   /sprintf-js/1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}

@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import type { ContentJSONSchema, ContentJSONModel, ContentJSONDocument } from '../mongoose.gen';
 
-const ContentJSONSchema: ContentJSONSchema = new mongoose.Schema({});
+const ContentJSONSchema: ContentJSONSchema = new mongoose.Schema({
+	content: { type: mongoose.Schema.Types.Mixed }
+});
 
 ContentJSONSchema.statics = {
 	deleteById(id: ContentJSONDocument['_id'] | ContentJSONDocument['_id'][]) {

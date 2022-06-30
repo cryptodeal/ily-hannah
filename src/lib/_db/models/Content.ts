@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
+import { wrap, plugin, SluggerOptions } from 'mongoose-slugger-plugin';
 import { ContentJSON } from './ContentJSON';
 import type {
 	CategoryDocument,
 	ContentDocument,
 	ContentModel,
 	ContentSchema,
+	PopulatedDocument,
 	UserDocument
 } from '../mongoose.gen';
 import type { JSONContent } from '@tiptap/core';
@@ -12,6 +14,7 @@ import type { ContentObjectSelect } from '../controllers/content';
 
 const ContentSchema: ContentSchema = new mongoose.Schema({
 	title: { type: String, required: true, unique: true, index: true },
+	slug: { type: String, required: true },
 	state: {
 		type: String,
 		enum: ['draft', 'published', 'archived'],
@@ -56,6 +59,7 @@ ContentSchema.statics = {
 				});
 		}
 	},
+
 	addContent(
 		title: string,
 		authors: UserDocument['_id'][],
@@ -63,7 +67,7 @@ ContentSchema.statics = {
 		categories: CategoryDocument['_id'][] = [],
 		state: 'draft' | 'published' | 'archived' = 'draft'
 	): Promise<ContentObjectSelect> {
-		return ContentJSON.create(content.extended).then((contentJSON) => {
+		return ContentJSON.create({ content: content.extended }).then((contentJSON) => {
 			const savedContent = {
 				brief: content.brief,
 				extended: contentJSON._id
@@ -77,6 +81,7 @@ ContentSchema.statics = {
 			}).then((doc) => doc.toObject() as ContentObjectSelect);
 		});
 	},
+
 	saveContent(
 		title: string,
 		authors: UserDocument['_id'][],
@@ -98,7 +103,9 @@ ContentSchema.statics = {
 					return doc.save().then((doc: ContentDocument) => {
 						if (!doc.content.extended)
 							throw new Error(`Error: Document ${doc._id.toString()} has no extended content`);
-						return ContentJSON.findByIdAndUpdate(doc.content.extended._id, content.extended)
+						return ContentJSON.findByIdAndUpdate(doc.content.extended._id, {
+							content: content.extended
+						})
 							.exec()
 							.then(() => doc.toObject() as ContentObjectSelect);
 					});
@@ -135,6 +142,16 @@ ContentSchema.statics = {
 					return doc.toObject() as ContentObjectSelect;
 				});
 		}
+	},
+
+	findBySlug(slug: string): Promise<PopulatedDocument<ContentDocument, 'content.extended'>> {
+		return this.findOne({ slug })
+			.populate('content.extended')
+			.exec()
+			.then((doc) => {
+				if (!doc) throw new Error(`Error: Failed to find Content doc with slug: ${slug}`);
+				return doc;
+			});
 	}
 };
 
@@ -147,7 +164,17 @@ ContentSchema.query = {
 	}
 };
 
-export const Content: ContentModel = mongoose.model<ContentDocument, ContentModel>(
-	'Content',
-	ContentSchema
+ContentSchema.index({ slug: 1 }, { name: 'slug', unique: true });
+
+ContentSchema.plugin(
+	plugin,
+	new SluggerOptions({
+		slugPath: 'slug',
+		generateFrom: ['title'],
+		index: 'slug'
+	})
+);
+
+export const Content: ContentModel = wrap(
+	mongoose.model<ContentDocument, ContentModel>('Content', ContentSchema)
 );
