@@ -23,15 +23,15 @@
 	export let content: string;
 </script>
 
-<div class="flex flex-col mx-auto sm:container">
+<div class="mx-auto mb-5 max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2">
 	<div class="text-sm breadcrumbs">
 		<ul>
 			<li><a href="/works" sveltekit:prefetch>Works</a></li>
 			<li>{contentData.title}</li>
 		</ul>
 	</div>
-	<div class="prose">
-		<h1>{contentData.title}</h1>
-		{@html content}
-	</div>
+</div>
+<div class="mx-auto prose max-w-4xl px-4 sm:px-6 lg:px-8 lg:max-w-1/2 2xl:prose-lg">
+	<h1>{contentData.title}</h1>
+	{@html content}
 </div>

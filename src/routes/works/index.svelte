@@ -55,10 +55,10 @@
 </script>
 
 <div class="w-full mx-auto md:container">
-	<div class="flex flex-col gap-2">
+	<div class="flex flex-col gap-y-6 gap-x-2">
 		{#each itemList as { title, slug }}
 			<div class="flex">
-				<a class="flex-1" href={`/works/${slug}`}>{title}</a>
+				<a class="flex-1" href={`/works/${slug}`}><h2>{title}</h2></a>
 			</div>
 		{/each}
 		<Paginate
