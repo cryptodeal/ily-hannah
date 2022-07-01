@@ -3,16 +3,29 @@
 	import { getNotificationsStore } from '$lib/data/stores/notifs';
 	import { shortcut } from '$lib/ux/shortcut';
 	import UAParser from 'ua-parser-js';
-	import StarterKit from '@tiptap/starter-kit';
+	import { Heading } from '@tiptap/extension-heading';
+	import { Blockquote } from '@tiptap/extension-blockquote';
+	import { ListItem } from '@tiptap/extension-list-item';
+	import { Document } from '@tiptap/extension-document';
+	import { HardBreak } from '@tiptap/extension-hard-break';
+	import BulletList from '@tiptap/extension-bullet-list';
+	import { HorizontalRule } from '@tiptap/extension-horizontal-rule';
+	import { OrderedList } from '@tiptap/extension-ordered-list';
+	import { Paragraph } from '@tiptap/extension-paragraph';
+	import { Text } from '@tiptap/extension-text';
+	import { Bold } from '@tiptap/extension-bold';
+	import { Italic } from '@tiptap/extension-italic';
+	import { Strike } from '@tiptap/extension-strike';
+	import { History } from '@tiptap/extension-history';
 	import Header1 from '~icons/fluent/text-header-1-20-filled';
 	import Header2 from '~icons/fluent/text-header-2-20-filled';
 	import Header3 from '~icons/fluent/text-header-3-20-filled';
-	import Bold from '~icons/fluent/text-bold-20-filled';
-	import Italic from '~icons/fluent/text-italic-20-filled';
-	import Paragraph from '~icons/fluent/text-paragraph-20-filled';
+	import BoldIcon from '~icons/fluent/text-bold-20-filled';
+	import ItalicIcon from '~icons/fluent/text-italic-20-filled';
+	import ParagraphIcon from '~icons/fluent/text-paragraph-20-filled';
 	import BlockQuote from '~icons/fluent/text-quote-20-filled';
-	import BulletList from '~icons/fluent/apps-list-20-filled';
-	import OrderedList from '~icons/fluent/text-number-list-ltr-20-filled';
+	import BulletListIcon from '~icons/fluent/apps-list-20-filled';
+	import OrderedListIcon from '~icons/fluent/text-number-list-ltr-20-filled';
 	import SplitList from '~icons/fluent/arrow-split-20-filled';
 	import Indent from '~icons/fluent/keyboard-tab-20-filled';
 	import Undo from '~icons/dashicons/undo';
@@ -46,7 +59,21 @@
 		if (type === 'mobile' || type === 'smarttv' || type === 'wearable' || type === 'embedded')
 			showHotKeys = false;
 		editor = createEditor({
-			extensions: [StarterKit],
+			extensions: [
+				Heading,
+				History,
+				Blockquote,
+				ListItem,
+				Document,
+				HardBreak,
+				HorizontalRule,
+				OrderedList,
+				Paragraph,
+				Text,
+				Bold,
+				Italic,
+				Strike
+			],
 			editorProps: {
 				attributes: {
 					class:
@@ -246,7 +273,7 @@
 					class:active={isActive('paragraph')}
 					on:click={setParagraph}
 				>
-					<Paragraph />
+					<ParagraphIcon />
 				</button>
 			</div>
 			<div
@@ -258,7 +285,7 @@
 					: ''}"
 			>
 				<button class="btn btn-square btn-sm" class:active={isActive('bold')} on:click={toggleBold}>
-					<Bold />
+					<BoldIcon />
 				</button>
 			</div>
 			<div
@@ -274,7 +301,7 @@
 					class:active={isActive('italic')}
 					on:click={toggleItalic}
 				>
-					<Italic />
+					<ItalicIcon />
 				</button>
 			</div>
 			<div
@@ -308,7 +335,7 @@
 							class:active={isActive('bulletList')}
 							on:click={toggleBulletList}
 						>
-							<BulletList />
+							<BulletListIcon />
 						</button>
 					</div>
 					<div
@@ -324,7 +351,7 @@
 							class:active={isActive('orderedList')}
 							on:click={toggleOrderedList}
 						>
-							<OrderedList />
+							<OrderedListIcon />
 						</button>
 					</div>
 				</div>
