@@ -66,6 +66,7 @@ export const post: RequestHandler = async (event) => {
 		}
 	} else {
 		const { title, authors, content, categories, state, _id } = data;
+		authors.map(castToObjectId);
 		const res = await Content.saveContent(title, authors, content, categories, state, _id);
 		(res as unknown as ContentObjectSelect).checked = false;
 		if (res) {

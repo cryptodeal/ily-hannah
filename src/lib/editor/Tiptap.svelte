@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getContext, onMount } from 'svelte';
+	import { session } from '$app/stores';
 	import { getNotificationsStore } from '$lib/data/stores/notifs';
 	import { shortcut } from '$lib/ux/shortcut';
 	import UAParser from 'ua-parser-js';
@@ -8,7 +9,7 @@
 	import { ListItem } from '@tiptap/extension-list-item';
 	import { Document } from '@tiptap/extension-document';
 	import { HardBreak } from '@tiptap/extension-hard-break';
-	import BulletList from '@tiptap/extension-bullet-list';
+	import { BulletList } from '@tiptap/extension-bullet-list';
 	import { HorizontalRule } from '@tiptap/extension-horizontal-rule';
 	import { OrderedList } from '@tiptap/extension-ordered-list';
 	import { Paragraph } from '@tiptap/extension-paragraph';
@@ -67,6 +68,7 @@
 				Document,
 				HardBreak,
 				HorizontalRule,
+				BulletList,
 				OrderedList,
 				Paragraph,
 				Text,
@@ -133,7 +135,7 @@
 				_id,
 				state,
 				title,
-				authors,
+				authors: [$session.user?.id],
 				content,
 				categories
 			})

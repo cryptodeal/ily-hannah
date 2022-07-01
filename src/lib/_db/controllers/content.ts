@@ -11,7 +11,7 @@ export type ContentObjectSelect = ContentObject & {
 };
 
 export type PaginatedContentPub = {
-	itemList: PopulatedDocument<ContentDocument, 'content.extended'>[];
+	itemList: PopulatedDocument<PopulatedDocument<ContentDocument, 'content.extended'>, 'author'>[];
 	itemCount: number;
 	perPage: number;
 	currentPage: number;
@@ -43,7 +43,7 @@ export const getPaginatedContent = (
 		Content.find(!author ? {} : { author })
 			.sort('title')
 			.paginateQuery(page - 1, limit)
-			.select('title content state slug')
+			.select('title content state slug author')
 			.populateContent()
 			.lean()
 			.exec(),
@@ -73,8 +73,8 @@ export const getPubPaginatedContent = (
 		Content.find({ state: 'published' })
 			.sort('date')
 			.paginateQuery(page - 1, limit)
-			.select('title slug')
-			.populateContent()
+			.populate('author', 'name')
+			.select('title slug author')
 			.lean()
 			.exec(),
 		Content.countDocuments(!author ? {} : { author }).exec()

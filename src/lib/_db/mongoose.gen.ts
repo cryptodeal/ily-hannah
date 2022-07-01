@@ -152,7 +152,7 @@ export type ContentStatics = {
 	addContent: (
 		this: ContentModel,
 		title: string,
-		authors: UserDocument['_id'][],
+		author: UserDocument['_id'][],
 		content: { brief?: string; extended: JSONContent },
 		categories?: CategoryDocument['_id'][],
 		state?: 'draft' | 'published' | 'archived'
@@ -175,6 +175,10 @@ export type ContentStatics = {
 		this: ContentModel,
 		slug: string
 	) => Promise<PopulatedDocument<ContentDocument, 'content.extended'>>;
+	findBySlugWithAuthor: (
+		this: ContentModel,
+		slug: string
+	) => Promise<PopulatedDocument<PopulatedDocument<ContentDocument, 'content.extended'>, 'author'>>;
 };
 
 /**

@@ -11,7 +11,10 @@
 		//console.log(userData);
 		return {
 			props: {
-				contentData: contentData as PopulatedDocument<ContentDocument, 'content.extended'>,
+				contentData: contentData as PopulatedDocument<
+					PopulatedDocument<ContentDocument, 'content.extended'>,
+					'author'
+				>,
 				content
 			}
 		};
@@ -19,7 +22,10 @@
 </script>
 
 <script lang="ts">
-	export let contentData: PopulatedDocument<ContentDocument, 'content.extended'>;
+	export let contentData: PopulatedDocument<
+		PopulatedDocument<ContentDocument, 'content.extended'>,
+		'author'
+	>;
 	export let content: string;
 </script>
 
@@ -32,6 +38,9 @@
 	</div>
 </div>
 <div class="mx-auto prose max-w-4xl px-4 sm:px-6 lg:px-8 lg:max-w-1/2 2xl:prose-lg">
-	<h1>{contentData.title}</h1>
+	<h1 class="mb-2">{contentData.title}</h1>
+	{#if contentData.author.length}
+		<h5>By: {contentData.author[0].name.first} {contentData.author[0].name.last}</h5>
+	{/if}
 	{@html content}
 </div>

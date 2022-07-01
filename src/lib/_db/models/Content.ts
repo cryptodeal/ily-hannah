@@ -62,7 +62,7 @@ ContentSchema.statics = {
 
 	addContent(
 		title: string,
-		authors: UserDocument['_id'][],
+		author: UserDocument['_id'][],
 		content: { brief?: string; extended: JSONContent },
 		categories: CategoryDocument['_id'][] = [],
 		state: 'draft' | 'published' | 'archived' = 'draft'
@@ -74,7 +74,7 @@ ContentSchema.statics = {
 			};
 			return this.create({
 				title,
-				authors,
+				author,
 				categories,
 				state,
 				content: savedContent
@@ -151,6 +151,22 @@ ContentSchema.statics = {
 			.then((doc) => {
 				if (!doc) throw new Error(`Error: Failed to find Content doc with slug: ${slug}`);
 				return doc;
+			});
+	},
+
+	findBySlugWithAuthor(
+		slug: string
+	): Promise<PopulatedDocument<PopulatedDocument<ContentDocument, 'content.extended'>, 'author'>> {
+		return this.findOne({ slug })
+			.populate('content.extended')
+			.populate('author', 'name')
+			.exec()
+			.then((doc) => {
+				if (!doc) throw new Error(`Error: Failed to find Content doc with slug: ${slug}`);
+				return doc as PopulatedDocument<
+					PopulatedDocument<ContentDocument, 'content.extended'>,
+					'author'
+				>;
 			});
 	}
 };

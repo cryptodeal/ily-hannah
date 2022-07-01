@@ -7,7 +7,7 @@ type GetParams = Record<string, string> & {
 export const get: RequestHandler<GetParams> = async ({ params }) => {
 	const { slug } = params;
 	if (!slug) throw new Error('slug is required');
-	const contentData = await Content.findBySlug(slug);
+	const contentData = await Content.findBySlugWithAuthor(slug);
 	const content = genHTML(contentData.content.extended?.content);
 
 	if (contentData) {
