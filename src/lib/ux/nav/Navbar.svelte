@@ -59,6 +59,11 @@
 						about
 					</a>
 				</li>
+				<li>
+					<a sveltekit:prefetch href="/works" class="uppercase" class:active={segment === 'works'}>
+						works
+					</a>
+				</li>
 			</ul>
 		</div>
 		<div class="navbar-end gap-4">

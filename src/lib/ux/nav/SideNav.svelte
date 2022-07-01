@@ -27,4 +27,16 @@
 			about
 		</a>
 	</li>
+
+	<li>
+		<a
+			sveltekit:prefetch
+			on:click={closeDrawer}
+			href="/works"
+			class="uppercase"
+			class:active={segment === 'works' ? true : false}
+		>
+			works
+		</a>
+	</li>
 </ul>

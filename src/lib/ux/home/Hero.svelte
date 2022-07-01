@@ -19,7 +19,7 @@
 					<span class="inline">About</span>
 				</a>
 				<a href="/works" class="btn lg:btn-lg normal-case">Works</a>
-				<a href="/works" class="btn lg:btn-lg normal-case">Musings</a>
+				<!--<a href="/works" class="btn lg:btn-lg normal-case">Musings</a>-->
 			</div>
 		</div>
 	</div>
