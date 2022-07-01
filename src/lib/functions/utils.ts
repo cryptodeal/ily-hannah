@@ -26,8 +26,8 @@ export function resolve(
 
 export const genHTML = (content: JSONContent) =>
 	generateHTML(content, [
-		Heading,
-		Blockquote as any,
+		Heading as any,
+		Blockquote,
 		ListItem,
 		Document,
 		HardBreak,
