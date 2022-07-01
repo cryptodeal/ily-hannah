@@ -7,8 +7,22 @@ specifiers:
   '@sveltejs/kit': next
   '@tailwindcss/typography': ^0.5.2
   '@tiptap/core': 2.0.0-beta.180
+  '@tiptap/extension-blockquote': 2.0.0-beta.29
+  '@tiptap/extension-bold': 2.0.0-beta.28
   '@tiptap/extension-bubble-menu': 2.0.0-beta.60
+  '@tiptap/extension-bullet-list': 2.0.0-beta.29
+  '@tiptap/extension-document': 2.0.0-beta.17
   '@tiptap/extension-floating-menu': 2.0.0-beta.55
+  '@tiptap/extension-hard-break': 2.0.0-beta.33
+  '@tiptap/extension-heading': 2.0.0-beta.29
+  '@tiptap/extension-horizontal-rule': 2.0.0-beta.36
+  '@tiptap/extension-italic': 2.0.0-beta.28
+  '@tiptap/extension-list-item': 2.0.0-beta.23
+  '@tiptap/extension-ordered-list': 2.0.0-beta.30
+  '@tiptap/extension-paragraph': 2.0.0-beta.26
+  '@tiptap/extension-strike': 2.0.0-beta.29
+  '@tiptap/extension-text': 2.0.0-beta.17
+  '@tiptap/html': 2.0.0-beta.180
   '@tiptap/starter-kit': 2.0.0-beta.189
   '@types/cookie': ^0.5.1
   '@types/jsonwebtoken': ^8.5.8
@@ -25,6 +39,7 @@ specifiers:
   eslint: ^8.18.0
   eslint-config-prettier: ^8.5.0
   eslint-plugin-svelte3: ^4.0.0
+  install: ^0.13.0
   jsonwebtoken: ^8.5.1
   mongoose: 6.3.1
   mongoose-slugger-plugin: ^3.0.3
@@ -59,8 +74,22 @@ devDependencies:
   '@sveltejs/kit': 1.0.0-next.357_svelte@3.48.0
   '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
   '@tiptap/core': 2.0.0-beta.180
+  '@tiptap/extension-blockquote': 2.0.0-beta.29_4op45timppanpdwy5jxyr3gcny
+  '@tiptap/extension-bold': 2.0.0-beta.28_4op45timppanpdwy5jxyr3gcny
   '@tiptap/extension-bubble-menu': 2.0.0-beta.60_4op45timppanpdwy5jxyr3gcny
+  '@tiptap/extension-bullet-list': 2.0.0-beta.29_4op45timppanpdwy5jxyr3gcny
+  '@tiptap/extension-document': 2.0.0-beta.17_4op45timppanpdwy5jxyr3gcny
   '@tiptap/extension-floating-menu': 2.0.0-beta.55_4op45timppanpdwy5jxyr3gcny
+  '@tiptap/extension-hard-break': 2.0.0-beta.33_4op45timppanpdwy5jxyr3gcny
+  '@tiptap/extension-heading': 2.0.0-beta.29_4op45timppanpdwy5jxyr3gcny
+  '@tiptap/extension-horizontal-rule': 2.0.0-beta.36_4op45timppanpdwy5jxyr3gcny
+  '@tiptap/extension-italic': 2.0.0-beta.28_4op45timppanpdwy5jxyr3gcny
+  '@tiptap/extension-list-item': 2.0.0-beta.23_4op45timppanpdwy5jxyr3gcny
+  '@tiptap/extension-ordered-list': 2.0.0-beta.30_4op45timppanpdwy5jxyr3gcny
+  '@tiptap/extension-paragraph': 2.0.0-beta.26_4op45timppanpdwy5jxyr3gcny
+  '@tiptap/extension-strike': 2.0.0-beta.29_4op45timppanpdwy5jxyr3gcny
+  '@tiptap/extension-text': 2.0.0-beta.17_4op45timppanpdwy5jxyr3gcny
+  '@tiptap/html': 2.0.0-beta.180
   '@tiptap/starter-kit': 2.0.0-beta.189
   '@types/cookie': 0.5.1
   '@types/jsonwebtoken': 8.5.8
@@ -76,6 +105,7 @@ devDependencies:
   eslint: 8.18.0
   eslint-config-prettier: 8.5.0_eslint@8.18.0
   eslint-plugin-svelte3: 4.0.0_wy4erphnvhealet26qderqv6bu
+  install: 0.13.0
   jsonwebtoken: 8.5.1
   mongoose: 6.3.1
   mongoose-slugger-plugin: 3.0.3_mongoose@6.3.1
@@ -641,6 +671,18 @@ packages:
       prosemirror-view: 1.26.3
     dev: true
 
+  /@tiptap/core/2.0.0-beta.181:
+    resolution: {integrity: sha512-tbwRqjTVvY9v31TNAH6W0Njhr/OVwI28zWXmH55/USrwyU2CB1iCVfXktZKOhB+8WyvOaBv1JA5YplMIhstYTw==}
+    dependencies:
+      prosemirror-commands: 1.3.0
+      prosemirror-keymap: 1.2.0
+      prosemirror-model: 1.18.1
+      prosemirror-schema-list: 1.2.0
+      prosemirror-state: 1.4.1
+      prosemirror-transform: 1.6.0
+      prosemirror-view: 1.26.2
+    dev: true
+
   /@tiptap/extension-blockquote/2.0.0-beta.29_4op45timppanpdwy5jxyr3gcny:
     resolution: {integrity: sha512-zMYT5TtpKWav9VhTn4JLyMvXmhEdbD6on0MdhcTjRm0I5ugyR4ZbJwh2aelM7G9DZVYzB8jZU18OSDJmo7Af7w==}
     peerDependencies:
@@ -810,6 +852,14 @@ packages:
       '@tiptap/core': ^2.0.0-beta.1
     dependencies:
       '@tiptap/core': 2.0.0-beta.180
+    dev: true
+
+  /@tiptap/html/2.0.0-beta.180:
+    resolution: {integrity: sha512-LHN/4zK/Pu7oMQMP7t3hPAx0i0NWy08UMzXqTuMcasx36NJkBGlcWul+Ip5+6/FJUkCRhbyxsjIWr4qsAuuVCw==}
+    dependencies:
+      '@tiptap/core': 2.0.0-beta.181
+      prosemirror-model: 1.18.1
+      zeed-dom: 0.9.24
     dev: true
 
   /@tiptap/starter-kit/2.0.0-beta.189:
@@ -1604,6 +1654,11 @@ packages:
 
   /css-what/2.1.3:
     resolution: {integrity: sha512-a+EPoD+uZiNfh+5fxw2nO9QwFa6nJe2Or35fGY6Ipw1R3R4AGz1d1TEZrCegvw2YTmZ0jXirGYlzxxpYSHwpEg==}
+    dev: true
+
+  /css-what/6.1.0:
+    resolution: {integrity: sha512-HTUrgRJ7r4dsZKU6GjmpfRK1O76h97Z8MfS1G0FozR+oF2kG6Vfe8JE6zwrkbxigziPHinCJ+gCPjA9EaBDtRw==}
+    engines: {node: '>= 6'}
     dev: true
 
   /cssesc/3.0.0:
@@ -2674,6 +2729,11 @@ packages:
 
   /ini/1.3.8:
     resolution: {integrity: sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==}
+    dev: true
+
+  /install/0.13.0:
+    resolution: {integrity: sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==}
+    engines: {node: '>= 0.10'}
     dev: true
 
   /ip/1.1.8:
@@ -3766,6 +3826,14 @@ packages:
       prosemirror-model: 1.18.1
     dev: true
 
+  /prosemirror-view/1.26.2:
+    resolution: {integrity: sha512-CGKw+GadkfSBEwRAJTHCEKJ4DlV6/3IhAdjpwGyZHUHtbP7jX4Ol4zmi7xa2c6GOabDlIJLYXJydoNYLX7lNeQ==}
+    dependencies:
+      prosemirror-model: 1.18.1
+      prosemirror-state: 1.4.1
+      prosemirror-transform: 1.6.0
+    dev: true
+
   /prosemirror-view/1.26.3:
     resolution: {integrity: sha512-349cR05mXW67xhzmrP1ddEyOCyEuOCkLeo17Bwgw8dWWdGYwT6oTAGJuk/hdc3OSTIUpUPjHLvE4mjP45IIkTg==}
     dependencies:
@@ -4841,4 +4909,11 @@ packages:
       nanoclone: 0.2.1
       property-expr: 2.0.5
       toposort: 2.0.2
+    dev: true
+
+  /zeed-dom/0.9.24:
+    resolution: {integrity: sha512-hvJ9KBrZDnE7tcf4oe79fzQTbIS40pDOOUC7i1+kqqzNryj2RLwaCiIhpekCoI6/aJcYeEB5q0vhJPTnAo0aOQ==}
+    engines: {node: '>=14.13.1'}
+    dependencies:
+      css-what: 6.1.0
     dev: true

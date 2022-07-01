@@ -1,7 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { Content } from '$lib/_db/models/Content';
 import { castToObjectId } from '$lib/_db/controllers/utils';
-import type { ContentObject } from '$lib/_db/mongoose.gen';
 import protect from '$lib/_auth/protect';
 import type { JWTPayload, PublishContentData, SaveContentData } from '$lib/types';
 import { getPaginatedContent, type ContentObjectSelect } from '$lib/_db/controllers/content';
@@ -21,7 +20,7 @@ export const get: RequestHandler = async ({ url }) => {
 	if (contentData) {
 		return {
 			body: {
-				contentData: contentData as unknown as ContentObject[]
+				contentData
 			}
 		};
 	}

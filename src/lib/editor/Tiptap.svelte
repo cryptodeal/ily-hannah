@@ -20,7 +20,7 @@
 	import Save from '~icons/fluent/save-20-regular';
 	import Edit from '~icons/fluent/code-text-edit-20-filled';
 	import { createEditor, EditorContent, type Editor } from 'svelte-tiptap';
-	import type { Editor as CoreEditor, JSONContent } from '@tiptap/core';
+	import type { JSONContent } from '@tiptap/core';
 	import type { Readable, Writable } from 'svelte/store';
 	import type { CategoryDocument, UserDocument } from '$lib/_db/mongoose.gen';
 	import type { ContentObjectSelect } from '$lib/_db/controllers/content';
@@ -58,38 +58,38 @@
 	});
 	const toggleHeading = (level: 1 | 2 | 3) => {
 		return () => {
-			($editor as unknown as CoreEditor).chain().focus().toggleHeading({ level }).run();
+			$editor.chain().focus().toggleHeading({ level }).run();
 		};
 	};
 	const toggleBold = () => {
-		($editor as unknown as CoreEditor).chain().focus().toggleBold().run();
+		$editor.chain().focus().toggleBold().run();
 	};
 	const toggleItalic = () => {
-		($editor as unknown as CoreEditor).chain().focus().toggleItalic().run();
+		$editor.chain().focus().toggleItalic().run();
 	};
 	const toggleBulletList = () => {
-		($editor as unknown as CoreEditor).chain().focus().toggleBulletList().run();
+		$editor.chain().focus().toggleBulletList().run();
 	};
 	const toggleOrderedList = () => {
-		($editor as unknown as CoreEditor).chain().focus().toggleOrderedList().run();
+		$editor.chain().focus().toggleOrderedList().run();
 	};
 	const splitListItem = () => {
-		($editor as unknown as CoreEditor).chain().focus().splitListItem('listItem').run();
+		$editor.chain().focus().splitListItem('listItem').run();
 	};
 	const sinkListItem = () => {
-		($editor as unknown as CoreEditor).chain().focus().sinkListItem('listItem').run();
+		$editor.chain().focus().sinkListItem('listItem').run();
 	};
 	const liftListItem = () => {
-		($editor as unknown as CoreEditor).chain().focus().liftListItem('listItem').run();
+		$editor.chain().focus().liftListItem('listItem').run();
 	};
 	const setParagraph = () => {
-		($editor as unknown as CoreEditor).chain().focus().setParagraph().run();
+		$editor.chain().focus().setParagraph().run();
 	};
 	const setBlockquote = () => {
-		($editor as unknown as CoreEditor).chain().focus().setBlockquote().run();
+		$editor.chain().focus().setBlockquote().run();
 	};
 	const exportJSON = () => {
-		return ($editor as unknown as CoreEditor).getJSON();
+		return $editor.getJSON();
 	};
 	const contentList: Writable<ContentObjectSelect[]> = getContext('content-list');
 	function save() {
@@ -132,13 +132,12 @@
 	}
 	$: if (!title || title === '') editMeta = true;
 	const undo = () => {
-		($editor as unknown as CoreEditor).chain().focus().undo().run();
+		$editor.chain().focus().undo().run();
 	};
 	const redo = () => {
-		($editor as unknown as CoreEditor).chain().focus().redo().run();
+		$editor.chain().focus().redo().run();
 	};
-	$: isActive = (name: string, attrs = {}) =>
-		($editor as unknown as CoreEditor).isActive(name, attrs);
+	$: isActive = (name: string, attrs = {}) => $editor.isActive(name, attrs);
 </script>
 
 {#if editor}
