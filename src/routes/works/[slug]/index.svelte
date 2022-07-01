@@ -2,14 +2,8 @@
 	import type { ContentDocument, PopulatedDocument } from '$lib/_db/mongoose.gen';
 	import type { Load } from '@sveltejs/kit';
 
-	export const load: Load = async ({ fetch, params, session }) => {
+	export const load: Load = async ({ fetch, params }) => {
 		const { slug } = params;
-		if (!session.user) {
-			return {
-				redirect: '/',
-				status: 302
-			};
-		}
 		const url = `/works/${slug}.json`;
 		const res = await fetch(url);
 		const { contentData, content } = await res.json();
