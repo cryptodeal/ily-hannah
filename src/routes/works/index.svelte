@@ -61,7 +61,7 @@
 />
 
 <div class="mx-auto mb-5 max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2">
-	<div class="flex flex-col gap-y-6 gap-x-2">
+	<div class="flex flex-col grow gap-y-6 gap-x-2">
 		{#each itemList as { title, slug, author }}
 			{@const authors = author.map(({ name: { first, last } }) => `${first} ${last}`)}
 			<div class="flex flex-col gap-2">

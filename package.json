@@ -2,7 +2,7 @@
 	"name": "ily-hannah",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "mtgen && svelte-kit dev",
+		"dev": "mtgen && svelte-kit dev --host",
 		"build": "mtgen && svelte-kit build",
 		"mtgen": "mtgen",
 		"package": "svelte-kit package",
