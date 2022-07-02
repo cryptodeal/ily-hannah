@@ -31,7 +31,7 @@
 	export let content: string;
 
 	const authors = contentData.author
-		.filter(({ name }) => name.first && name.last)
+		.filter(({ name }) => name?.first && name?.last)
 		.map(({ name }) => `${name.first} ${name.last}`)
 		.join(', ');
 </script>

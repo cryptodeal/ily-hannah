@@ -64,7 +64,7 @@
 	{#each itemList as { title, slug, author }}
 		{@const authors = author
 			.filter(({ name }) => name?.first && name?.last)
-			.map(({ name }) => `${name?.first} ${name?.last}`)}
+			.map(({ name }) => `${name.first} ${name.last}`)}
 		<a class="flex-1" href={`/works/${slug}`}><h2>{title}</h2></a>
 		{#if authors.length}
 			<h5 class="ml-4">By: {authors.join(', ')}</h5>
