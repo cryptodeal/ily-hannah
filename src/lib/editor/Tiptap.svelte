@@ -81,7 +81,11 @@
 				OrderedList,
 				Paragraph,
 				Text,
-				Image,
+				Image.configure({
+					HTMLAttributes: {
+						class: 'h-auto max-w-full mx-auto center'
+					}
+				}),
 				Dropcursor,
 				TextAlign.configure({
 					types: ['heading', 'paragraph']

@@ -14,7 +14,7 @@
 		"format": "prettier --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
-		"@iconify/json": "^2.1.70",
+		"@iconify/json": "^2.1.71",
 		"@sveltejs/adapter-vercel": "1.0.0-next.58",
 		"@sveltejs/kit": "next",
 		"@tailwindcss/typography": "^0.5.2",
@@ -50,7 +50,7 @@
 		"daisyui": "^2.17.0",
 		"dayjs": "^1.11.3",
 		"dotenv": "^16.0.1",
-		"eslint": "^8.18.0",
+		"eslint": "^8.19.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"install": "^0.13.0",
@@ -67,6 +67,7 @@
 		"svelte-check": "^2.8.0",
 		"svelte-forms-lib": "^2.0.1",
 		"svelte-mail": "^0.1.1",
+		"svelte-meta-tags": "^2.6.1",
 		"svelte-preprocess": "^4.10.7",
 		"svelte-tiptap": "^0.5.2",
 		"tailwindcss": "^3.1.4",

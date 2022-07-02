@@ -44,6 +44,10 @@ export const genHTML = (content: JSONContent) =>
 		TextAlign.configure({
 			types: ['heading', 'paragraph']
 		}),
-		Image,
+		Image.configure({
+			HTMLAttributes: {
+				class: 'h-auto max-w-full mx-auto center'
+			}
+		}),
 		Strike
 	]);

@@ -5,15 +5,16 @@ import type { RequestHandler } from '@sveltejs/kit';
 import type { UserFormData, JWTPayload } from '$lib/types';
 import { getPaginatedContent } from '$lib/_db/controllers/content';
 import type { ContentObject } from '$lib/_db/mongoose.gen';
+import { castToObjectId } from '$lib/_db/controllers/utils';
 
-export const get: RequestHandler = async ({ url }) => {
+export const get: RequestHandler = async ({ url, locals }) => {
 	const userId = url.searchParams.get('userId');
 
 	if (!userId) {
 		const page = url.searchParams.get('pg');
 		if (!page) throw new Error('page is required');
-
-		const contentData = await getPaginatedContent(Number(page));
+		const _id = locals.user?.id ? castToObjectId(locals.user?.id) : undefined;
+		const contentData = await getPaginatedContent(Number(page), 25, _id);
 		contentData.itemList.map((i) => {
 			i.checked = false;
 			return i;

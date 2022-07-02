@@ -12,26 +12,24 @@ import type {
 import type { JSONContent } from '@tiptap/core';
 import type { ContentObjectSelect } from '../controllers/content';
 
-const ContentSchema: ContentSchema = new mongoose.Schema(
-	{
-		title: { type: String, required: true, unique: true, index: true },
-		slug: { type: String, required: true },
-		state: {
-			type: String,
-			enum: ['draft', 'published', 'archived'],
-			default: 'draft',
-			required: true,
-			index: true
-		},
-		content: {
-			brief: { type: String },
-			extended: { type: mongoose.Schema.Types.ObjectId, ref: 'ContentJSON' }
-		},
-		author: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true, many: true }],
-		publishedDate: { type: Date, index: true },
-		categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category', index: true, many: true }]
-	} /* { discriminatorKey: 'type' }*/
-);
+const ContentSchema: ContentSchema = new mongoose.Schema({
+	title: { type: String, required: true, unique: true, index: true },
+	slug: { type: String, required: true },
+	state: {
+		type: String,
+		enum: ['draft', 'published', 'archived'],
+		default: 'draft',
+		required: true,
+		index: true
+	},
+	content: {
+		brief: { type: String },
+		extended: { type: mongoose.Schema.Types.ObjectId, ref: 'ContentJSON' }
+	},
+	author: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true, many: true }],
+	publishedDate: { type: Date, index: true },
+	categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category', index: true, many: true }]
+});
 
 ContentSchema.statics = {
 	deleteById(id: ContentDocument['_id'] | ContentDocument['_id'][]) {
@@ -196,19 +194,3 @@ ContentSchema.plugin(
 export const Content: ContentModel = wrap(
 	mongoose.model<ContentDocument, ContentModel>('Content', ContentSchema)
 );
-
-/*
-export const ComplexContent = Content.discriminator('ComplexContent', new mongoose.Schema({
-  content: {
-		brief: { type: String },
-		extended: { type: Map, of: mongoose.Schema.Types.ObjectId, ref: 'ContentJSON' }
-	}
-}));
-
-export const SimpleContent = Content.discriminator('SimpleContent', new mongoose.Schema({
-  content: {
-		brief: { type: String },
-		extended: { type: mongoose.Schema.Types.ObjectId, ref: 'ContentJSON' }
-	}
-}));
-*/
