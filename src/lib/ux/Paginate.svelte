@@ -7,12 +7,12 @@
 		fetchNext: () => void;
 </script>
 
-{#if pageCount && pageCount > 1}
-	<div class="flex justify-center">
+<div class="flex justify-center">
+	{#if pageCount && pageCount > 1}
 		<div class="btn-group">
-			<button class="btn" class:btn-disabled={!hasPrevPage} on:click={fetchPrev}>«</button>
-			<button class="btn">Page {page}</button>
-			<button class="btn" class:btn-disabled={!hasNextPage} on:click={fetchNext}>»</button>
+			<button class="btn btn-sm" class:btn-disabled={!hasPrevPage} on:click={fetchPrev}>«</button>
+			<button class="btn btn-sm">Page {page}</button>
+			<button class="btn btn-sm" class:btn-disabled={!hasNextPage} on:click={fetchNext}>»</button>
 		</div>
-	</div>
-{/if}
+	{/if}
+</div>

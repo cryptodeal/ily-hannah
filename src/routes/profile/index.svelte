@@ -159,16 +159,14 @@
 </script>
 
 <Tabs>
-	<div class="container mx-auto p-5">
-		<div class="mx-1 px-2 py-1">
-			<TabList links={[{ title: 'Profile' }, { title: 'My Works' }, { title: 'Add Content' }]} />
-		</div>
+	<div class="w-full md:container mx-auto">
+		<TabList links={[{ title: 'Profile' }, { title: 'My Works' }, { title: 'Add Content' }]} />
 
 		<!-- Schedule Data Tab -->
 		<TabPanel>
-			<div class="md:flex no-wrap p-5 md:-mx-2">
+			<div class="md:flex no-wrap md:-mx-2">
 				<!-- Left Side -->
-				<div class="w-full md:w-3/12 md:mx-2">
+				<div class="w-full md:w-3/12">
 					<!-- Profile Card -->
 					<div class="glassmorphicBg p-3 my-4 border-t-4 border-primary">
 						<div class="image overflow-hidden">

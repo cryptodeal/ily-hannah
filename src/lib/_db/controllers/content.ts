@@ -73,7 +73,7 @@ export const getPubPaginatedContent = (
 		Content.find({ state: 'published' })
 			.sort('date')
 			.paginateQuery(page - 1, limit)
-			.populate('author', 'name')
+			.populate('author', 'name.first name.last')
 			.select('title slug author')
 			.lean()
 			.exec(),

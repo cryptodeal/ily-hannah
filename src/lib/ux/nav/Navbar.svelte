@@ -13,7 +13,7 @@
 </script>
 
 <div
-	class="sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100 {isHomePage
+	class="sticky top-0 left-0 right-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100 {isHomePage
 		? switchNavbarStyle
 			? 'bg-base-100 text-base-content shadow-sm'
 			: 'text-primary-content'

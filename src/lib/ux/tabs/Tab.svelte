@@ -9,6 +9,6 @@
 	$: $selectedTab === tab ? (active = true) : (active = false);
 </script>
 
-<li class="tab" class:tab-active={active} on:click={() => selectTab(tab)}>
+<li class="tab tab-sm" class:tab-active={active} on:click={() => selectTab(tab)}>
 	<slot />
 </li>
