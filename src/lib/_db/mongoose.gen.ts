@@ -105,12 +105,12 @@ export type Content = {
 	title: string;
 	slug: string;
 	state: 'draft' | 'published' | 'archived';
-	author: (User['_id'] | User)[];
-	publishedDate?: Date;
 	content: {
 		brief?: string;
 		extended?: ContentJSON['_id'] | ContentJSON;
 	};
+	author: (User['_id'] | User)[];
+	publishedDate?: Date;
 	categories: (Category['_id'] | Category)[];
 	_id: mongoose.Types.ObjectId;
 };
@@ -219,12 +219,12 @@ export type ContentDocument = mongoose.Document<mongoose.Types.ObjectId, Content
 		title: string;
 		slug: string;
 		state: 'draft' | 'published' | 'archived';
-		author: mongoose.Types.Array<UserDocument['_id'] | UserDocument>;
-		publishedDate?: Date;
 		content: {
 			brief?: string;
 			extended?: ContentJSONDocument['_id'] | ContentJSONDocument;
 		};
+		author: mongoose.Types.Array<UserDocument['_id'] | UserDocument>;
+		publishedDate?: Date;
 		categories: mongoose.Types.Array<CategoryDocument['_id'] | CategoryDocument>;
 		_id: mongoose.Types.ObjectId;
 	};

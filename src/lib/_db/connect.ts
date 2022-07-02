@@ -12,7 +12,9 @@ export async function serverlessConnect(mongooseURI: string): Promise<typeof mon
 	}
 
 	if (!cached.promise) {
-		const opts = {};
+		const opts = {
+			bufferCommands: false
+		};
 
 		cached.promise = mongoose.connect(mongooseURI, opts).then((mongoose) => {
 			return mongoose;

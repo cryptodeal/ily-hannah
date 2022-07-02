@@ -4,8 +4,11 @@
 	import { getNotificationsStore } from '$lib/data/stores/notifs';
 	import { shortcut } from '$lib/ux/shortcut';
 	import UAParser from 'ua-parser-js';
+	import { TextAlign } from '@tiptap/extension-text-align';
 	import { Heading } from '@tiptap/extension-heading';
 	import { Blockquote } from '@tiptap/extension-blockquote';
+	import { Dropcursor } from '@tiptap/extension-dropcursor';
+	import { Image } from '@tiptap/extension-image';
 	import { ListItem } from '@tiptap/extension-list-item';
 	import { Document } from '@tiptap/extension-document';
 	import { HardBreak } from '@tiptap/extension-hard-break';
@@ -33,6 +36,12 @@
 	import Redo from '~icons/dashicons/redo';
 	import Save from '~icons/fluent/save-20-regular';
 	import Edit from '~icons/fluent/code-text-edit-20-filled';
+	import TextAlignLeft from '~icons/fluent/text-align-left-20-filled';
+	import TextAlignCenter from '~icons/fluent/text-align-center-20-filled';
+	import TextAlignRight from '~icons/fluent/text-align-right-20-filled';
+	import TextAlignJustify from '~icons/fluent/text-align-justify-20-filled';
+	import ResetAlign from '~icons/fluent/arrow-reset-20-regular';
+	import ImageIcon from '~icons/fluent/image-20-filled';
 	import { createEditor, EditorContent, type Editor } from 'svelte-tiptap';
 	import type { JSONContent } from '@tiptap/core';
 	import type { Readable, Writable } from 'svelte/store';
@@ -72,6 +81,11 @@
 				OrderedList,
 				Paragraph,
 				Text,
+				Image,
+				Dropcursor,
+				TextAlign.configure({
+					types: ['heading', 'paragraph']
+				}),
 				Bold,
 				Italic,
 				Strike
@@ -85,6 +99,15 @@
 			content
 		});
 	});
+	const setImage = (src: string) => {
+		$editor.chain().focus().setImage({ src }).run();
+	};
+
+	const addImage = () => {
+		const url = window.prompt('URL');
+		if (url) setImage(url);
+	};
+
 	const toggleHeading = (level: 1 | 2 | 3) => {
 		return () => {
 			$editor.chain().focus().toggleHeading({ level }).run();
@@ -117,6 +140,21 @@
 	const setBlockquote = () => {
 		$editor.chain().focus().setBlockquote().run();
 	};
+	const textAlignLeft = () => {
+		$editor.chain().focus().setTextAlign('left').run();
+	};
+	const textAlignCenter = () => {
+		$editor.chain().focus().setTextAlign('center').run();
+	};
+	const textAlignRight = () => {
+		$editor.chain().focus().setTextAlign('right').run();
+	};
+	const textAlignJustify = () => {
+		$editor.chain().focus().setTextAlign('justify').run();
+	};
+	const unsetTextAlign = () => {
+		$editor.chain().focus().unsetTextAlign().run();
+	};
 	const exportJSON = () => {
 		return $editor.getJSON();
 	};
@@ -125,6 +163,11 @@
 		const content = {
 			extended: exportJSON()
 		};
+		const tempId = $session.user?.id;
+		const authorData =
+			authors.length && tempId && authors.filter((a) => a.toString() === tempId)
+				? [authors]
+				: [tempId];
 		return fetch('/api/content', {
 			method: 'POST',
 			credentials: 'include',
@@ -135,7 +178,7 @@
 				_id,
 				state,
 				title,
-				authors: [$session.user?.id],
+				authors: authorData,
 				content,
 				categories
 			})
@@ -395,6 +438,84 @@
 						</button>
 					</div>
 				</div>
+			</div>
+
+			<div class="btn-group flex-row">
+				<div
+					class="tooltip tooltip-primary"
+					data-tip="Align Left{showHotKeys && isApple
+						? ' (CMD + Shift + L)'
+						: showHotKeys && !isApple
+						? ' (CTRL + Shift + L)'
+						: ''}"
+				>
+					<button
+						class="btn rounded-r-none btn-square btn-sm"
+						class:active={$editor.isActive({ textAlign: 'left' })}
+						on:click={textAlignLeft}
+					>
+						<TextAlignLeft />
+					</button>
+				</div>
+				<div
+					class="tooltip tooltip-primary"
+					data-tip="Align Center{showHotKeys && isApple
+						? ' (CMD + Shift + E)'
+						: showHotKeys && !isApple
+						? ' (CTRL + Shift + E)'
+						: ''}"
+				>
+					<button
+						class="btn rounded-l-none rounded-r-none btn-square btn-sm"
+						class:active={$editor.isActive({ textAlign: 'center' })}
+						on:click={textAlignCenter}
+					>
+						<TextAlignCenter />
+					</button>
+				</div>
+				<div
+					class="tooltip tooltip-primary"
+					data-tip="Align Right{showHotKeys && isApple
+						? ' (CMD + Shift + R)'
+						: showHotKeys && !isApple
+						? ' (CTRL + Shift + R)'
+						: ''}"
+				>
+					<button
+						class="btn rounded-l-none rounded-r-none btn-square btn-sm"
+						class:active={$editor.isActive({ textAlign: 'right' })}
+						on:click={textAlignRight}
+					>
+						<TextAlignRight />
+					</button>
+				</div>
+				<div
+					class="tooltip tooltip-primary"
+					data-tip="Align Justify{showHotKeys && isApple
+						? ' (CMD + Shift + J)'
+						: showHotKeys && !isApple
+						? ' (CTRL + Shift + J)'
+						: ''}"
+				>
+					<button
+						class="btn rounded-l-none btn-square btn-sm"
+						class:active={$editor.isActive({ textAlign: 'justify' })}
+						on:click={textAlignJustify}
+					>
+						<TextAlignJustify />
+					</button>
+				</div>
+
+				<div class="tooltip tooltip-primary" data-tip="Reset Alignment">
+					<button class="ml-2 btn btn-square btn-sm" on:click={unsetTextAlign}>
+						<ResetAlign />
+					</button>
+				</div>
+			</div>
+			<div class="tooltip tooltip-primary" data-tip="Add Image">
+				<button class="btn btn-square btn-sm" on:click={addImage}>
+					<ImageIcon />
+				</button>
 			</div>
 			<div class="btn-group flex-row">
 				<div

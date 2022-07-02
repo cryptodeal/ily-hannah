@@ -30,6 +30,7 @@
 	const content: JSONContent = contentData.content.extended?.content;
 	const _id: string | undefined = contentData?._id?.toString();
 	const title: string | undefined = contentData?.title;
+	const state: string | undefined = contentData?.state;
 </script>
 
 <div class="flex flex-col mx-auto sm:container">
@@ -40,5 +41,5 @@
 			<li>{contentData.title}</li>
 		</ul>
 	</div>
-	<Tiptap {content} {_id} {title} />
+	<Tiptap {content} {_id} {title} {state} />
 </div>

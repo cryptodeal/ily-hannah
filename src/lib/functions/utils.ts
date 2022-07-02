@@ -12,6 +12,8 @@ import { Text } from '@tiptap/extension-text';
 import { Bold } from '@tiptap/extension-bold';
 import { Italic } from '@tiptap/extension-italic';
 import { Strike } from '@tiptap/extension-strike';
+import { TextAlign } from '@tiptap/extension-text-align';
+import { Image } from '@tiptap/extension-image';
 
 import type { JSONContent } from '@tiptap/core';
 
@@ -39,5 +41,9 @@ export const genHTML = (content: JSONContent) =>
 		Text,
 		Bold,
 		Italic,
+		TextAlign.configure({
+			types: ['heading', 'paragraph']
+		}),
+		Image,
 		Strike
 	]);
