@@ -56,7 +56,7 @@
 </script>
 
 <MetaTags
-	title="Assort list of works by Hannah Williams."
+	title="Assorted list of works by Hannah Williams."
 	description="Index of poems, short stories, and other Musings by Hannah Williams."
 />
 
