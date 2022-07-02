@@ -29,6 +29,11 @@
 		'author'
 	>;
 	export let content: string;
+
+	const authors = contentData.author
+		.filter(({ name }) => name.first && name.last)
+		.map(({ name }) => `${name.first} ${name.last}`)
+		.join(', ');
 </script>
 
 <MetaTags title={contentData.title} description={contentData.content.brief} />
@@ -46,8 +51,8 @@
 </div>
 <div class="mx-auto prose max-w-4xl px-4 sm:px-6 lg:px-8 lg:max-w-1/2 2xl:prose-lg">
 	<h1 class="mb-2">{contentData.title}</h1>
-	{#if contentData.author.length}
-		<h5>By: {contentData.author[0].name.first} {contentData.author[0].name.last}</h5>
+	{#if authors.length}
+		<h5>By: {authors}</h5>
 	{/if}
 	{@html content}
 </div>
