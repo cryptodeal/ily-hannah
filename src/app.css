@@ -165,13 +165,7 @@ div.multiselect > ul.selected {
 }
 
 .form-field {
-	@apply input input-bordered input-primary w-full max-w-xs;
-}
-
-@supports (-webkit-touch-callout: none) {
-	.form-field {
-		@apply text-base;
-	}
+	@apply input input-bordered input-primary w-full max-w-xs text-base;
 }
 
 .form-error {
