@@ -32,7 +32,7 @@
 	description="Index of poems, short stories, and other Musings by Hannah Williams."
 />
 <div
-	class="min-h-[80vh] mb-24 md:mb-28 lg:mb-40 gap-6 flex flex-col mx-auto max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2"
+	class="pb-24 md:pb-28 lg:pb-40 gap-6 flex flex-col mx-auto max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2"
 >
 	{#each itemList as { title, slug, author }}
 		{@const authors = author
