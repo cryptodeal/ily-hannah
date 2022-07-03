@@ -50,3 +50,8 @@ export type SaveContentData = {
 	categories: CategoryDocument['_id'][];
 	_id: ContentDocument['_id'];
 };
+
+export type APICatPOST = {
+	id?: string;
+	name: string;
+};

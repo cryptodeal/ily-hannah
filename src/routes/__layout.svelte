@@ -21,6 +21,7 @@
 	import Nav from '$lib/ux/nav/Navbar.svelte';
 	import SideNav from '$lib/ux/nav/SideNav.svelte';
 	import Toast from '$lib/ux/Toast.svelte';
+
 	// export let path: string;
 
 	const modalId = 'auth-modal',

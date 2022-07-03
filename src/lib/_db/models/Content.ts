@@ -177,6 +177,9 @@ ContentSchema.query = {
 	paginateQuery(page = 0, limit = 25) {
 		return this.limit(limit).skip(page * limit);
 	},
+	populateCats() {
+		return this.populate('categories', 'name');
+	},
 	populateContent() {
 		return this.populate('content.extended');
 	}

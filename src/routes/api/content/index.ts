@@ -33,9 +33,9 @@ const isPublishContentData = (obj: unknown): obj is PublishContentData => {
 	return obj !== null && typeof obj === 'object' && 'id' in obj && 'state' in obj;
 };
 
-export const post: RequestHandler = async (event) => {
-	/* auth first; save work if not auth ;) */
-	const userAuth = (await protect(event.request.headers)) as JWTPayload;
+export const post: RequestHandler = async ({ request }) => {
+	/* auth first; save work only if auth ;) */
+	const userAuth = (await protect(request.headers)) as JWTPayload;
 	if (!userAuth) {
 		return {
 			status: 401,
@@ -45,7 +45,7 @@ export const post: RequestHandler = async (event) => {
 		};
 	}
 
-	const data: PublishContentData | SaveContentData = await event.request.json();
+	const data: PublishContentData | SaveContentData = await request.json();
 	if (isPublishContentData(data)) {
 		const { id, state } = data;
 		const res = await Content.updateState(

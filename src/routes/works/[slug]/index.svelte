@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ContentDocument, PopulatedDocument, UserDocument } from '$lib/_db/mongoose.gen';
+	import type { UserDocument } from '$lib/_db/mongoose.gen';
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async ({ fetch, params }) => {

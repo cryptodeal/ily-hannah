@@ -18,7 +18,7 @@ import type { ContentObjectSelect } from './controllers/content';
  * ```
  */
 export type Category = {
-	name?: string;
+	name: string;
 	_id: mongoose.Types.ObjectId;
 };
 
@@ -48,11 +48,16 @@ export type CategoryQuery = mongoose.Query<any, CategoryDocument, CategoryQuerie
  *
  * This type represents `CategorySchema.query`. For most use cases, you should not need to use this type explicitly.
  */
-export type CategoryQueries = {};
+export type CategoryQueries = {
+	paginateQuery: (this: CategoryQuery, page?: number, limit?: number) => CategoryQuery;
+};
 
 export type CategoryMethods = {};
 
-export type CategoryStatics = {};
+export type CategoryStatics = {
+	getCatList: (this: CategoryModel) => any;
+	addOrUpdateCat: (this: CategoryModel, name: string, id?: CategoryDocument['_id']) => any;
+};
 
 /**
  * Mongoose Model type
@@ -89,7 +94,7 @@ export type CategorySchema = mongoose.Schema<
  */
 export type CategoryDocument = mongoose.Document<mongoose.Types.ObjectId, CategoryQueries> &
 	CategoryMethods & {
-		name?: string;
+		name: string;
 		_id: mongoose.Types.ObjectId;
 	};
 
@@ -142,6 +147,7 @@ export type ContentQuery = mongoose.Query<any, ContentDocument, ContentQueries> 
  */
 export type ContentQueries = {
 	paginateQuery: (this: ContentQuery, page?: number, limit?: number) => ContentQuery;
+	populateCats: (this: ContentQuery) => ContentQuery;
 	populateContent: (this: ContentQuery) => ContentQuery;
 };
 

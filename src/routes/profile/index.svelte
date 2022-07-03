@@ -33,6 +33,7 @@
 	import Tabs from '$lib/ux/tabs/Tabs.svelte';
 	import TabList from '$lib/ux/tabs/TabList.svelte';
 	import TabPanel from '$lib/ux/tabs/TabPanel.svelte';
+	import SettingsIcon from '~icons/fluent/settings-24-filled';
 	import type { PaginatedContentData, ContentObjectSelect } from '$lib/_db/controllers/content';
 	import type { UserDocument } from '$lib/_db/mongoose.gen';
 
@@ -160,8 +161,13 @@
 
 <Tabs>
 	<div class="w-full md:container mx-auto">
-		<TabList links={[{ title: 'Profile' }, { title: 'My Works' }, { title: 'Add Content' }]} />
-
+		<div class="flex flex-wrap md:flex-nowrap justify-between items-center gap-4">
+			<div class="hidden md:inline-flex md:w-1/3" />
+			<TabList links={[{ title: 'Profile' }, { title: 'My Works' }, { title: '+ Content' }]} />
+			<div class="w-full justify-center md:justify-end md:w-1/3 inline-flex">
+				<a class="btn btn-sm gap-2" href="/profile/settings"><SettingsIcon /> Settings</a>
+			</div>
+		</div>
 		<!-- Schedule Data Tab -->
 		<TabPanel>
 			<div class="md:flex no-wrap md:-mx-2">
