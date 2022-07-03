@@ -74,7 +74,7 @@ export const getPubPaginatedContent = (
 			.sort('date')
 			.paginateQuery(page - 1, limit)
 			.populate('author', 'name.first name.last')
-			.select('title slug author')
+			.select('-_id title slug author')
 			.lean()
 			.exec(),
 		Content.countDocuments(!author ? {} : { author }).exec()

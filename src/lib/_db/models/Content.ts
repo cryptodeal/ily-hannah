@@ -160,6 +160,8 @@ ContentSchema.statics = {
 		return this.findOne({ slug })
 			.populate('content.extended')
 			.populate('author', 'name')
+			.select('author content title')
+			.lean()
 			.exec()
 			.then((doc) => {
 				if (!doc) throw new Error(`Error: Failed to find Content doc with slug: ${slug}`);

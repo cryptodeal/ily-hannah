@@ -8,12 +8,21 @@ export const get: RequestHandler<GetParams> = async ({ params }) => {
 	const { slug } = params;
 	if (!slug) throw new Error('slug is required');
 	const contentData = await Content.findBySlugWithAuthor(slug);
+	const {
+		title,
+		state,
+		content: { brief },
+		author
+	} = contentData;
 	const content = genHTML(contentData.content.extended?.content);
 
 	if (contentData) {
 		return {
 			body: {
-				contentData,
+				title,
+				state,
+				brief,
+				author,
 				content
 			}
 		};

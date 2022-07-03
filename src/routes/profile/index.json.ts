@@ -34,7 +34,7 @@ export const get: RequestHandler = async ({ url, locals }) => {
 	} else {
 		const userData = await findUserById(userId);
 		/* TODO: only load posts author has access too */
-		const contentData = await getPaginatedContent();
+		const contentData = await getPaginatedContent(1, 25, userData?._id);
 		contentData.itemList.map((i) => {
 			i.checked = false;
 			return i;
