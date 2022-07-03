@@ -10,12 +10,12 @@
 -->
 <script lang="ts">
 	import '../app.css';
+	import 'tippy.js/dist/tippy.css';
 	import { onMount } from 'svelte';
+	import AuthModal from '$lib/ux/modal/Auth.svelte';
 	// import { webVitals } from '$lib/webvitals';
 	import { afterNavigate } from '$app/navigation';
 	import { themeChange } from 'theme-change';
-	import * as yup from 'yup';
-	import { Form, Field, ErrorMessage } from 'svelte-forms-lib';
 	import { page } from '$app/stores';
 	import { getNotificationsStore } from '$lib/data/stores/notifs';
 	import Nav from '$lib/ux/nav/Navbar.svelte';
@@ -63,31 +63,6 @@
 	afterNavigate(() => {
 		drawercontent.scrollTop = 0;
 	});
-
-	const formProps = {
-		initialValues: { email: '' },
-		validationSchema: yup.object().shape({
-			email: yup.string().email().required()
-		}),
-		onSubmit: (values: Record<string, unknown>) => {
-			fetch('/api/auth.json', {
-				method: 'POST',
-				credentials: 'include',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(values)
-			}).then((res) => {
-				if (res.status === 200) {
-					notifications.success('Success; check your email!');
-				} else if (res.status === 401) {
-					notifications.error('Error... Please try again!');
-				} else {
-					notifications.error('Error; not authorized persons... or check spelling ;)');
-				}
-			});
-		}
-	};
 </script>
 
 <svelte:head>
@@ -144,24 +119,5 @@
 		</aside>
 	</div>
 </div>
-<input type="checkbox" id={modalId} class="modal-toggle" />
-<label for={modalId} class="modal modal-bottom sm:modal-middle cursor-pointer">
-	<label class="modal-box relative" for="">
-		<h3 class="text-lg font-bold text-center py-4">Login / Register</h3>
-		<div class="flex flex-col gap-4 items-center p-1">
-			<Form class="content" {...formProps}>
-				<div class="flex flex-col gap-4 items-center">
-					<div class="form-control w-full max-w-xs">
-						<label for="email" class="label cursor-pointer gap-4">
-							<span class="label-text">Email:</span>
-						</label>
-						<Field class="form-field" id="email" name="email" type="email" />
-					</div>
-					<ErrorMessage class="form-error" name="email" />
-					<button class="btn" type="submit">submit</button>
-				</div>
-			</Form>
-		</div>
-	</label>
-</label>
+<AuthModal {modalId} />
 <Toast />
