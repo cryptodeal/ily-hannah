@@ -9,10 +9,6 @@ export const get: RequestHandler = async ({ url }) => {
 	} else {
 		contentData = await getPubPaginatedContent(Number(page));
 	}
-	contentData.itemList.map((i) => {
-		i.checked = false;
-		return i;
-	});
 	if (contentData) {
 		return {
 			body: {

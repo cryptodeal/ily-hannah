@@ -39,7 +39,7 @@
 <MetaTags title={contentData.title} description={contentData.content.brief} />
 
 <div class="mx-auto mb-5 max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2">
-	<div class="w-full inline-flex justify-between items-center">
+	<div class="w-full inline-flex flex-wrap justify-between items-center">
 		<div class="text-sm breadcrumbs">
 			<ul>
 				<li><a href="/works" sveltekit:prefetch>Works</a></li>
