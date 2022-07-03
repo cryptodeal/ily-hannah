@@ -1,81 +1,51 @@
 <script context="module" lang="ts">
 	import type { Load } from '@sveltejs/kit';
 
-	export const load: Load = async ({ fetch }) => {
-		const url = `/works.json`;
-		const res = await fetch(url);
+	export const load: Load = async ({ fetch, url }) => {
+		const pg = url.searchParams.get('pg');
+		const uri = pg && Number(pg) !== 1 ? `/works.json?pg=${pg}` : '/works.json';
+
+		const res = await fetch(uri);
 		const { contentData } = await res.json();
+		const { currentPage, pageCount, prev, next, itemList } = contentData;
 
 		//console.log(userData);
 		return {
-			props: {
-				contentData
-			}
+			props: { currentPage, pageCount, prev, next, itemList }
 		};
 	};
 </script>
 
 <script lang="ts">
-	import Paginate from '$lib/ux/Paginate.svelte';
+	import Paginate from '$lib/ux/paginate/SSR.svelte';
 	import { MetaTags } from 'svelte-meta-tags';
-	import type { PaginatedContentPub } from '$lib/_db/controllers/content';
-	export let contentData: PaginatedContentPub;
-	let { currentPage, hasPrevPage, hasNextPage, pageCount, prev, next, itemList } = contentData;
-
-	const loadContent = (page?: number) => {
-		if (!page) return;
-		return fetch(`/works.json?pg=${page}`)
-			.then((res) => res.json())
-			.then((res) => {
-				const {
-					currentPage: tempCurrentPage,
-					hasPrevPage: tempHasPrev,
-					hasNextPage: tempHasNext,
-					pageCount: tempPgCount,
-					prev: tempPrev,
-					next: tempNext,
-					itemList: tempItems
-				} = res.contentData;
-				itemList = tempItems;
-				currentPage = tempCurrentPage;
-				hasPrevPage = tempHasPrev;
-				hasNextPage = tempHasNext;
-				pageCount = tempPgCount;
-				prev = tempPrev;
-				next = tempNext;
-			});
-	};
-
-	const prevPaginated = () => {
-		return loadContent(prev);
-	};
-
-	const nextPaginated = () => {
-		return loadContent(next);
-	};
+	import type { ContentDocument, PopulatedDocument } from '$lib/_db/mongoose.gen';
+	export let currentPage: number,
+		pageCount: number,
+		prev: number,
+		next: number,
+		itemList: PopulatedDocument<PopulatedDocument<ContentDocument, 'content.extended'>, 'author'>[];
 </script>
 
 <MetaTags
 	title="Assorted list of works by Hannah Williams."
 	description="Index of poems, short stories, and other Musings by Hannah Williams."
 />
-
-<div class="flex flex-col gap-6 mx-auto max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2">
-	{#each itemList as { title, slug, author }}
-		{@const authors = author
-			.filter(({ name }) => name?.first && name?.last)
-			.map(({ name }) => `${name.first} ${name.last}`)}
-		<a class="flex-1" href={`/works/${slug}`}><h2>{title}</h2></a>
-		{#if authors.length}
-			<h5 class="ml-4">By: {authors.join(', ')}</h5>
-		{/if}
-	{/each}
-	<Paginate
-		fetchNext={nextPaginated}
-		fetchPrev={prevPaginated}
-		page={currentPage}
-		{pageCount}
-		{hasNextPage}
-		{hasPrevPage}
-	/>
+<div class="flex flex-col gap-6">
+	<div
+		class="min-h-[80vh] overflow-scroll gap-6 flex flex-col mx-auto max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2"
+	>
+		{#each itemList as { title, slug, author }}
+			{@const authors = author
+				.filter(({ name }) => name?.first && name?.last)
+				.map(({ name }) => `${name.first} ${name.last}`)}
+			<div class="flex flex-col gap-2">
+				<a href={`/works/${slug}`}><h2>{title}</h2></a>
+				{#if authors.length}
+					<h5 class="ml-4">By: {authors.join(', ')}</h5>
+				{/if}
+			</div>
+		{/each}
+	</div>
+	<Paginate {prev} {next} page={currentPage} {pageCount} />
 </div>

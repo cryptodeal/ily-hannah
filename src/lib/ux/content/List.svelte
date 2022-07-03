@@ -4,7 +4,7 @@
 	import type { IColHeader } from '$lib/ux/tables/types';
 	import TFoot from '$lib/ux/tables/core/TFoot.svelte';
 	import type { ContentObjectSelect } from '$lib/_db/controllers/content';
-	import Paginate from '../Paginate.svelte';
+	import Paginate from '../paginate/SPA.svelte';
 	import type { Writable } from 'svelte/store';
 	import { getContext } from 'svelte';
 	export let currentPage: number,
