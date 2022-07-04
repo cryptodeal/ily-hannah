@@ -55,7 +55,10 @@ export const get: RequestHandler = async ({ url, locals }) => {
 	}
 };
 
-export type ProfilePostType = 'Add' | 'Update';
+export enum ProfilePost {
+	ADD,
+	UPDATE
+}
 
 export const post: RequestHandler = async (event) => {
 	const data = (await event.request.json()) as UserFormData;

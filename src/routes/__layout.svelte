@@ -10,7 +10,6 @@
 -->
 <script lang="ts">
 	import '../app.css';
-	import 'tippy.js/dist/tippy.css';
 	import { onMount } from 'svelte';
 	import AuthModal from '$lib/ux/modal/Auth.svelte';
 	// import { webVitals } from '$lib/webvitals';
@@ -26,7 +25,7 @@
 
 	const modalId = 'auth-modal',
 		triggerTxt = 'login / register';
-	const notifications = getNotificationsStore();
+	getNotificationsStore();
 	let drawercontent: { scrollTop: number },
 		drawerContentScrollY = 0,
 		drawersidebar: { scrollTop: number },

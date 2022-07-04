@@ -71,10 +71,10 @@ export const getPubPaginatedContent = (
 ): Promise<PaginatedContentData> => {
 	return Promise.all([
 		Content.find({ state: 'published' })
-			.sort('date')
+			.select('-_id title slug author publishedDate')
+			.sort('publishedDate')
 			.paginateQuery(page - 1, limit)
 			.populate('author', 'name.first name.last')
-			.select('-_id title slug author')
 			.lean()
 			.exec(),
 		Content.countDocuments(!author ? {} : { author }).exec()

@@ -23,11 +23,15 @@
 
 <script lang="ts">
 	import Tiptap from '$lib/editor/Tiptap.svelte';
+	import { createForm } from 'felte';
+	import { validator } from '@felte/validator-zod';
+	import { z } from 'zod';
 	import dayjs from 'dayjs';
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { getNotificationsStore } from '$lib/data/stores/notifs';
 	import IconEdit from '~icons/fluent/document-edit-24-regular';
+	import IconSave from '~icons/fluent/save-24-regular';
 	import IconPerson from '~icons/fluent/person-24-regular';
 	import List from '$lib/ux/content/List.svelte';
 	import Tabs from '$lib/ux/tabs/Tabs.svelte';
@@ -36,6 +40,7 @@
 	import SettingsIcon from '~icons/fluent/settings-24-filled';
 	import type { PaginatedContentData, ContentObjectSelect } from '$lib/_db/controllers/content';
 	import type { UserDocument } from '$lib/_db/mongoose.gen';
+	import Tooltip from '$lib/ux/forms/Tooltip.svelte';
 
 	export let user: UserDocument, contentData: PaginatedContentData;
 	let { currentPage, hasPrevPage, hasNextPage, pageCount, prev, next, itemList } = contentData;
@@ -47,6 +52,13 @@
 			last: ''
 		};
 	}
+
+	const schema = z.object({
+		name: z.object({
+			first: z.string().min(2, 'First name must have at least 2 character(s)').trim(),
+			last: z.string().min(2, 'Last name must have at least 2 character(s)').trim()
+		})
+	});
 
 	const loadContent = (page?: number) => {
 		if (!page) return;
@@ -129,23 +141,17 @@
 		});
 	};
 
-	const notifications = getNotificationsStore(),
-		saveUserData = () => {
+	const notifications = getNotificationsStore();
+	const { form, errors, isValid, handleSubmit } = createForm<z.infer<typeof schema>>({
+		onSubmit: (values) => {
 			edit = !edit;
-			const postData = {
-				type: 'Update',
-				name: {
-					first: user.name.first,
-					last: user.name.last
-				}
-			};
 			return fetch('/profile.json', {
 				method: 'POST',
 				credentials: 'include',
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify(postData)
+				body: JSON.stringify(values)
 			}).then((res) => {
 				if (res.status === 200) {
 					notifications.success('Successfully updated your user data!');
@@ -153,7 +159,9 @@
 					notifications.error('Error; failed to update your user data!');
 				}
 			});
-		};
+		},
+		extend: validator({ schema })
+	});
 
 	let edit = false;
 	$: if (user.name.first === '' || user.name.last === '') edit = true;
@@ -211,83 +219,95 @@
 					<!-- Profile tab -->
 					<!-- About Section -->
 					<div class="glassmorphicBg p-3 shadow-sm rounded-sm my-4">
-						<div class="flex my-2 gap-4 items-center font-semibold leading-8">
-							<div class="flex-1 inline-flex items-center">
-								<IconPerson class="mr-2 fill-current" />
-								<span class="tracking-wide">About</span>
-							</div>
-							<div class="btn-group">
-								{#if edit}
-									<button class="btn btn-sm btn-primary" on:click={saveUserData}>Save</button>
-								{/if}
-								<button class="btn btn-sm gap-2" on:click={() => (edit = !edit)}>
-									<IconEdit />
-									<span>Edit</span>
+						<form use:form>
+							<div class="flex my-2 gap-4 items-center font-semibold leading-8">
+								<div class="flex-1 inline-flex items-center">
+									<IconPerson class="mr-2 fill-current" />
+									<span class="tracking-wide">About</span>
+								</div>
+								<button
+									class="btn btn-sm gap-2"
+									class:btn-disabled={!$isValid}
+									class:btn-primary={edit}
+									type="submit"
+									on:click={edit ? handleSubmit : () => (edit = !edit)}
+								>
+									{#if !edit}
+										<IconEdit />
+										<span>Edit</span>
+									{:else}
+										<IconSave />
+										<span>Save</span>
+									{/if}
 								</button>
 							</div>
-						</div>
-						<div class="grid text-sm md:grid-cols-2 md:gap-4 md:gap-y-4">
-							{#if edit}
-								<div class="form-control w-full max-w-xs">
-									<label for="firstName" class="label">
-										<span class="label-text">First Name</span>
-									</label>
-									<input
-										type="text"
-										placeholder="First name..."
-										id="firstName"
-										name="firstName"
-										class="form-field"
-										bind:value={user.name.first}
-									/>
-								</div>
-								<div class="form-control w-full max-w-xs">
-									<label for="lastName" class="label">
-										<span class="label-text">Last Name</span>
-									</label>
-									<input
-										type="text"
-										placeholder="Last name..."
-										id="lastName"
-										name="lastName"
-										class="form-field"
-										bind:value={user.name.last}
-									/>
-								</div>
-							{:else}
+							<div class="grid text-sm md:grid-cols-2 md:gap-4 md:gap-y-4">
+								{#if edit}
+									<div class="form-control w-full max-w-xs">
+										<label for="name.first" class="label">
+											<span class="label-text">First Name</span>
+										</label>
+										<Tooltip errors={$errors.name?.first}>
+											<input
+												type="text"
+												placeholder="First name..."
+												id="name.first"
+												name="name.first"
+												class="form-field"
+												value={user.name.first}
+											/>
+										</Tooltip>
+									</div>
+									<div class="form-control w-full max-w-xs">
+										<label for="name.last" class="label">
+											<span class="label-text">Last Name</span>
+										</label>
+										<Tooltip errors={$errors.name?.last}>
+											<input
+												type="text"
+												placeholder="Last name..."
+												id="name.last"
+												name="name.last"
+												class="form-field"
+												value={user.name.last}
+											/>
+										</Tooltip>
+									</div>
+								{:else}
+									<div class="form-control w-full max-w-xs">
+										<div class="label">
+											<span class="label-text">First Name</span>
+										</div>
+										<div
+											class="inline-flex flex-shrink items-center justify-start h-12 px-8 pl-4 w-full max-w-xs"
+										>
+											{user.name.first}
+										</div>
+									</div>
+
+									<div class="form-control w-full max-w-xs">
+										<div class="label">
+											<span class="label-text">Last Name</span>
+										</div>
+										<div
+											class="inline-flex flex-shrink justify-start items-center h-12 px-8 pl-4 w-full max-w-xs"
+										>
+											{user.name.last}
+										</div>
+									</div>
+								{/if}
 								<div class="form-control w-full max-w-xs">
 									<div class="label">
-										<span class="label-text">First Name</span>
+										<span class="label-text">Email</span>
 									</div>
 									<div
 										class="inline-flex flex-shrink items-center justify-start h-12 px-8 pl-4 w-full max-w-xs"
 									>
-										{user.name.first}
+										{user.email}
 									</div>
-								</div>
-
-								<div class="form-control w-full max-w-xs">
-									<div class="label">
-										<span class="label-text">Last Name</span>
-									</div>
-									<div
-										class="inline-flex flex-shrink justify-start items-center h-12 px-8 pl-4 w-full max-w-xs"
-									>
-										{user.name.last}
-									</div>
-								</div>
-							{/if}
-							<div class="form-control w-full max-w-xs">
-								<div class="label">
-									<span class="label-text">Email</span>
-								</div>
-								<div
-									class="inline-flex flex-shrink items-center justify-start h-12 px-8 pl-4 w-full max-w-xs"
-								>
-									{user.email}
 								</div>
 							</div>
-						</div>
+						</form>
 						<!--
               <button
                 class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Show

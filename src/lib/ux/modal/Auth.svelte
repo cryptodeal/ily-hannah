@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
-	import reporter from '@felte/reporter-tippy';
 	import { z } from 'zod';
 	import { getNotificationsStore } from '$lib/data/stores/notifs';
 	import Tooltip from '$lib/ux/forms/Tooltip.svelte';
@@ -51,7 +50,7 @@
 							<input type="email" id="email" name="email" class="form-field" />
 						</Tooltip>
 					</div>
-					<button class="btn" class:btn-disabled={!isValid} type="submit">submit</button>
+					<button class="btn" class:btn-disabled={!$isValid} type="submit">submit</button>
 				</div>
 			</form>
 		</div>
