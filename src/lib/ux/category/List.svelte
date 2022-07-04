@@ -21,7 +21,7 @@
 	<THead slot="thead" {colHeaders} />
 	<svelte:fragment slot="tbody">
 		{#each $categories as { name, checked, _id }, i}
-			{@const badgeColor = uniqolor(_id.toString()).color}
+			{@const badge = uniqolor(_id.toString(), { format: 'hsl' })}
 			<tr class="hover">
 				<!-- Display Player Name -->
 				<th>
@@ -37,11 +37,16 @@
 				</th>
 				<td>
 					<div
-						class="badge"
-						style="background-color:{badgeColor};color:{invertColor(badgeColor, true)};"
+						class="catBadge badge"
+						class:text-primary-content={badge.isLight}
+						class:text-neutral-content={!badge.isLight}
+						style:--bgColor={badge.color}
 					>
 						{name}
 					</div>
+				</td>
+				<td>
+					{badge.isLight}
 				</td>
 				<td>
 					<button class="btn btn-sm"> Edit </button>
@@ -59,3 +64,9 @@
 	{hasNextPage}
 	{hasPrevPage}
 />
+
+<style lang="postcss">
+	.catBadge {
+		background-color: var(--bgColor);
+	}
+</style>

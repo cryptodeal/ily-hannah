@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getContext, onMount } from 'svelte';
+	import { printEditorContent } from './utils/print';
 	import { session } from '$app/stores';
 	import { getNotificationsStore } from '$lib/data/stores/notifs';
 	import { shortcut } from '$lib/ux/shortcut';
@@ -35,6 +36,7 @@
 	import Undo from '~icons/dashicons/undo';
 	import Redo from '~icons/dashicons/redo';
 	import Save from '~icons/fluent/save-20-regular';
+	import Print from '~icons/fluent/print-20-filled';
 	import Edit from '~icons/fluent/code-text-edit-20-filled';
 	import TextAlignLeft from '~icons/fluent/text-align-left-20-filled';
 	import TextAlignCenter from '~icons/fluent/text-align-center-20-filled';
@@ -97,7 +99,7 @@
 			editorProps: {
 				attributes: {
 					class:
-						'prose text-base min-h-[300px] max-h-[70vh] sm:max-h-[75vh] lg:max-h-[80vh] overflow-scroll prose-sm sm:prose md:container mx-auto border-2 border-black rounded-b-md p-3 outline-none'
+						'prose text-base min-h-[300px] print:h-fit print:border-none print:w-auto print:overflow-visible max-h-[70vh] sm:max-h-[75vh] lg:max-h-[80vh] overflow-scroll prose-sm sm:prose md:container mx-auto border-2 border-black rounded-b-md p-3 outline-none'
 				}
 			},
 			content
@@ -162,6 +164,12 @@
 	const exportJSON = () => {
 		return $editor.getJSON();
 	};
+	const exportHTML = () => {
+		return $editor.getHTML();
+	};
+	const print = () => {
+		return printEditorContent(exportHTML());
+	};
 	const contentList: Writable<ContentObjectSelect[]> = getContext('content-list');
 	function save() {
 		const content = {
@@ -218,7 +226,7 @@
 
 {#if editor}
 	<div class="md:container mx-auto flex flex-col gap-10">
-		<div class="card card-compact bg-primary text-primary-content shadow-xl">
+		<div class="print:hidden card card-compact bg-primary text-primary-content shadow-xl">
 			<div class="card-body">
 				{#if editMeta}
 					<div class="form-control bg-primary text-primary-content">
@@ -233,7 +241,7 @@
 						/>
 					</div>
 				{:else}
-					<h2 class="card-title">{title}</h2>
+					<h1 class="card-title">{title}</h1>
 				{/if}
 				<div class="card-actions justify-center">
 					<button
@@ -256,8 +264,11 @@
 				</div>
 			</div>
 		</div>
+		<div class="hidden print:text-center print:prose print:block">
+			<h1>{title}</h1>
+		</div>
 		<div
-			class="prose prose-sm sm:prose md:container mx-auto border-black border-2 border-b-0 rounded-t-md p-2 flex flex-wrap gap-2"
+			class="prose prose-sm print:hidden sm:prose md:container mx-auto border-black border-2 border-b-0 rounded-t-md p-2 flex flex-wrap gap-2"
 		>
 			<div class="btn-group flex-row">
 				<div
@@ -570,6 +581,23 @@
 					on:click={save}
 				>
 					<Save />
+				</button>
+			</div>
+			<div
+				class="tooltip tooltip-primary"
+				data-tip="Print{showHotKeys && isApple
+					? ' (CMD + P)'
+					: showHotKeys && !isApple
+					? ' (CTRL + P)'
+					: ''}"
+			>
+				<button
+					class="btn rounded-l-none btn-square btn-sm"
+					disabled={!$editor.can().undo()}
+					use:shortcut={{ control: true, code: 'KeyP' }}
+					on:click={print}
+				>
+					<Print />
 				</button>
 			</div>
 		</div>
