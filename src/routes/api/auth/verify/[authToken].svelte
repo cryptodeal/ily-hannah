@@ -27,7 +27,7 @@
 		<div class="card-body gap-3">
 			<h2 class="card-title">Click to Authenticate</h2>
 			<p class="text-sm">
-				As<a class="link" href="https://news.ycombinator.com/item?id=31892299" target="_blank"
+				As <a class="link" href="https://news.ycombinator.com/item?id=31892299" target="_blank"
 					>Microsoft Outlook indexes magic links</a
 				>, i.e. follows the link, for Bing Search, you must click the following button to verify
 				this authentication request.

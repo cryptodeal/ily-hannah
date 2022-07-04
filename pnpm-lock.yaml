@@ -67,6 +67,7 @@ specifiers:
   tslib: ^2.4.0
   typescript: ^4.7.4
   ua-parser-js: ^1.0.2
+  uniqolor: ^1.0.2
   unplugin-icons: ^0.14.7
   web-vitals: ^2.1.4
   zod: ^3.17.3
@@ -140,6 +141,7 @@ devDependencies:
   tslib: 2.4.0
   typescript: 4.7.4
   ua-parser-js: 1.0.2
+  uniqolor: 1.0.2
   unplugin-icons: 0.14.7
   web-vitals: 2.1.4
   zod: 3.17.3
@@ -4618,6 +4620,10 @@ packages:
   /unc-path-regex/0.1.2:
     resolution: {integrity: sha512-eXL4nmJT7oCpkZsHZUOJo8hcX3GbsiDOa0Qu9F646fi8dT3XuSVopVqAcEiVzSKKH7UoDti23wNX3qGFxcW5Qg==}
     engines: {node: '>=0.10.0'}
+    dev: true
+
+  /uniqolor/1.0.2:
+    resolution: {integrity: sha512-uNU+1iuhQioRZBG8TyjC+dFRuVmnZ6vp29ukoZjhrX3U5TP8onSr6S+qnTNAOnzlakmHWB0r/MPeMfMJ3+T7kg==}
     dev: true
 
   /universalify/0.1.2:

@@ -54,4 +54,5 @@ export type SaveContentData = {
 export type APICatPOST = {
 	id?: string;
 	name: string;
+	type: number;
 };

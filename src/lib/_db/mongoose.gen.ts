@@ -57,6 +57,7 @@ export type CategoryMethods = {};
 export type CategoryStatics = {
 	getCatList: (this: CategoryModel) => any;
 	addOrUpdateCat: (this: CategoryModel, name: string, id?: CategoryDocument['_id']) => any;
+	addCat: (this: CategoryModel, name: string) => any;
 };
 
 /**

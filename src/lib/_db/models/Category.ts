@@ -15,6 +15,9 @@ CategorySchema.statics = {
 		} else {
 			return this.create({ name });
 		}
+	},
+	addCat(name: string) {
+		return this.create({ name });
 	}
 };
 

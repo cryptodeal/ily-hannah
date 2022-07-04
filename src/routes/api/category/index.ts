@@ -1,9 +1,11 @@
 import protect from '$lib/_auth/protect';
 import { Category } from '$lib/_db/models/Category';
+import { CategoryPOSTType } from '$lib/const';
 import type { RequestHandler } from '@sveltejs/kit';
 import type { APICatPOST, JWTPayload } from '$lib/types';
 import { castToObjectId } from '$lib/_db/controllers/utils';
 import { getPaginatedCats } from '$lib/_db/controllers/category';
+import type { CategoryObject } from '$lib/_db/mongoose.gen';
 
 export const get: RequestHandler = async ({ url }) => {
 	const page = url.searchParams.get('pg') || 1;
@@ -31,18 +33,38 @@ export const post: RequestHandler = async ({ request }) => {
 		};
 	}
 
-	const { id, name } = (await request.json()) as APICatPOST;
-	const cat = await Category.addOrUpdateCat(name, id ? castToObjectId(id) : undefined);
-	if (cat) {
-		return {
-			status: 200,
-			body: {
-				category: cat
-			}
-		};
+	const { id, name, type } = (await request.json()) as APICatPOST;
+	if (type === CategoryPOSTType.ADD) {
+		return Category.addCat(name)
+			.then((cat: CategoryObject) => {
+				return {
+					status: 200,
+					body: {
+						cat
+					}
+				};
+			})
+			.catch((err: Error) => {
+				return {
+					status: 503,
+					body: {
+						error: err.message
+					}
+				};
+			});
 	} else {
-		return {
-			status: 503
-		};
+		const cat = await Category.addOrUpdateCat(name, id ? castToObjectId(id) : undefined);
+		if (cat) {
+			return {
+				status: 200,
+				body: {
+					category: cat
+				}
+			};
+		} else {
+			return {
+				status: 503
+			};
+		}
 	}
 };
