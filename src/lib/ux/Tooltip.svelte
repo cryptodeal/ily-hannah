@@ -1,8 +1,9 @@
 <script lang="ts">
 	export let dataTip: string,
-		open = false;
+		open = false,
+		primary = false;
 </script>
 
-<div class="tooltip tooltip-primary" class:tooltip-open={open} data-tip={dataTip}>
+<div class="tooltip" class:tooltip-primary={primary} class:tooltip-open={open} data-tip={dataTip}>
 	<slot />
 </div>

@@ -41,6 +41,7 @@
 	import type { PaginatedContentData, ContentObjectSelect } from '$lib/_db/controllers/content';
 	import type { UserDocument } from '$lib/_db/mongoose.gen';
 	import Tooltip from '$lib/ux/forms/Tooltip.svelte';
+	import TooltipReg from '$lib/ux/Tooltip.svelte';
 
 	export let user: UserDocument, contentData: PaginatedContentData;
 	let { currentPage, hasPrevPage, hasNextPage, pageCount, prev, next, itemList } = contentData;
@@ -225,21 +226,21 @@
 									<IconPerson class="mr-2 fill-current" />
 									<span class="tracking-wide">About</span>
 								</div>
-								<button
-									class="btn btn-sm gap-2"
-									class:btn-disabled={!$isValid}
-									class:btn-primary={edit}
-									type="submit"
-									on:click={edit ? handleSubmit : () => (edit = !edit)}
-								>
-									{#if !edit}
-										<IconEdit />
-										<span>Edit</span>
-									{:else}
-										<IconSave />
-										<span>Save</span>
-									{/if}
-								</button>
+								<TooltipReg primary={edit} dataTip={edit ? 'Save' : 'Edit'}>
+									<button
+										class="btn btn-sm gap-2"
+										class:btn-disabled={edit && !$isValid}
+										class:btn-primary={edit}
+										type="submit"
+										on:click={edit ? handleSubmit : () => (edit = !edit)}
+									>
+										{#if !edit}
+											<IconEdit />
+										{:else}
+											<IconSave />
+										{/if}
+									</button>
+								</TooltipReg>
 							</div>
 							<div class="grid text-sm md:grid-cols-2 md:gap-4 md:gap-y-4">
 								{#if edit}
