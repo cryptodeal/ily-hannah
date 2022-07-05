@@ -56,6 +56,7 @@ specifiers:
   postcss-load-config: ^4.0.1
   prettier: ^2.7.1
   prettier-plugin-svelte: ^2.7.0
+  prosemirror-view: ^1.26.4
   svelte: ^3.48.0
   svelte-check: ^2.8.0
   svelte-forms-lib: ^2.0.1
@@ -132,6 +133,7 @@ devDependencies:
   postcss-load-config: 4.0.1_postcss@8.4.14
   prettier: 2.7.1
   prettier-plugin-svelte: 2.7.0_nakrehnrzdf7fdea5k3a4dfy4m
+  prosemirror-view: 1.26.4
   svelte: 3.48.0
   svelte-check: 2.8.0_x4nqt44wnukty73um2kz4qdzya
   svelte-forms-lib: 2.0.1

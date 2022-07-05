@@ -34,7 +34,7 @@
 </script>
 
 <div class="flex flex-col mx-auto sm:container">
-	<div class="print:hidden text-sm breadcrumbs">
+	<div class="text-sm breadcrumbs">
 		<ul>
 			<li><a href="/profile" sveltekit:prefetch>Profile</a></li>
 			<li>Edit</li>

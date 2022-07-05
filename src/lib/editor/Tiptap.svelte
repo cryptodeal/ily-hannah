@@ -36,7 +36,7 @@
 	import Undo from '~icons/dashicons/undo';
 	import Redo from '~icons/dashicons/redo';
 	import Save from '~icons/fluent/save-20-regular';
-	import Print from '~icons/fluent/print-20-filled';
+	import PrintIcon from '~icons/fluent/print-20-filled';
 	import Edit from '~icons/fluent/code-text-edit-20-filled';
 	import TextAlignLeft from '~icons/fluent/text-align-left-20-filled';
 	import TextAlignCenter from '~icons/fluent/text-align-center-20-filled';
@@ -99,7 +99,7 @@
 			editorProps: {
 				attributes: {
 					class:
-						'prose text-base min-h-[300px] print:h-fit print:border-none print:w-auto print:overflow-visible max-h-[70vh] sm:max-h-[75vh] lg:max-h-[80vh] overflow-scroll prose-sm sm:prose md:container mx-auto border-2 border-black rounded-b-md p-3 outline-none'
+						'prose text-base el-tiptap-editor__content min-h-[300px] print:text-black print:border-none print:overflow-visible max-h-[70vh] sm:max-h-[75vh] lg:max-h-[80vh] overflow-scroll prose-sm sm:prose md:container mx-auto border-2 border-black rounded-b-md p-3 outline-none'
 				}
 			},
 			content
@@ -164,11 +164,9 @@
 	const exportJSON = () => {
 		return $editor.getJSON();
 	};
-	const exportHTML = () => {
-		return $editor.getHTML();
-	};
+
 	const print = () => {
-		return printEditorContent(exportHTML());
+		return printEditorContent($editor.view);
 	};
 	const contentList: Writable<ContentObjectSelect[]> = getContext('content-list');
 	function save() {
@@ -593,17 +591,18 @@
 			>
 				<button
 					class="btn rounded-l-none btn-square btn-sm"
-					disabled={!$editor.can().undo()}
 					use:shortcut={{ control: true, code: 'KeyP' }}
 					on:click={print}
 				>
-					<Print />
+					<PrintIcon />
 				</button>
 			</div>
 		</div>
 	</div>
 {/if}
-<EditorContent editor={$editor} />
+<div>
+	<EditorContent editor={$editor} />
+</div>
 
 <style lang="postcss">
 	button.active {

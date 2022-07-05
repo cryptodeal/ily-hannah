@@ -1,7 +1,21 @@
+import type { EditorView } from 'prosemirror-view';
 import Logger from './logger';
 
-function printHtml(content: string) {
+const getBlobURL = (code: string, type: string) => {
+	const blob = new Blob([code], { type });
+	return URL.createObjectURL(blob);
+};
+
+function printHtml(dom: Element) {
+	const style: string = Array.from(document.querySelectorAll('style, link')).reduce(
+		(str, style) => str + style.outerHTML,
+		''
+	);
+
+	const content: string = style + dom.outerHTML;
+
 	const iframe: HTMLIFrameElement = document.createElement('iframe');
+
 	iframe.id = 'el-tiptap-iframe';
 	iframe.setAttribute('style', 'position: absolute; width: 0; height: 0; top: -10px; left: -10px;');
 	document.body.appendChild(iframe);
@@ -17,6 +31,11 @@ function printHtml(content: string) {
 
 	if (frameWindow) {
 		iframe.onload = function () {
+			const link = document.createElement('link');
+			link.href = getBlobURL(`@page { size: auto;  margin: 0mm; }`, 'text/css');
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			frameWindow.document.head.appendChild(link);
 			try {
 				setTimeout(() => {
 					frameWindow.focus();
@@ -40,10 +59,13 @@ function printHtml(content: string) {
 	}
 }
 
-export function printEditorContent(htmlString?: string) {
-	if (htmlString) {
-		printHtml(htmlString);
+export function printEditorContent(view: EditorView) {
+	const editorContent = view.dom.closest('.el-tiptap-editor__content');
+	if (editorContent) {
+		printHtml(editorContent);
+		//console.log(true)
 		return true;
 	}
+	//console.log(false)
 	return false;
 }
