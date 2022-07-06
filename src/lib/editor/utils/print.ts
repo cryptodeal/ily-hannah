@@ -1,9 +1,11 @@
 import prntr from 'prntr';
+import css from '$lib/editor/styles.css?url';
 
 export function printEditorContent() {
 	prntr({
 		printable: 'el-tiptap-editor__content',
 		type: 'html',
-		scanStyles: true
+		css: css,
+		scanStyles: false
 	});
 }

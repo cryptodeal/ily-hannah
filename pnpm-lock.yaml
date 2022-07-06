@@ -702,8 +702,8 @@ packages:
       prosemirror-view: 1.26.4
     dev: true
 
-  /@tiptap/core/2.0.0-beta.181:
-    resolution: {integrity: sha512-tbwRqjTVvY9v31TNAH6W0Njhr/OVwI28zWXmH55/USrwyU2CB1iCVfXktZKOhB+8WyvOaBv1JA5YplMIhstYTw==}
+  /@tiptap/core/2.0.0-beta.182:
+    resolution: {integrity: sha512-MZGkMGnVnWhBzjvpBNwQ9zBz38ndi3Irbf90uCTSArR0kaCVkW4vmyuPuOXd+0SO8Yv/l5oyDdOCpaG3rnQYfw==}
     dependencies:
       prosemirror-commands: 1.3.0
       prosemirror-keymap: 1.2.0
@@ -889,7 +889,7 @@ packages:
   /@tiptap/html/2.0.0-beta.180:
     resolution: {integrity: sha512-LHN/4zK/Pu7oMQMP7t3hPAx0i0NWy08UMzXqTuMcasx36NJkBGlcWul+Ip5+6/FJUkCRhbyxsjIWr4qsAuuVCw==}
     dependencies:
-      '@tiptap/core': 2.0.0-beta.181
+      '@tiptap/core': 2.0.0-beta.182
       prosemirror-model: 1.18.1
       zeed-dom: 0.9.24
     dev: true
@@ -1363,7 +1363,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001363
-      electron-to-chromium: 1.4.180
+      electron-to-chromium: 1.4.181
       node-releases: 2.0.5
       update-browserslist-db: 1.0.4_browserslist@4.21.1
     dev: true
@@ -1926,8 +1926,8 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
-  /electron-to-chromium/1.4.180:
-    resolution: {integrity: sha512-7at5ash3FD9U5gPa3/wPr6OdiZd/zBjvDZaaHBpcqFOFUhZiWnb7stkqk8xUFL9H9nk7Yok5vCCNK8wyC/+f8A==}
+  /electron-to-chromium/1.4.181:
+    resolution: {integrity: sha512-T6JzLj+9J6CdPgI7jXLcq5Ao2qyFhEBfWFUExxRRVFdVYAU86SfcLX3Zw6p1HzvngR+M8C4q6eDkQ5flEr1RnA==}
     dev: true
 
   /emoji-regex/8.0.0:
