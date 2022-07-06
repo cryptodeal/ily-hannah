@@ -28,9 +28,9 @@
 	import Tiptap from '$lib/editor/Tiptap.svelte';
 	export let contentData: PopulatedDocument<ContentDocument, 'content.extended'>;
 	const content: JSONContent = contentData.content.extended?.content;
-	const _id: string | undefined = contentData?._id?.toString();
-	const title: string | undefined = contentData?.title;
-	const state: string | undefined = contentData?.state;
+	const _id: string | undefined = contentData._id?.toString();
+	const title: string | undefined = contentData.title;
+	const state: string | undefined = contentData.state;
 </script>
 
 <div class="flex flex-col mx-auto sm:container">
@@ -38,8 +38,8 @@
 		<ul>
 			<li><a href="/profile" sveltekit:prefetch>Profile</a></li>
 			<li>Edit</li>
-			<li>{contentData.title}</li>
+			<li>{title}</li>
 		</ul>
 	</div>
-	<Tiptap {content} {_id} {title} {state} />
+	<Tiptap {content} {_id} {state} />
 </div>

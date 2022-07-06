@@ -9,7 +9,9 @@
 	<meta name="description" content="About this app" />
 </svelte:head>
 
-<div class="content">
+<div
+	class="pb-24 md:pb-28 lg:pb-40 gap-6 flex flex-col mx-auto max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2"
+>
 	<h1>About this app</h1>
 
 	<p>
@@ -25,11 +27,3 @@
 		the devtools network panel and reloading.
 	</p>
 </div>
-
-<style lang="postcss">
-	.content {
-		width: 100%;
-		max-width: var(--column-width);
-		margin: var(--column-margin-top) auto 0 auto;
-	}
-</style>

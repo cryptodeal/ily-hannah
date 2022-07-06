@@ -14,6 +14,24 @@ body {
 	--date-input-width: 100%;
 	--date-picker-highlight-border: hsl(var(--p) / var(--tw-border-opacity));
 }
+
+/* Placeholder (at the top) */
+/*.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #ced4da;
+  pointer-events: none;
+  height: 0;
+}*/
+
+/* Placeholder (on every new line) */
+.ProseMirror .is-empty::before {
+	@apply text-base-content text-opacity-60;
+	content: attr(data-placeholder);
+	float: left;
+	pointer-events: none;
+	height: 0;
+}
 /* 
   Using my toast implementation submitted for
   addition to the DaisyUI library while Pull Request

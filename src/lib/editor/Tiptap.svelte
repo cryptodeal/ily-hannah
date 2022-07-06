@@ -11,7 +11,8 @@
 	import { Dropcursor } from '@tiptap/extension-dropcursor';
 	import { Image } from '@tiptap/extension-image';
 	import { ListItem } from '@tiptap/extension-list-item';
-	import { Document } from '@tiptap/extension-document';
+	import { TitledDoc } from '$lib/editor/extensions/TitledDoc';
+	import { Placeholder } from '@tiptap/extension-placeholder';
 	import { HardBreak } from '@tiptap/extension-hard-break';
 	import { BulletList } from '@tiptap/extension-bullet-list';
 	import { HorizontalRule } from '@tiptap/extension-horizontal-rule';
@@ -22,7 +23,7 @@
 	import { Italic } from '@tiptap/extension-italic';
 	import { Strike } from '@tiptap/extension-strike';
 	import { History } from '@tiptap/extension-history';
-	import Header1 from '~icons/fluent/text-header-1-20-filled';
+	import Info from '~icons/fluent/info-20-regular';
 	import Header2 from '~icons/fluent/text-header-2-20-filled';
 	import Header3 from '~icons/fluent/text-header-3-20-filled';
 	import BoldIcon from '~icons/fluent/text-bold-20-filled';
@@ -37,7 +38,6 @@
 	import Redo from '~icons/dashicons/redo';
 	import Save from '~icons/fluent/save-20-regular';
 	import PrintIcon from '~icons/fluent/print-20-filled';
-	import Edit from '~icons/fluent/code-text-edit-20-filled';
 	import TextAlignLeft from '~icons/fluent/text-align-left-20-filled';
 	import TextAlignCenter from '~icons/fluent/text-align-center-20-filled';
 	import TextAlignRight from '~icons/fluent/text-align-right-20-filled';
@@ -45,21 +45,20 @@
 	import ResetAlign from '~icons/fluent/arrow-reset-20-regular';
 	import ImageIcon from '~icons/fluent/image-20-filled';
 	import { createEditor, EditorContent, type Editor } from 'svelte-tiptap';
-	import type { JSONContent } from '@tiptap/core';
+	import type { Content } from '@tiptap/core';
 	import type { Readable, Writable } from 'svelte/store';
 	import type { CategoryDocument, UserDocument } from '$lib/_db/mongoose.gen';
 	import type { ContentObjectSelect } from '$lib/_db/controllers/content';
+	import Tooltip from '$lib/ux/Tooltip.svelte';
 
-	export let content: JSONContent | string = '',
+	export let content: Content,
 		_id: string | undefined = undefined,
-		title = '',
 		state = 'draft',
 		authors: UserDocument['_id'][] = [],
 		categories: CategoryDocument['_id'][] = [];
 	let editor: Readable<Editor>,
 		isApple = false,
-		showHotKeys = true,
-		editMeta = false;
+		showHotKeys = true;
 	const notifications = getNotificationsStore();
 
 	onMount(() => {
@@ -76,7 +75,7 @@
 				History,
 				Blockquote,
 				ListItem,
-				Document,
+				TitledDoc,
 				HardBreak,
 				HorizontalRule,
 				BulletList,
@@ -86,6 +85,15 @@
 				Image.configure({
 					HTMLAttributes: {
 						class: 'h-auto max-w-full mx-auto center'
+					}
+				}),
+				Placeholder.configure({
+					placeholder: ({ node }) => {
+						if (node.type.name === 'heading' && node.attrs.level === 1) {
+							return 'What’s the title?';
+						}
+
+						return '';
 					}
 				}),
 				Dropcursor,
@@ -100,7 +108,7 @@
 				attributes: {
 					id: 'el-tiptap-editor__content',
 					class:
-						'prose min-h-[300px] print:text-black print:border-none print:overflow-visible max-h-[70vh] sm:max-h-[75vh] lg:max-h-[80vh] overflow-scroll prose-sm sm:prose md:container mx-auto border-2 border-black rounded-b-md p-3 outline-none'
+						'prose min-h-[300px] print:text-black print:border-none print:bg-transparent print:overflow-visible max-h-[70vh] sm:max-h-[75vh] lg:max-h-[80vh] overflow-scroll prose-sm sm:prose md:container mx-auto border-2 border-black rounded-b-md p-3 outline-none'
 				}
 			},
 			content
@@ -113,7 +121,7 @@
 		const url = window.prompt('URL');
 		if (url) setImage(url);
 	};
-	const toggleHeading = (level: 1 | 2 | 3) => {
+	const toggleHeading = (level: 2 | 3) => {
 		return () => {
 			$editor.chain().focus().toggleHeading({ level }).run();
 		};
@@ -188,7 +196,7 @@
 			body: JSON.stringify({
 				_id,
 				state,
-				title,
+				title: tempTitle,
 				authors: authorData,
 				content,
 				categories
@@ -213,7 +221,6 @@
 				_id = content._id.toString();
 			});
 	}
-	$: if (!title || title === '') editMeta = true;
 	const undo = () => {
 		$editor.chain().focus().undo().run();
 	};
@@ -221,36 +228,25 @@
 		$editor.chain().focus().redo().run();
 	};
 	$: isActive = (name: string, attrs = {}) => $editor.isActive(name, attrs);
+
+	$: tempTitle = $editor?.view.state.doc.content.firstChild?.content.firstChild?.text || '';
 </script>
 
 {#if editor}
 	<div class="md:container mx-auto flex flex-col gap-10">
 		<div class="print:hidden card card-compact bg-primary text-primary-content shadow-xl">
 			<div class="card-body">
-				{#if editMeta}
-					<div class="form-control bg-primary text-primary-content">
-						<label for="editTitle" class="label">
-							<span class="card-title">Title</span>
-						</label>
-						<textarea
-							class="textarea bg-primary textarea-secondary text-primary-content placeholder:text-primary-content"
-							class:textarea-error={!title}
-							bind:value={title}
-							placeholder="Title"
-						/>
-					</div>
-				{:else}
-					<h1 class="card-title">{title}</h1>
-				{/if}
+				<div class="card-title">
+					Title
+					<Tooltip accent={true} right={true} dataTip="Edit Title in Document">
+						<Info class="stroke-accent h-5 w-5" />
+					</Tooltip>
+				</div>
+				<div class="min-h-[48px]">
+					<h1>{tempTitle}</h1>
+				</div>
+
 				<div class="card-actions justify-center">
-					<button
-						class="btn btn-accent gap-1"
-						class:btn-disabled={!title || title === ''}
-						on:click={() => (editMeta = !editMeta)}
-					>
-						<Edit class="w-6 h-6" />
-						Edit
-					</button>
 					<button
 						class="btn btn-secondary gap-1"
 						disabled={!$editor.can().undo()}
@@ -264,28 +260,12 @@
 			</div>
 		</div>
 		<div class="hidden print:text-center print:prose print:block">
-			<h1>{title}</h1>
+			<h1>{tempTitle}</h1>
 		</div>
 		<div
 			class="prose prose-sm print:hidden sm:prose md:container mx-auto border-black border-2 border-b-0 rounded-t-md p-2 flex flex-wrap gap-2"
 		>
 			<div class="btn-group flex-row">
-				<div
-					class="tooltip tooltip-primary"
-					data-tip="Heading 1{showHotKeys && isApple
-						? ' (CMD + Alt + 1)'
-						: showHotKeys && !isApple
-						? ' (CTRL + Alt + 1)'
-						: ''}"
-				>
-					<button
-						class="btn rounded-r-none btn-square btn-sm"
-						class:active={isActive('heading', { level: 1 })}
-						on:click={toggleHeading(1)}
-					>
-						<Header1 />
-					</button>
-				</div>
 				<div
 					class="tooltip tooltip-primary"
 					data-tip="Heading 2{showHotKeys && isApple
@@ -295,7 +275,7 @@
 						: ''}"
 				>
 					<button
-						class="btn rounded-l-none rounded-r-none btn-square btn-sm"
+						class="btn rounded-r-none btn-square btn-sm"
 						class:active={isActive('heading', { level: 2 })}
 						on:click={toggleHeading(2)}
 					>
@@ -574,7 +554,7 @@
 					: ''}"
 			>
 				<button
-					class="btn rounded-l-none btn-square btn-sm"
+					class="btn btn-square btn-sm"
 					disabled={!$editor.can().undo()}
 					use:shortcut={{ control: true, code: 'KeyS' }}
 					on:click={save}
@@ -591,7 +571,7 @@
 					: ''}"
 			>
 				<button
-					class="btn rounded-l-none btn-square btn-sm"
+					class="btn btn-square btn-sm"
 					use:shortcut={{ control: true, code: 'KeyP' }}
 					on:click={print}
 				>
