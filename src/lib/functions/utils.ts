@@ -29,6 +29,7 @@ export function resolve(
 
 export const genHTML = (content: JSONContent) =>
 	generateHTML(content, [
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		Heading as any,
 		BulletList,
 		Blockquote,

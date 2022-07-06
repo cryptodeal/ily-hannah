@@ -1,10 +1,9 @@
 import prntr from 'prntr';
-import css from '$lib/editor/styles.css?url';
 
-export function printEditorContent(htmlStr: string) {
+export function printEditorContent() {
 	prntr({
-		printable: htmlStr,
-		type: 'raw-html',
-		css: css
+		printable: 'el-tiptap-editor__content',
+		type: 'html',
+		scanStyles: true
 	});
 }

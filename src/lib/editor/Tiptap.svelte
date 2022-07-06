@@ -171,11 +171,8 @@
 	const exportJSON = () => {
 		return $editor.getJSON();
 	};
-	const getHTML = () => {
-		return $editor.getHTML();
-	};
 	const print = () => {
-		return printEditorContent(getHTML());
+		return printEditorContent();
 	};
 	const contentList: Writable<ContentObjectSelect[]> = getContext('content-list');
 	function save() {
