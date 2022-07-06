@@ -98,8 +98,9 @@
 			],
 			editorProps: {
 				attributes: {
+					id: 'el-tiptap-editor__content',
 					class:
-						'prose text-base el-tiptap-editor__content min-h-[300px] print:text-black print:border-none print:overflow-visible max-h-[70vh] sm:max-h-[75vh] lg:max-h-[80vh] overflow-scroll prose-sm sm:prose md:container mx-auto border-2 border-black rounded-b-md p-3 outline-none'
+						'prose min-h-[300px] print:text-black print:border-none print:overflow-visible max-h-[70vh] sm:max-h-[75vh] lg:max-h-[80vh] overflow-scroll prose-sm sm:prose md:container mx-auto border-2 border-black rounded-b-md p-3 outline-none'
 				}
 			},
 			content
@@ -108,12 +109,10 @@
 	const setImage = (src: string) => {
 		$editor.chain().focus().setImage({ src }).run();
 	};
-
 	const addImage = () => {
 		const url = window.prompt('URL');
 		if (url) setImage(url);
 	};
-
 	const toggleHeading = (level: 1 | 2 | 3) => {
 		return () => {
 			$editor.chain().focus().toggleHeading({ level }).run();
@@ -164,9 +163,11 @@
 	const exportJSON = () => {
 		return $editor.getJSON();
 	};
-
+	const getHTML = () => {
+		return $editor.getHTML();
+	};
 	const print = () => {
-		return printEditorContent($editor.view);
+		return printEditorContent(getHTML());
 	};
 	const contentList: Writable<ContentObjectSelect[]> = getContext('content-list');
 	function save() {

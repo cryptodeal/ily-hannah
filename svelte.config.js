@@ -1,6 +1,5 @@
 import adapter from '@sveltejs/adapter-vercel';
 import preprocess from 'svelte-preprocess';
-import Icons from 'unplugin-icons/vite';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -20,14 +19,7 @@ const config = {
 		})
 	],
 	kit: {
-		adapter: adapter({ external: ['@napi-rs/*'] }),
-		vite: {
-			plugins: [
-				Icons({
-					compiler: 'svelte'
-				})
-			]
-		}
+		adapter: adapter({ external: ['@napi-rs/*'] })
 	}
 };
 

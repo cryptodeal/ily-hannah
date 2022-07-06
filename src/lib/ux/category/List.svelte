@@ -5,7 +5,6 @@
 	import TFoot from '$lib/ux/tables/core/TFoot.svelte';
 	import Paginate from '../paginate/SPA.svelte';
 	import uniqolor from 'uniqolor';
-	import { invertColor } from '$lib/functions/utils';
 	import { getCategoryStore } from '$lib/data/stores/categories';
 	export let currentPage: number,
 		pageCount: number,
