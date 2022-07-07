@@ -98,7 +98,9 @@
 			<slot />
 		</div>
 		<footer
-			class="print:hidden fixed bottom-0 footer footer-center p-2 2xl:p-4 bg-base-300 text-base-content"
+			class="{segment === 'works'
+				? ' print:hidden'
+				: ''} fixed bottom-0 footer footer-center p-2 2xl:p-4 bg-base-300 text-base-content"
 		>
 			<div>
 				<p>Copyright © 2022 - All right reserved by Hannah Williams</p>

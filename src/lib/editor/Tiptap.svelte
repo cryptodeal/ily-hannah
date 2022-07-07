@@ -108,7 +108,7 @@
 				attributes: {
 					id: 'el-tiptap-editor__content',
 					class:
-						'prose min-h-[300px] text-base print:border-none print:bg-transparent print:text-black print:overflow-visible max-h-[70vh] sm:max-h-[75vh] lg:max-h-[80vh] overflow-scroll prose-sm sm:prose md:container mx-auto border-2 border-black rounded-b-md p-3 outline-none'
+						'prose min-h-[300px] text-base print:border-none print:max-h-content print:overflow-visible max-h-[70vh] sm:max-h-[75vh] lg:max-h-[80vh] overflow-scroll prose-sm sm:prose md:container mx-auto border-2 border-black rounded-b-md p-3 outline-none'
 				}
 			},
 			content
