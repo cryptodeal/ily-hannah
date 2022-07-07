@@ -43,6 +43,6 @@ module.exports = {
 	},
 	plugins: [typography, daisyui],
 	daisyui: {
-		themes: ['night', 'retro']
+		themes: ['night', 'retro', 'light']
 	}
 };

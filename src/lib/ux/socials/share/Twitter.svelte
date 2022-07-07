@@ -37,7 +37,13 @@
 	}
 </script>
 
-<a class="btn btn-sm gap-2" target="_blank" rel="noopener noreferrer" {href} on:click={open}>
+<a
+	class="btn btn-sm print:hidden gap-2"
+	target="_blank"
+	rel="noopener noreferrer"
+	{href}
+	on:click={open}
+>
 	<Twitter class="fill-current" />
 	Tweet
 </a>

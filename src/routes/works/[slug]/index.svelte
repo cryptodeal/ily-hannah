@@ -45,7 +45,19 @@
 		<ShareTwitter />
 	</div>
 </div>
-<div class="mx-auto prose max-w-4xl px-4 sm:px-6 lg:px-8 lg:max-w-1/2 2xl:prose-lg">
+
+<div class="print:hidden mx-auto prose max-w-4xl px-4 sm:px-6 lg:px-8 lg:max-w-1/2 2xl:prose-lg">
+	<h1 class="mb-2">{title}</h1>
+	{#if authors.length}
+		<h5>By: {authors}</h5>
+	{/if}
+	{@html content}
+</div>
+
+<div
+	data-theme="light"
+	class="hidden print:block mx-auto prose max-w-4xl px-4 sm:px-6 lg:px-8 lg:max-w-1/2 2xl:prose-lg"
+>
 	<h1 class="mb-2">{title}</h1>
 	{#if authors.length}
 		<h5>By: {authors}</h5>
