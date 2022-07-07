@@ -51,7 +51,7 @@
 	import type { ContentObjectSelect } from '$lib/_db/controllers/content';
 	import Tooltip from '$lib/ux/Tooltip.svelte';
 
-	export let content: Content,
+	export let content: Content = null,
 		_id: string | undefined = undefined,
 		state = 'draft',
 		authors: UserDocument['_id'][] = [],
@@ -235,7 +235,7 @@
 			<div class="card-body">
 				<div class="card-title">
 					Title
-					<Tooltip accent={true} right={true} dataTip="Edit Title in Document">
+					<Tooltip color={'accent'} position={'right'} dataTip="Edit Title in Document">
 						<Info class="stroke-accent h-5 w-5" />
 					</Tooltip>
 				</div>
@@ -263,9 +263,9 @@
 			class="prose prose-sm print:hidden sm:prose md:container mx-auto border-black border-2 border-b-0 rounded-t-md p-2 flex flex-wrap gap-2"
 		>
 			<div class="btn-group flex-row">
-				<div
-					class="tooltip tooltip-primary"
-					data-tip="Heading 2{showHotKeys && isApple
+				<Tooltip
+					color={'primary'}
+					dataTip="Heading 2{showHotKeys && isApple
 						? ' (CMD + Alt + 2)'
 						: showHotKeys && !isApple
 						? ' (CTRL + Alt + 2)'
@@ -278,10 +278,11 @@
 					>
 						<Header2 />
 					</button>
-				</div>
-				<div
-					class="tooltip tooltip-primary"
-					data-tip="Heading 3{showHotKeys && isApple
+				</Tooltip>
+
+				<Tooltip
+					color={'primary'}
+					dataTip="Heading 3{showHotKeys && isApple
 						? ' (CMD + Alt + 3)'
 						: showHotKeys && !isApple
 						? ' (CTRL + Alt + 3)'
@@ -294,11 +295,12 @@
 					>
 						<Header3 />
 					</button>
-				</div>
+				</Tooltip>
 			</div>
-			<div
-				class="tooltip tooltip-primary"
-				data-tip="Paragraph{showHotKeys && isApple
+
+			<Tooltip
+				color={'primary'}
+				dataTip="Paragraph{showHotKeys && isApple
 					? ' (CMD + Alt + 0)'
 					: showHotKeys && !isApple
 					? ' (CTRL + Alt + 0)'
@@ -311,10 +313,11 @@
 				>
 					<ParagraphIcon />
 				</button>
-			</div>
-			<div
-				class="tooltip tooltip-primary"
-				data-tip="Bold{showHotKeys && isApple
+			</Tooltip>
+
+			<Tooltip
+				color={'primary'}
+				dataTip="Bold{showHotKeys && isApple
 					? ' (CMD + B)'
 					: showHotKeys && !isApple
 					? ' (CTRL + B)'
@@ -323,10 +326,11 @@
 				<button class="btn btn-square btn-sm" class:active={isActive('bold')} on:click={toggleBold}>
 					<BoldIcon />
 				</button>
-			</div>
-			<div
-				class="tooltip tooltip-primary"
-				data-tip="Italic{showHotKeys && isApple
+			</Tooltip>
+
+			<Tooltip
+				color={'primary'}
+				dataTip="Italic{showHotKeys && isApple
 					? ' (CMD + I)'
 					: showHotKeys && !isApple
 					? ' (CTRL + I)'
@@ -339,10 +343,11 @@
 				>
 					<ItalicIcon />
 				</button>
-			</div>
-			<div
-				class="tooltip tooltip-primary"
-				data-tip="Blockquote{showHotKeys && isApple
+			</Tooltip>
+
+			<Tooltip
+				color={'primary'}
+				dataTip="Blockquote{showHotKeys && isApple
 					? ' (CMD + Shift + B)'
 					: showHotKeys && !isApple
 					? ' (CTRL + Shift + B)'
@@ -355,12 +360,13 @@
 				>
 					<BlockQuote />
 				</button>
-			</div>
+			</Tooltip>
+
 			<div class="flex gap-2 items-center">
 				<div class="btn-group flex-row">
-					<div
-						class="tooltip tooltip-primary"
-						data-tip="Bulleted List{showHotKeys && isApple
+					<Tooltip
+						color={'primary'}
+						dataTip="Bulleted List{showHotKeys && isApple
 							? ' (CMD + Shift + 8)'
 							: showHotKeys && !isApple
 							? ' (CTRL + Shift + 8)'
@@ -373,10 +379,11 @@
 						>
 							<BulletListIcon />
 						</button>
-					</div>
-					<div
-						class="tooltip tooltip-primary"
-						data-tip="Ordered List{showHotKeys && isApple
+					</Tooltip>
+
+					<Tooltip
+						color={'primary'}
+						dataTip="Ordered List{showHotKeys && isApple
 							? ' (CMD + Shift + 7)'
 							: showHotKeys && !isApple
 							? ' (CTRL + Shift + 7)'
@@ -389,13 +396,10 @@
 						>
 							<OrderedListIcon />
 						</button>
-					</div>
+					</Tooltip>
 				</div>
 				<div class="btn-group flex-row">
-					<div
-						class="tooltip tooltip-primary"
-						data-tip="Split List Item{showHotKeys ? ' (Enter)' : ''}"
-					>
+					<Tooltip color={'primary'} dataTip="Split List Item{showHotKeys ? ' (Enter)' : ''}">
 						<button
 							class="btn rounded-r-none btn-square btn-sm"
 							class:btn-disabled={!$editor.can().splitListItem('listItem')}
@@ -403,11 +407,9 @@
 						>
 							<SplitList class="rotate-90" />
 						</button>
-					</div>
-					<div
-						class="tooltip tooltip-primary"
-						data-tip="Sink List Item{showHotKeys ? ' (Tab)' : ''}"
-					>
+					</Tooltip>
+
+					<Tooltip color={'primary'} dataTip="Sink List Item{showHotKeys ? ' (Tab)' : ''}">
 						<button
 							class="btn rounded-l-none rounded-r-none btn-square btn-sm"
 							class:btn-disabled={!$editor.can().sinkListItem('listItem')}
@@ -415,11 +417,9 @@
 						>
 							<Indent />
 						</button>
-					</div>
-					<div
-						class="tooltip tooltip-primary"
-						data-tip="Lift List Item{showHotKeys ? ' (Shift + Tab)' : ''}"
-					>
+					</Tooltip>
+
+					<Tooltip color={'primary'} dataTip="Lift List Item{showHotKeys ? ' (Shift + Tab)' : ''}">
 						<button
 							class="btn rounded-l-none btn-square btn-sm"
 							class:btn-disabled={!$editor.can().liftListItem('listItem')}
@@ -427,14 +427,14 @@
 						>
 							<Indent class="rotate-180" />
 						</button>
-					</div>
+					</Tooltip>
 				</div>
 			</div>
 
 			<div class="btn-group flex-row">
-				<div
-					class="tooltip tooltip-primary"
-					data-tip="Align Left{showHotKeys && isApple
+				<Tooltip
+					color={'primary'}
+					dataTip="Align Left{showHotKeys && isApple
 						? ' (CMD + Shift + L)'
 						: showHotKeys && !isApple
 						? ' (CTRL + Shift + L)'
@@ -447,10 +447,11 @@
 					>
 						<TextAlignLeft />
 					</button>
-				</div>
-				<div
-					class="tooltip tooltip-primary"
-					data-tip="Align Center{showHotKeys && isApple
+				</Tooltip>
+
+				<Tooltip
+					color={'primary'}
+					dataTip="Align Center{showHotKeys && isApple
 						? ' (CMD + Shift + E)'
 						: showHotKeys && !isApple
 						? ' (CTRL + Shift + E)'
@@ -463,10 +464,11 @@
 					>
 						<TextAlignCenter />
 					</button>
-				</div>
-				<div
-					class="tooltip tooltip-primary"
-					data-tip="Align Right{showHotKeys && isApple
+				</Tooltip>
+
+				<Tooltip
+					color={'primary'}
+					dataTip="Align Right{showHotKeys && isApple
 						? ' (CMD + Shift + R)'
 						: showHotKeys && !isApple
 						? ' (CTRL + Shift + R)'
@@ -479,10 +481,11 @@
 					>
 						<TextAlignRight />
 					</button>
-				</div>
-				<div
-					class="tooltip tooltip-primary"
-					data-tip="Align Justify{showHotKeys && isApple
+				</Tooltip>
+
+				<Tooltip
+					color={'primary'}
+					dataTip="Align Justify{showHotKeys && isApple
 						? ' (CMD + Shift + J)'
 						: showHotKeys && !isApple
 						? ' (CTRL + Shift + J)'
@@ -495,23 +498,25 @@
 					>
 						<TextAlignJustify />
 					</button>
-				</div>
+				</Tooltip>
 
-				<div class="tooltip tooltip-primary" data-tip="Reset Alignment">
-					<button class="ml-2 btn btn-square btn-sm" on:click={unsetTextAlign}>
+				<Tooltip color={'primary'} dataTip="Reset Alignment">
+					<button class="ml-1 btn btn-square btn-sm" on:click={unsetTextAlign}>
 						<ResetAlign />
 					</button>
-				</div>
+				</Tooltip>
 			</div>
-			<div class="tooltip tooltip-primary" data-tip="Add Image">
+
+			<Tooltip color={'primary'} dataTip="Add Image">
 				<button class="btn btn-square btn-sm" on:click={addImage}>
 					<ImageIcon />
 				</button>
-			</div>
+			</Tooltip>
+
 			<div class="btn-group flex-row">
-				<div
-					class="tooltip tooltip-primary"
-					data-tip="Undo{showHotKeys && isApple
+				<Tooltip
+					color={'primary'}
+					dataTip="Undo{showHotKeys && isApple
 						? ' (CMD + Z)'
 						: showHotKeys && !isApple
 						? ' (CTRL + Z)'
@@ -524,10 +529,11 @@
 					>
 						<Undo />
 					</button>
-				</div>
-				<div
-					class="tooltip tooltip-primary"
-					data-tip="Redo{showHotKeys && isApple
+				</Tooltip>
+
+				<Tooltip
+					color={'primary'}
+					dataTip="Redo{showHotKeys && isApple
 						? ' (Shift + CMD + Z)'
 						: showHotKeys && !isApple
 						? ' (Shift + CTRL + Z)'
@@ -540,11 +546,12 @@
 					>
 						<Redo />
 					</button>
-				</div>
+				</Tooltip>
 			</div>
-			<div
-				class="tooltip tooltip-primary"
-				data-tip="Save{showHotKeys && isApple
+
+			<Tooltip
+				color={'primary'}
+				dataTip="Save{showHotKeys && isApple
 					? ' (CMD + S)'
 					: showHotKeys && !isApple
 					? ' (CTRL + S)'
@@ -558,10 +565,11 @@
 				>
 					<Save />
 				</button>
-			</div>
-			<div
-				class="tooltip tooltip-primary"
-				data-tip="Print{showHotKeys && isApple
+			</Tooltip>
+
+			<Tooltip
+				color={'primary'}
+				dataTip="Print{showHotKeys && isApple
 					? ' (CMD + P)'
 					: showHotKeys && !isApple
 					? ' (CTRL + P)'
@@ -574,7 +582,7 @@
 				>
 					<PrintIcon />
 				</button>
-			</div>
+			</Tooltip>
 		</div>
 	</div>
 {/if}

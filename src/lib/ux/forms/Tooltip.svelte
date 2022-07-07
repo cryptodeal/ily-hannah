@@ -1,8 +1,14 @@
 <script lang="ts">
+	import Tooltip from '$lib/ux/Tooltip.svelte';
 	export let errors: null | string[];
 	$: open = errors && errors.length ? true : false;
 </script>
 
-<div class="tooltip-error" class:tooltip-open={open} class:tooltip={errors} data-tip={errors}>
+<Tooltip
+	color={'error'}
+	hide={errors ? false : true}
+	{open}
+	dataTip={Array.isArray(errors) ? errors.join('; ') : errors}
+>
 	<slot />
-</div>
+</Tooltip>

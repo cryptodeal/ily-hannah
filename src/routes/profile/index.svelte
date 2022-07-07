@@ -226,7 +226,7 @@
 									<IconPerson class="mr-2 fill-current" />
 									<span class="tracking-wide">About</span>
 								</div>
-								<TooltipReg primary={edit} dataTip={edit ? 'Save' : 'Edit'}>
+								<TooltipReg color={edit ? 'primary' : undefined} dataTip={edit ? 'Save' : 'Edit'}>
 									<button
 										class="btn btn-sm gap-2"
 										class:btn-disabled={edit && !$isValid}
