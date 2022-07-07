@@ -16,10 +16,14 @@ export const get: RequestHandler<GetParams> = async ({ params }) => {
 		author
 	} = contentData;
 	/* programatically remove title from doc for rendering */
+	let titleAlign = 'left';
 	if (contentData.content.extended?.content?.content) {
 		const { content } = contentData.content.extended.content;
 		if (content.findIndex((x: any) => x.attrs.level === 1 && x.type === 'heading') === 0) {
-			content.splice(0, 1);
+			const [{ attrs }] = content.splice(0, 1);
+			if (attrs?.textAlign) {
+				titleAlign = attrs.textAlign;
+			}
 		}
 	}
 
@@ -29,6 +33,7 @@ export const get: RequestHandler<GetParams> = async ({ params }) => {
 		return {
 			body: {
 				title,
+				titleAlign,
 				state,
 				brief,
 				author,

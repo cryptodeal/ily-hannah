@@ -6,12 +6,13 @@
 		const { slug } = params;
 		const url = `/works/${slug}.json`;
 		const res = await fetch(url);
-		const { title, state, brief, author, content } = await res.json();
+		const { title, titleAlign, state, brief, author, content } = await res.json();
 
 		//console.log(userData);
 		return {
 			props: {
 				title,
+				titleAlign,
 				state,
 				brief,
 				author,
@@ -24,8 +25,15 @@
 <script lang="ts">
 	import ShareTwitter from '$lib/ux/socials/share/Twitter.svelte';
 	import { MetaTags } from 'svelte-meta-tags';
-	export let title: string, brief: string, author: UserDocument[], content: string;
-
+	export let title: string,
+		titleAlign: string,
+		brief: string,
+		author: UserDocument[],
+		content: string;
+	$: right = titleAlign === 'right';
+	$: left = titleAlign === 'left';
+	$: center = titleAlign === 'center';
+	$: justify = titleAlign === 'justify';
 	const authors = author
 		.filter(({ name }) => name?.first && name?.last)
 		.map(({ name }) => `${name.first} ${name.last}`)
@@ -47,7 +55,15 @@
 </div>
 
 <div class="print:hidden mx-auto prose max-w-4xl px-4 sm:px-6 lg:px-8 lg:max-w-1/2 2xl:prose-lg">
-	<h1 class="mb-2">{title}</h1>
+	<h1
+		class="mb-2"
+		class:text-right={right}
+		class:text-left={left}
+		class:text-center={center}
+		class:text-justify={justify}
+	>
+		{title}
+	</h1>
 	{#if authors.length}
 		<h5>By: {authors}</h5>
 	{/if}
