@@ -175,7 +175,7 @@ div.multiselect {
 }
 
 div.multiselect > ul.options {
-	@apply max-h-20 bg-base-100;
+	@apply bg-base-100;
 }
 
 div.multiselect > ul.selected {

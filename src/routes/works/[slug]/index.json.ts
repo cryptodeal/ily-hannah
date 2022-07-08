@@ -19,7 +19,7 @@ export const get: RequestHandler<GetParams> = async ({ params }) => {
 	let titleAlign = 'left';
 	if (contentData.content.extended?.content?.content) {
 		const { content } = contentData.content.extended.content;
-		if (content.findIndex((x: any) => x.attrs.level === 1 && x.type === 'heading') === 0) {
+		if (content.findIndex((x: any) => x.attrs?.level === 1 && x.type === 'heading') === 0) {
 			const [{ attrs }] = content.splice(0, 1);
 			if (attrs?.textAlign) {
 				titleAlign = attrs.textAlign;

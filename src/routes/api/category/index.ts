@@ -8,17 +8,32 @@ import { getPaginatedCats } from '$lib/_db/controllers/category';
 import type { CategoryObject } from '$lib/_db/mongoose.gen';
 
 export const get: RequestHandler = async ({ url }) => {
-	const page = url.searchParams.get('pg') || 1;
-	const data = await getPaginatedCats(Number(page));
-	if (data) {
+	if (url.searchParams.get('type') === 'all') {
+		const categories = await Category.getCatList();
+		if (categories) {
+			return {
+				body: {
+					categories
+				}
+			};
+		}
 		return {
-			body: data
+			/* TODO: determine best response if no categories */
+			status: 500
+		};
+	} else {
+		const page = url.searchParams.get('pg') || 1;
+		const data = await getPaginatedCats(Number(page));
+		if (data) {
+			return {
+				body: data
+			};
+		}
+		return {
+			/* TODO: determine best response if no categories */
+			status: 500
 		};
 	}
-	return {
-		/* TODO: determine best response if no categories */
-		status: 500
-	};
 };
 
 export const post: RequestHandler = async ({ request }) => {

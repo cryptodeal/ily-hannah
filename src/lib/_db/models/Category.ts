@@ -1,5 +1,10 @@
 import mongoose from 'mongoose';
-import type { CategoryDocument, CategoryModel, CategorySchema } from '../mongoose.gen';
+import type {
+	CategoryDocument,
+	CategoryModel,
+	CategoryObject,
+	CategorySchema
+} from '../mongoose.gen';
 
 const CategorySchema: CategorySchema = new mongoose.Schema({
 	name: { type: String, unique: true, required: true, index: true }
@@ -7,7 +12,14 @@ const CategorySchema: CategorySchema = new mongoose.Schema({
 
 CategorySchema.statics = {
 	getCatList() {
-		return this.find().sort({ name: 1 }).lean().exec();
+		return this.find()
+			.sort({ name: 1 })
+			.lean()
+			.exec()
+			.then((cats: CategoryObject[] | null) => {
+				if (!cats) throw new Error('No categories found');
+				return cats;
+			});
 	},
 	addOrUpdateCat(name: string, id?: CategoryDocument['_id']) {
 		if (id) {

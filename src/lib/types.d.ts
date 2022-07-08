@@ -1,3 +1,6 @@
+import type { CategoryDocument } from './_db/mongoose.gen';
+import type { ObjectOption } from 'svelte-multiselect';
+
 export interface NewUserFormData {
 	userId: Types.ObjectId;
 	name: {
@@ -55,4 +58,9 @@ export type APICatPOST = {
 	id?: string;
 	name: string;
 	type: number;
+};
+
+export type CatObjectOption = ObjectOption & {
+	label: string;
+	value: CategoryDocument['_id'];
 };

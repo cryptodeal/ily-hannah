@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Table from '$lib/ux/tables/core/Table.svelte';
 	import THead from '$lib/ux/tables/core/THead.svelte';
+	import Badge from '$lib/ux/category/Badge.svelte';
 	import type { IColHeader } from '$lib/ux/tables/types';
 	import TFoot from '$lib/ux/tables/core/TFoot.svelte';
 	import Paginate from '../paginate/SPA.svelte';
@@ -20,7 +21,7 @@
 	<THead slot="thead" {colHeaders} />
 	<svelte:fragment slot="tbody">
 		{#each $categories as { name, checked, _id }, i}
-			{@const badge = uniqolor(_id.toString(), { format: 'hsl' })}
+			{@const { color, isLight } = uniqolor(_id.toString(), { format: 'hsl' })}
 			<tr class="hover">
 				<!-- Display Player Name -->
 				<th>
@@ -35,17 +36,7 @@
 					</label>
 				</th>
 				<td>
-					<div
-						class="catBadge badge"
-						class:text-primary-content={badge.isLight}
-						class:text-neutral-content={!badge.isLight}
-						style:--bgColor={badge.color}
-					>
-						{name}
-					</div>
-				</td>
-				<td>
-					{badge.isLight}
+					<Badge {color} {isLight} {name} />
 				</td>
 				<td>
 					<button class="btn btn-sm"> Edit </button>
@@ -55,6 +46,7 @@
 	</svelte:fragment>
 	<TFoot slot="tfoot" {colHeaders} />
 </Table>
+
 <Paginate
 	fetchNext={nextPaginated}
 	fetchPrev={prevPaginated}
@@ -63,9 +55,3 @@
 	{hasNextPage}
 	{hasPrevPage}
 />
-
-<style lang="postcss">
-	.catBadge {
-		background-color: var(--bgColor);
-	}
-</style>
