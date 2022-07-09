@@ -1,8 +1,10 @@
 import { Content } from '$lib/_db/models/Content';
+import { set_attributes } from 'svelte/internal';
 import type {
 	UserDocument,
 	ContentObject,
 	ContentDocument,
+	CategoryDocument,
 	PopulatedDocument
 } from '../mongoose.gen';
 
@@ -67,17 +69,31 @@ export const getPaginatedContent = (
 export const getPubPaginatedContent = (
 	page = 1,
 	limit = 10,
-	author?: UserDocument['_id']
+	query: {
+		author?: UserDocument['_id'][] | UserDocument['_id'];
+		state?: ContentDocument['state'];
+		categories?: CategoryDocument['_id'][] | CategoryDocument['_id'];
+	} = {}
 ): Promise<PaginatedContentData> => {
+	let { state } = query;
+	const { author, categories } = query;
+	if (!state) state = 'published';
+	const queryObj = Object.assign({}, { state });
+	if (author)
+		Object.assign(queryObj, { author: { $in: Array.isArray(author) ? author : [author] } });
+	if (categories)
+		Object.assign(queryObj, {
+			categories: { $elemMatch: { $in: Array.isArray(categories) ? categories : [categories] } }
+		});
 	return Promise.all([
-		Content.find({ state: 'published' })
+		Content.find(queryObj)
 			.select('-_id title slug author publishedDate')
 			.sort('publishedDate')
 			.paginateQuery(page - 1, limit)
 			.populate('author', 'name.first name.last')
 			.lean()
 			.exec(),
-		Content.countDocuments(!author ? {} : { author }).exec()
+		Content.countDocuments(queryObj).exec()
 	]).then((res: [ContentObject[], number]) => {
 		const pageCount = Math.ceil(res[1] / limit);
 		return {

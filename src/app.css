@@ -171,19 +171,19 @@ nav a[aria-current]::after {
 }
 
 div.multiselect {
-	@apply form-field;
-}
-
-div.multiselect > ul.options {
-	@apply bg-base-100;
+	@apply form-field w-[20rem];
 }
 
 div.multiselect > ul.selected {
-	@apply h-full overflow-scroll text-base;
+	@apply overflow-scroll w-full h-full text-base;
+}
+
+div.multiselect > ul.options {
+	@apply h-20 text-base bg-base-100;
 }
 
 .form-field {
-	@apply input input-bordered input-primary w-full max-w-xs text-base;
+	@apply input input-bordered input-primary max-w-xs text-base;
 }
 
 .form-error {
