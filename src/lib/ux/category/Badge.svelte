@@ -4,8 +4,8 @@
 
 <div
 	class="catBadge badge"
-	class:text-primary-content={isLight}
-	class:text-neutral-content={!isLight}
+	class:text-white={!isLight}
+	class:text-black={isLight}
 	style:--bgColor={color}
 >
 	{name}

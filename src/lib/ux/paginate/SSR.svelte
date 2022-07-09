@@ -2,7 +2,8 @@
 	export let page = 1,
 		pageCount: number,
 		prev: number | undefined,
-		next: number | undefined;
+		next: number | undefined,
+		params: string | undefined = undefined;
 </script>
 
 <div class="flex justify-center">
@@ -21,7 +22,7 @@
 				class="btn btn-sm rounded-l-none"
 				class:btn-disabled={!next}
 				sveltekit:prefetch
-				href="/works?pg={next}"
+				href="/works?pg={next}{params ? `&${params}` : ''}"
 			>
 				»
 			</a>

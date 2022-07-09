@@ -182,6 +182,10 @@ div.multiselect > ul.options {
 	@apply h-20 text-base bg-base-100;
 }
 
+div.multiselect input::placeholder {
+	@apply text-base-content;
+}
+
 .form-field {
 	@apply input input-bordered input-primary max-w-xs text-base;
 }

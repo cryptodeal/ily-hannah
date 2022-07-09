@@ -144,6 +144,18 @@ ContentSchema.statics = {
 		}
 	},
 
+	updateCats(id: ContentDocument['_id'], categories: CategoryDocument['_id'][]) {
+		const update = { categories };
+		const opts = { new: true };
+		const filter = { _id: id };
+		return this.findOneAndUpdate(filter, update, opts)
+			.exec()
+			.then((doc) => {
+				if (!doc) throw new Error(`Error: Failed to find Content doc with id: ${id.toString()}`);
+				return doc.toObject() as ContentObjectSelect;
+			});
+	},
+
 	findBySlug(slug: string): Promise<PopulatedDocument<ContentDocument, 'content.extended'>> {
 		return this.findOne({ slug })
 			.populate('content.extended')

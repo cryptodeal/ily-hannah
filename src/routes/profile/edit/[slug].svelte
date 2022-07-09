@@ -29,6 +29,7 @@
 	export let contentData: PopulatedDocument<ContentDocument, 'content.extended'>;
 	const content: JSONContent = contentData.content.extended?.content;
 	const _id: string | undefined = contentData._id?.toString();
+	const categories = contentData.categories;
 	const title: string | undefined = contentData.title;
 	const state: string | undefined = contentData.state;
 </script>
@@ -41,5 +42,5 @@
 			<li>{title}</li>
 		</ul>
 	</div>
-	<Tiptap {content} {_id} {state} />
+	<Tiptap {content} {_id} {state} {categories} />
 </div>

@@ -42,7 +42,10 @@ export type PublishContentData = {
 	id: string[];
 	state: 'draft' | 'published' | 'archived';
 };
-
+export type CatUpdateData = {
+	_id: ContentDocument['_id'];
+	categories: string[];
+};
 export type SaveContentData = {
 	state: 'draft' | 'published' | 'archived';
 	authors: UserDocument['_id'][];

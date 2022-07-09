@@ -1,5 +1,4 @@
 import { Content } from '$lib/_db/models/Content';
-import { set_attributes } from 'svelte/internal';
 import type {
 	UserDocument,
 	ContentObject,

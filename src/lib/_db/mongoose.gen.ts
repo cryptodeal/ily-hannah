@@ -178,6 +178,11 @@ export type ContentStatics = {
 		id: ContentDocument['_id'][],
 		state?: 'draft' | 'published' | 'archived'
 	) => any;
+	updateCats: (
+		this: ContentModel,
+		id: ContentDocument['_id'],
+		categories: CategoryDocument['_id'][]
+	) => any;
 	findBySlug: (
 		this: ContentModel,
 		slug: string

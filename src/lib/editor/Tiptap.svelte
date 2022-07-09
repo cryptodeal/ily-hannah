@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { getContext, onMount } from 'svelte';
+	import { writable } from 'svelte/store';
+	import { getCategoryStore } from '$lib/data/stores/baseCategories';
+	import type { CatObjectOption } from '$lib/types';
 	import { printEditorContent } from './utils/print';
 	import { session } from '$app/stores';
 	import { getNotificationsStore } from '$lib/data/stores/notifs';
@@ -47,19 +50,22 @@
 	import { createEditor, EditorContent, type Editor } from 'svelte-tiptap';
 	import type { Content } from '@tiptap/core';
 	import type { Readable, Writable } from 'svelte/store';
-	import type { CategoryDocument, UserDocument } from '$lib/_db/mongoose.gen';
+	import type { CategoryDocument, CategoryObject, UserDocument } from '$lib/_db/mongoose.gen';
 	import type { ContentObjectSelect } from '$lib/_db/controllers/content';
 	import Tooltip from '$lib/ux/Tooltip.svelte';
+	import CatSelect from './utils/CatSelect.svelte';
 
 	export let content: Content = null,
 		_id: string | undefined = undefined,
 		state = 'draft',
 		authors: UserDocument['_id'][] = [],
-		categories: CategoryDocument['_id'][] = [];
+		categories: (CategoryDocument['_id'] | CategoryDocument)[] = [];
 	let editor: Readable<Editor>,
 		isApple = false,
 		showHotKeys = true;
 	const notifications = getNotificationsStore();
+	const catList = getCategoryStore();
+	const selectedCats = writable<CatObjectOption[]>([]);
 
 	onMount(() => {
 		const {
@@ -113,7 +119,47 @@
 			},
 			content
 		});
+		fetch(`/api/category?type=all`)
+			.then((res) => res.json())
+			.then((data: { categories: CategoryObject[] }) => {
+				const { categories: cats } = data;
+				catList.set(cats.map((c) => ({ label: c.name, value: c._id })));
+				const selected = cats.filter(
+					(c) =>
+						categories.filter((cat) =>
+							cat._id
+								? cat._id.toString() === c._id.toString()
+								: cat.toString() === c._id.toString()
+						).length
+				);
+				console.log(selected);
+				selectedCats.set(selected.map((c) => ({ label: c.name, value: c._id })));
+			});
 	});
+	const saveCats = () => {
+		return fetch('/api/content', {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				_id,
+				categories: $selectedCats.map((c) => c.value.toString())
+			})
+		}).then((res) => {
+			if (res.status === 200) {
+				notifications.success('Whoo; Saved changes to categories! 😄');
+				return res.json();
+			} else if (res.status === 401) {
+				notifications.error('Authenticate yourself, stranger! 😤');
+				return false;
+			} else {
+				notifications.error('Error; failed to save categories... 😵');
+				return false;
+			}
+		});
+	};
 	const setImage = (src: string) => {
 		$editor.chain().focus().setImage({ src }).run();
 	};
@@ -239,8 +285,12 @@
 						<Info class="stroke-accent h-5 w-5" />
 					</Tooltip>
 				</div>
-				<div class="min-h-[48px]">
+				<div class="min-h-[48px] card-body">
 					<h1>{tempTitle}</h1>
+				</div>
+				<div class="card-title">Categories</div>
+				<div class="min-h-[48px] card-body">
+					<CatSelect save={saveCats} {selectedCats} />
 				</div>
 
 				<div class="card-actions justify-center">

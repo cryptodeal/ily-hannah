@@ -7,21 +7,24 @@
 
 		const res = await fetch(uri);
 		const { contentData } = await res.json();
-		const { currentPage, pageCount, prev, next, itemList } = contentData;
+		const { currentPage, pageCount, prev, hasNextPage, hasPrevPage, next, itemList } = contentData;
 
 		//console.log(userData);
 		return {
-			props: { currentPage, pageCount, prev, next, itemList }
+			props: { currentPage, pageCount, hasNextPage, hasPrevPage, prev, next, itemList }
 		};
 	};
 </script>
 
 <script lang="ts">
 	import { writable } from 'svelte/store';
+	import { goto } from '$app/navigation';
 	import CatSelect from '$lib/ux/category/Select/index.svelte';
 	import type { CatObjectOption } from '$lib/types';
-	import Paginate from '$lib/ux/paginate/SSR.svelte';
+	import SSRPaginate from '$lib/ux/paginate/SSR.svelte';
+	import SPAPaginate from '$lib/ux/paginate/SPA.svelte';
 	import Filter from '~icons/fluent/filter-20-regular';
+	import ResetFilters from '~icons/fluent/filter-dismiss-20-regular';
 	import { onMount } from 'svelte';
 	import { MetaTags } from 'svelte-meta-tags';
 	import type { CategoryObject, ContentDocument, PopulatedDocument } from '$lib/_db/mongoose.gen';
@@ -32,33 +35,79 @@
 		pageCount: number,
 		prev: number,
 		next: number,
+		hasNextPage: boolean,
+		hasPrevPage: boolean,
 		itemList: PopulatedDocument<PopulatedDocument<ContentDocument, 'content.extended'>, 'author'>[];
 	const categories = getCategoryStore();
+	let checked = false,
+		params: URLSearchParams | undefined;
 
 	const selectedCats = writable<CatObjectOption[]>([]);
 	$: sortedSelectCats = $selectedCats.slice().sort((a, b) => (a.label > b.label ? 1 : -1));
-
+	$: if (!$selectedCats.length) params = undefined;
 	const loadCats = () => {
-		const params = new URLSearchParams();
+		checked = !checked;
+		params = new URLSearchParams();
 		$selectedCats.map((c) => {
-			params.append('cat', c.value.toString());
+			if (params) params.append('cat', c.value.toString());
 		});
 		fetch(`/works.json?${params.toString()}`)
 			//.then(res => res.json)
 			.then((res) => res.json())
 			.then((res) => {
-				const { contentData } = res;
 				const {
-					currentPage: tempCurrent,
-					pageCount: tempCount,
+					currentPage: tempCurrentPage,
+					hasPrevPage: tempHasPrev,
+					hasNextPage: tempHasNext,
+					pageCount: tempPgCount,
 					prev: tempPrev,
 					next: tempNext,
 					itemList: tempItems
-				} = contentData;
-				console.log(tempItems);
+				} = res.contentData;
+				itemList = tempItems;
+				currentPage = tempCurrentPage;
+				hasPrevPage = tempHasPrev;
+				hasNextPage = tempHasNext;
+				pageCount = tempPgCount;
+				prev = tempPrev;
+				next = tempNext;
 			});
 	};
 
+	const loadContent = (page?: number) => {
+		if (!page) return;
+		return fetch(`/works.json?pg=${page}&${params?.toString()}`)
+			.then((res) => res.json())
+			.then((res) => {
+				const {
+					currentPage: tempCurrentPage,
+					hasPrevPage: tempHasPrev,
+					hasNextPage: tempHasNext,
+					pageCount: tempPgCount,
+					prev: tempPrev,
+					next: tempNext,
+					itemList: tempItems
+				} = res.contentData;
+				itemList = tempItems;
+				currentPage = tempCurrentPage;
+				hasPrevPage = tempHasPrev;
+				hasNextPage = tempHasNext;
+				pageCount = tempPgCount;
+				prev = tempPrev;
+				next = tempNext;
+			});
+	};
+	const prevPaginated = () => {
+		return loadContent(prev);
+	};
+
+	const nextPaginated = () => {
+		return loadContent(next);
+	};
+	const clearFilters = () => {
+		selectedCats.set([]);
+		goto('/works');
+	};
 	onMount(async () => {
 		return fetch(`/api/category?type=all`)
 			.then((res) => res.json())
@@ -74,25 +123,36 @@
 	description="Index of poems, short stories, and other Musings by Hannah Williams."
 />
 
-<div class="flex flex-col items-center justify-center">
-	<!--
-    <div class="grid grid-cols-4">
-      {#each sortedSelectCats as { value, label: name }}
-        {@const { color, isLight } = uniqolor(value.toString(), { format: 'hsl' })}
-        <Badge {color} {isLight} {name}/> 
-      {/each}
-    </div>
-  -->
-	<div class="collapse justify-center">
-		<input type="checkbox" />
-		<div class="collapse-title">
-			<div class="w-[20rem] inline-flex text-xl font-medium items-center justify-center gap-4">
-				<span>Filter</span>
-				<Filter />
+<div class="flex flex-col">
+	<div class="flex-col sm:container items-start sm:flex sm:flex-row mx-auto">
+		<div class="flex gap-10 justify-self-center sm:w-1/3 sm:justify-self-start">
+			<button class="btn" on:click={clearFilters} class:btn-disabled={!$selectedCats.length}
+				><ResetFilters class="h-6 w-6" /></button
+			>
+			<div class="flex-wrap gap-2 gap-y-4 w-[20rem]">
+				{#if $selectedCats.length}
+					<h6>Category Filters:</h6>
+				{/if}
+				{#each sortedSelectCats as { value, label: name }}
+					{@const { color, isLight } = uniqolor(value.toString(), { format: 'hsl' })}
+					<Badge {color} {isLight} {name} />
+				{/each}
 			</div>
 		</div>
-		<div class="collapse-content">
-			<CatSelect {loadCats} {selectedCats} />
+
+		<div class="collapse justify-self-center sm:justify-self-start">
+			<input type="checkbox" bind:checked />
+			<div class="collapse-title py-0">
+				<div
+					class="btn btn-wide btn-ghost inline-flex text-xl font-medium items-center justify-center gap-4"
+				>
+					<span>Filter</span>
+					<Filter />
+				</div>
+			</div>
+			<div class="collapse-content pt-0 w-full justify-center">
+				<CatSelect {loadCats} {selectedCats} />
+			</div>
 		</div>
 	</div>
 	<div
@@ -108,10 +168,24 @@
 					<h5 class="ml-4">By: {authors.join(', ')}</h5>
 				{/if}
 			</div>
+		{:else}
+			<h5>No works matching requested filter(s)</h5>
 		{/each}
 	</div>
 </div>
-
-<div class="left-0 right-0 fixed top-[80vh]">
-	<Paginate {prev} {next} page={currentPage} {pageCount} />
-</div>
+{#if !params}
+	<div class="left-0 right-0 fixed top-[80vh]">
+		<SSRPaginate {prev} {next} page={currentPage} {pageCount} />
+	</div>
+{:else}
+	<div class="left-0 right-0 fixed top-[80vh]">
+		<SPAPaginate
+			fetchNext={nextPaginated}
+			fetchPrev={prevPaginated}
+			page={currentPage}
+			{pageCount}
+			{hasNextPage}
+			{hasPrevPage}
+		/>
+	</div>
+{/if}
