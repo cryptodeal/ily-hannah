@@ -24,7 +24,6 @@
 	import SSRPaginate from '$lib/ux/paginate/SSR.svelte';
 	import SPAPaginate from '$lib/ux/paginate/SPA.svelte';
 	import Filter from '~icons/fluent/filter-20-regular';
-	import ResetFilters from '~icons/fluent/filter-dismiss-20-regular';
 	import { onMount } from 'svelte';
 	import { MetaTags } from 'svelte-meta-tags';
 	import type { CategoryObject, ContentDocument, PopulatedDocument } from '$lib/_db/mongoose.gen';
@@ -105,6 +104,7 @@
 		return loadContent(next);
 	};
 	const clearFilters = () => {
+		checked = !checked;
 		selectedCats.set([]);
 		goto('/works');
 	};
@@ -123,38 +123,36 @@
 	description="Index of poems, short stories, and other Musings by Hannah Williams."
 />
 
-<div class="flex flex-col">
-	<div class="flex-col sm:container items-start sm:flex sm:flex-row mx-auto">
-		<div class="flex gap-10 justify-self-center sm:w-1/3 sm:justify-self-start">
-			<button class="btn" on:click={clearFilters} class:btn-disabled={!$selectedCats.length}
-				><ResetFilters class="h-6 w-6" /></button
-			>
-			<div class="flex-wrap gap-2 gap-y-4 w-[20rem]">
-				{#if $selectedCats.length}
-					<h6>Category Filters:</h6>
-				{/if}
-				{#each sortedSelectCats as { value, label: name }}
-					{@const { color, isLight } = uniqolor(value.toString(), { format: 'hsl' })}
-					<Badge {color} {isLight} {name} />
-				{/each}
-			</div>
-		</div>
-
-		<div class="collapse justify-self-center sm:justify-self-start">
+<div class="md:container w-full mx-auto flex flex-col">
+	<div class="flex w-full justify-center">
+		<div class="collapse">
 			<input type="checkbox" bind:checked />
 			<div class="collapse-title py-0">
-				<div
-					class="btn btn-wide btn-ghost inline-flex text-xl font-medium items-center justify-center gap-4"
-				>
+				<div class="btn btn-ghost w-full text-xl font-medium gap-4">
 					<span>Filter</span>
 					<Filter />
 				</div>
 			</div>
-			<div class="collapse-content pt-0 w-full justify-center">
-				<CatSelect {loadCats} {selectedCats} />
+			<div class="collapse-content pt-0">
+				<CatSelect {loadCats} {clearFilters} {selectedCats} />
 			</div>
 		</div>
 	</div>
+	<!-- Selected Category Filters -->
+	<div class="flex flex-wrap sm:max-w-xs">
+		{#if $selectedCats.length}
+			<div class="w-full">
+				<h6>Categories:</h6>
+			</div>
+		{/if}
+		{#each sortedSelectCats as { value, label: name }}
+			{@const { color, isLight } = uniqolor(value.toString(), { format: 'hsl' })}
+			<div class="w-fit">
+				<Badge {color} {isLight} {name} />
+			</div>
+		{/each}
+	</div>
+
 	<div
 		class="pb-24 md:pb-28 lg:pb-40 gap-6 flex flex-col mx-auto max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2"
 	>
@@ -169,7 +167,7 @@
 				{/if}
 			</div>
 		{:else}
-			<h5>No works matching requested filter(s)</h5>
+			<h3>No works matching requested filter(s)</h3>
 		{/each}
 	</div>
 </div>

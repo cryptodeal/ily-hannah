@@ -8,19 +8,19 @@
 	const notifications = getNotificationsStore();
 	const typeClasses = {
 		default: '',
-		info: 'toast-info',
-		success: 'toast-success',
-		warning: 'toast-warning',
-		error: 'toast-error'
+		info: 'alert-info',
+		success: 'alert-success',
+		warning: 'alert-warning',
+		error: 'alert-error'
 	};
 </script>
 
-<div class="toast-control toast-control-top-right">
+<div class="toast toast-top toast-end">
 	{#each $notifications as { type, message, remove }}
 		<div
 			in:fly={{ x: 200, duration: 1000 }}
 			out:fade={{ duration: 200 }}
-			class="toast {typeClasses[type]}"
+			class="alert {typeClasses[type]}"
 		>
 			{#if type === 'default' || type === 'info'}
 				<div class="h-10 w-10">

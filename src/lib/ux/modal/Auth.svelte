@@ -27,7 +27,7 @@
 				} else if (res.status === 401) {
 					notifications.error('Error... Please try again!');
 				} else {
-					notifications.error('Error; not authorized persons... or check spelling ;)', 10000000);
+					notifications.error('Error; not authorized persons... or check spelling ;)');
 				}
 			});
 		},

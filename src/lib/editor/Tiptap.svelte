@@ -26,6 +26,7 @@
 	import { Italic } from '@tiptap/extension-italic';
 	import { Strike } from '@tiptap/extension-strike';
 	import { History } from '@tiptap/extension-history';
+	import PlusMinus from '~icons/fluent/add-subtract-circle-20-regular';
 	import Info from '~icons/fluent/info-20-regular';
 	import Header2 from '~icons/fluent/text-header-2-20-filled';
 	import Header3 from '~icons/fluent/text-header-3-20-filled';
@@ -273,6 +274,7 @@
 	$: isActive = (name: string, attrs = {}) => $editor.isActive(name, attrs);
 
 	$: tempTitle = $editor?.view.state.doc.content.firstChild?.content.firstChild?.text || '';
+	let checked = false;
 </script>
 
 {#if editor}
@@ -288,9 +290,19 @@
 				<div class="min-h-[48px] card-body">
 					<h1>{tempTitle}</h1>
 				</div>
-				<div class="card-title">Categories</div>
-				<div class="min-h-[48px] card-body">
-					<CatSelect save={saveCats} {selectedCats} />
+				<div class="card-title">Other Info</div>
+				<div class="card-body">
+					<div class="collapse">
+						<input type="checkbox" bind:checked />
+						<div class="collapse-title py-0">
+							<div class="btn btn-secondary text-lg font-medium gap-2">
+								<PlusMinus class="h-6 w-6" /> Categories
+							</div>
+						</div>
+						<div class="collapse-content w-fit rounded-lg bg-secondary pt-0">
+							<CatSelect save={saveCats} {selectedCats} />
+						</div>
+					</div>
 				</div>
 
 				<div class="card-actions justify-center">

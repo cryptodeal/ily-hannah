@@ -61,7 +61,7 @@
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "6.3.1",
 		"mongoose-slugger-plugin": "^3.0.3",
-		"mongoose-tsgen": "^9.0.7",
+		"mongoose-tsgen": "^9.0.8",
 		"nodemailer": "^6.7.7",
 		"postcss": "^8.4.14",
 		"postcss-load-config": "^4.0.1",

@@ -48,7 +48,7 @@ specifiers:
   jsonwebtoken: ^8.5.1
   mongoose: 6.3.1
   mongoose-slugger-plugin: ^3.0.3
-  mongoose-tsgen: ^9.0.7
+  mongoose-tsgen: ^9.0.8
   nodemailer: ^6.7.7
   postcss: ^8.4.14
   postcss-load-config: ^4.0.1
@@ -126,7 +126,7 @@ devDependencies:
   jsonwebtoken: 8.5.1
   mongoose: 6.3.1
   mongoose-slugger-plugin: 3.0.3_mongoose@6.3.1
-  mongoose-tsgen: 9.0.7_u2rjjgs6ibuh5gu7y4gqrr5c7q
+  mongoose-tsgen: 9.0.8_u2rjjgs6ibuh5gu7y4gqrr5c7q
   nodemailer: 6.7.7
   postcss: 8.4.14
   postcss-load-config: 4.0.1_postcss@8.4.14
@@ -3275,8 +3275,8 @@ packages:
       mongoose: 6.3.1
     dev: true
 
-  /mongoose-tsgen/9.0.7_u2rjjgs6ibuh5gu7y4gqrr5c7q:
-    resolution: {integrity: sha512-yQ1bBFoeIfCJPYHOZYW1zuhgrZUp9qWUc/oMq8acrvN5od5TyGWZAtyLGwFnWgjzHz2C95w0e3nPDhRGo/Kt3g==}
+  /mongoose-tsgen/9.0.8_u2rjjgs6ibuh5gu7y4gqrr5c7q:
+    resolution: {integrity: sha512-pBwT3YhrpIOhyNJcv04ENZ9q/uBSWbH1cInu4IAk1DS5p6s1+oKQfbXy1B+KnSAWBc9J12Md5cfAV7asXkf9yQ==}
     engines: {node: '>=9.0.0'}
     hasBin: true
     peerDependencies:

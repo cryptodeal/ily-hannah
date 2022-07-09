@@ -32,46 +32,6 @@ body {
 	pointer-events: none;
 	height: 0;
 }
-/* 
-  Using my toast implementation submitted for
-  addition to the DaisyUI library while Pull Request
-  remains pending
-*/
-.toast {
-	@apply relative flex max-w-[400px] flex-row w-auto bg-base-200 text-sm p-2 rounded-box items-center justify-between gap-2;
-}
-
-.toast-info {
-	@apply bg-info text-info-content;
-}
-
-.toast-success {
-	@apply bg-success text-success-content;
-}
-
-.toast-warning {
-	@apply bg-warning text-warning-content;
-}
-
-.toast-error {
-	@apply bg-error text-error-content;
-}
-
-.toast-sm {
-	@apply p-2 mb-2;
-}
-
-.toast-control-top-right {
-	@apply top-1 right-1;
-}
-
-.toast-control-top-left {
-	@apply top-1 left-1;
-}
-
-.toast-control {
-	@apply fixed flex flex-col space-y-2 md:space-y-4 max-w-[400px];
-}
 
 .date-time-field > input {
 	@apply px-1 h-[3rem] input-bordered input-primary;
@@ -171,7 +131,7 @@ nav a[aria-current]::after {
 }
 
 div.multiselect {
-	@apply form-field w-[20rem];
+	@apply form-field max-w-[16rem] sm:max-w-[20rem] w-[16rem] sm:w-[20rem];
 }
 
 div.multiselect > ul.selected {
@@ -187,7 +147,7 @@ div.multiselect input::placeholder {
 }
 
 .form-field {
-	@apply input input-bordered input-primary max-w-xs text-base;
+	@apply input input-bordered input-primary text-base;
 }
 
 .form-error {
