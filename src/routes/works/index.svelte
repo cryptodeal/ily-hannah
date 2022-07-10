@@ -4,7 +4,6 @@
 	export const load: Load = async ({ fetch, url }) => {
 		const pg = url.searchParams.get('pg');
 		const uri = pg && Number(pg) !== 1 ? `/works.json?pg=${pg}` : '/works.json';
-
 		const res = await fetch(uri);
 		const { contentData } = await res.json();
 		const { currentPage, pageCount, prev, hasNextPage, hasPrevPage, next, itemList } = contentData;
@@ -17,19 +16,21 @@
 </script>
 
 <script lang="ts">
-	import type { Writable } from 'svelte/store';
+	import { writable } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import CatSelect from '$lib/ux/category/Select/index.svelte';
-	import type { CatObjectOption } from '$lib/types';
 	import SSRPaginate from '$lib/ux/paginate/SSR.svelte';
 	import SPAPaginate from '$lib/ux/paginate/SPA.svelte';
 	import Filter from '~icons/fluent/filter-20-regular';
-	import { getContext, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { MetaTags } from 'svelte-meta-tags';
-	import type { CategoryObject, ContentDocument, PopulatedDocument } from '$lib/_db/mongoose.gen';
 	import { getCategoryStore } from '$lib/data/stores/baseCategories';
 	import uniqolor from 'uniqolor';
 	import Badge from '$lib/ux/category/Badge.svelte';
+	import { setContext } from 'svelte';
+	import type { CatObjectOption } from '$lib/types';
+	import type { CategoryObject, ContentDocument, PopulatedDocument } from '$lib/_db/mongoose.gen';
+
 	export let currentPage: number,
 		pageCount: number,
 		prev: number,
@@ -41,7 +42,8 @@
 	let checked = false,
 		params: URLSearchParams | undefined;
 
-	const selectedCats = getContext<Writable<CatObjectOption[]>>('filter_categories');
+	const selectedCats = setContext('filter_categories', writable<CatObjectOption[]>([]));
+
 	$: sortedSelectCats = $selectedCats.slice().sort((a, b) => (a.label > b.label ? 1 : -1));
 	$: if (!$selectedCats.length) params = undefined;
 	const loadCats = () => {

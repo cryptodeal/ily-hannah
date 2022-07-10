@@ -139,7 +139,7 @@ div.multiselect > ul.selected {
 }
 
 div.multiselect > ul.options {
-	@apply h-20 text-base bg-base-100;
+	@apply overflow-scroll h-full text-base bg-base-100;
 }
 
 div.multiselect input::placeholder {
