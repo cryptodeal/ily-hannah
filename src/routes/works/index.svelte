@@ -17,14 +17,14 @@
 </script>
 
 <script lang="ts">
-	import { writable } from 'svelte/store';
+	import type { Writable } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import CatSelect from '$lib/ux/category/Select/index.svelte';
 	import type { CatObjectOption } from '$lib/types';
 	import SSRPaginate from '$lib/ux/paginate/SSR.svelte';
 	import SPAPaginate from '$lib/ux/paginate/SPA.svelte';
 	import Filter from '~icons/fluent/filter-20-regular';
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import { MetaTags } from 'svelte-meta-tags';
 	import type { CategoryObject, ContentDocument, PopulatedDocument } from '$lib/_db/mongoose.gen';
 	import { getCategoryStore } from '$lib/data/stores/baseCategories';
@@ -41,7 +41,7 @@
 	let checked = false,
 		params: URLSearchParams | undefined;
 
-	const selectedCats = writable<CatObjectOption[]>([]);
+	const selectedCats = getContext<Writable<CatObjectOption[]>>('filter_categories');
 	$: sortedSelectCats = $selectedCats.slice().sort((a, b) => (a.label > b.label ? 1 : -1));
 	$: if (!$selectedCats.length) params = undefined;
 	const loadCats = () => {
@@ -124,33 +124,33 @@
 />
 
 <div class="md:container w-full mx-auto flex flex-col">
-	<div class="flex w-full justify-center">
-		<div class="collapse">
-			<input type="checkbox" bind:checked />
-			<div class="collapse-title py-0">
-				<div class="btn btn-ghost w-full text-xl font-medium gap-4">
-					<span>Filter</span>
-					<Filter />
+	<div class="flex flex-wrap w-full">
+		<!-- Selected Category Filters -->
+		<div class="flex flex-grow flex-wrap w-full items-start md:w-1/3">
+			{#if $selectedCats.length && !checked}
+				<div class="w-full">
+					<h6>Categories:</h6>
+				</div>
+				{#each sortedSelectCats as { value, label: name }}
+					{@const { color, isLight } = uniqolor(value.toString(), { format: 'hsl' })}
+					<Badge {color} {isLight} {name} />
+				{/each}
+			{/if}
+		</div>
+		<div class="flex w-full md:w-2/3 justify-start">
+			<div class="collapse">
+				<input type="checkbox" bind:checked />
+				<div class="collapse-title py-0">
+					<div class="btn btn-ghost mx-auto text-xl font-medium gap-4">
+						<span>Filter</span>
+						<Filter />
+					</div>
+				</div>
+				<div class="collapse-content pt-0">
+					<CatSelect {loadCats} {clearFilters} {selectedCats} />
 				</div>
 			</div>
-			<div class="collapse-content pt-0">
-				<CatSelect {loadCats} {clearFilters} {selectedCats} />
-			</div>
 		</div>
-	</div>
-	<!-- Selected Category Filters -->
-	<div class="flex flex-wrap sm:max-w-xs">
-		{#if $selectedCats.length}
-			<div class="w-full">
-				<h6>Categories:</h6>
-			</div>
-		{/if}
-		{#each sortedSelectCats as { value, label: name }}
-			{@const { color, isLight } = uniqolor(value.toString(), { format: 'hsl' })}
-			<div class="w-fit">
-				<Badge {color} {isLight} {name} />
-			</div>
-		{/each}
 	</div>
 
 	<div
