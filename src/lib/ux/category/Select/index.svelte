@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './select.css';
 	import MultiSelect from 'svelte-multiselect';
 	import CatSlot from './SelectSlot.svelte';
 	import CatOptSlot from './OptSlot.svelte';

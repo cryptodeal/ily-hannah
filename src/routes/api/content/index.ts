@@ -58,6 +58,7 @@ export const post: RequestHandler = async ({ request }) => {
 
 	const data: PublishContentData | SaveContentData = await request.json();
 	if (isPublishContentData(data)) {
+		console.log('type: publish');
 		const { id, state } = data;
 		const res = await Content.updateState(
 			id.map((id) => castToObjectId(id)),
@@ -76,6 +77,7 @@ export const post: RequestHandler = async ({ request }) => {
 			};
 		}
 	} else if (isCatUpdateData(data)) {
+		console.log('type: update categories');
 		const { _id, categories } = data;
 		const res = await Content.updateCats(castToObjectId(_id), categories);
 		if (res) {
@@ -91,6 +93,7 @@ export const post: RequestHandler = async ({ request }) => {
 			};
 		}
 	} else {
+		console.log('type: save');
 		const { title, authors, content, categories, state, _id } = data;
 		authors.map(castToObjectId);
 		const res = await Content.saveContent(title, authors, content, categories, state, _id);

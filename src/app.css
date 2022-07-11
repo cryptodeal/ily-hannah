@@ -130,24 +130,8 @@ nav a[aria-current]::after {
 	}
 }
 
-div.multiselect {
-	@apply form-field max-w-[16rem] sm:max-w-[20rem] w-[16rem] sm:w-[20rem];
-}
-
-div.multiselect > ul.selected {
-	@apply overflow-scroll w-full h-full text-base;
-}
-
-div.multiselect > ul.options {
-	@apply overflow-scroll h-full text-base bg-base-100;
-}
-
-div.multiselect input::placeholder {
-	@apply text-base-content;
-}
-
 .form-field {
-	@apply input input-bordered input-primary text-base;
+	@apply input input-bordered input-primary text-base w-full max-w-xs;
 }
 
 .form-error {

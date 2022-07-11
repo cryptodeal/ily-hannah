@@ -1,0 +1,19 @@
+div.multiselect {
+	@apply input input-bordered input-primary text-base max-w-[16rem] sm:max-w-[20rem] w-[16rem] sm:w-[20rem] text-base-content;
+}
+
+div.multiselect > ul.selected {
+	@apply overflow-scroll w-full text-base-content h-full text-base;
+}
+
+div.multiselect > ul.options {
+	@apply overflow-scroll h-full text-base text-base-content bg-base-100;
+}
+
+div.multiselect input::placeholder {
+	@apply text-base-content;
+}
+
+div.multiselect input {
+	@apply text-base-content;
+}

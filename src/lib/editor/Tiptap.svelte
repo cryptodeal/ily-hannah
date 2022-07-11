@@ -26,7 +26,6 @@
 	import { Italic } from '@tiptap/extension-italic';
 	import { Strike } from '@tiptap/extension-strike';
 	import { History } from '@tiptap/extension-history';
-	import PlusMinus from '~icons/fluent/add-subtract-circle-20-regular';
 	import Info from '~icons/fluent/info-20-regular';
 	import Header2 from '~icons/fluent/text-header-2-20-filled';
 	import Header3 from '~icons/fluent/text-header-3-20-filled';
@@ -137,30 +136,7 @@
 				selectedCats.set(selected.map((c) => ({ label: c.name, value: c._id })));
 			});
 	});
-	const saveCats = () => {
-		return fetch('/api/content', {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				_id,
-				categories: $selectedCats.map((c) => c.value.toString())
-			})
-		}).then((res) => {
-			if (res.status === 200) {
-				notifications.success('Whoo; Saved changes to categories! 😄');
-				return res.json();
-			} else if (res.status === 401) {
-				notifications.error('Authenticate yourself, stranger! 😤');
-				return false;
-			} else {
-				notifications.error('Error; failed to save categories... 😵');
-				return false;
-			}
-		});
-	};
+
 	const setImage = (src: string) => {
 		$editor.chain().focus().setImage({ src }).run();
 	};
@@ -274,12 +250,13 @@
 	$: isActive = (name: string, attrs = {}) => $editor.isActive(name, attrs);
 
 	$: tempTitle = $editor?.view.state.doc.content.firstChild?.content.firstChild?.text || '';
-	let checked = false;
+
+	$: canSave = tempTitle && $editor.can().undo();
 </script>
 
 {#if editor}
 	<div class="md:container mx-auto flex flex-col gap-10">
-		<div class="print:hidden card card-compact bg-primary text-primary-content shadow-xl">
+		<div class="print:hidden card overflow-visible bg-primary text-primary-content shadow-xl">
 			<div class="card-body">
 				<div class="card-title">
 					Title
@@ -290,17 +267,57 @@
 				<div class="min-h-[48px] card-body">
 					<h1>{tempTitle}</h1>
 				</div>
-				<div class="card-title">Other Info</div>
+				<div class="card-title">Content Metadata</div>
 				<div class="card-body">
-					<div class="collapse">
-						<input type="checkbox" bind:checked />
-						<div class="collapse-title py-0">
-							<div class="btn btn-secondary text-lg font-medium gap-2">
-								<PlusMinus class="h-6 w-6" /> Categories
+					<div class="grid grid-flow-col auto-cols-max gap-10">
+						<div
+							class="card overflow-visible card-compact p-1 w-fit bg-secondary text-secondary-content shadow-xl"
+						>
+							<div class="card-body">
+								<CatSelect {selectedCats} />
 							</div>
 						</div>
-						<div class="collapse-content w-fit rounded-lg bg-secondary pt-0">
-							<CatSelect save={saveCats} {selectedCats} />
+
+						<div class="card card-compact w-fit bg-secondary text-secondary-content shadow-xl">
+							<div class="card-body">
+								<h2 class="card-title">State</h2>
+								<div class="form-control">
+									<label class="label gap-2 cursor-pointer">
+										<span class="text-secondary-content label-text">Draft</span>
+										<input
+											type="radio"
+											class="radio border-secondary-content checked:bg-accent"
+											bind:group={state}
+											name="state"
+											value={'draft'}
+										/>
+									</label>
+								</div>
+								<div class="form-control">
+									<label class="label gap-2 cursor-pointer">
+										<span class="text-secondary-content label-text">Published</span>
+										<input
+											type="radio"
+											class="radio border-secondary-content checked:bg-accent"
+											bind:group={state}
+											name="state"
+											value={'published'}
+										/>
+									</label>
+								</div>
+								<div class="form-control">
+									<label class="label gap-2 cursor-pointer">
+										<span class="text-secondary-content label-text">Archived</span>
+										<input
+											type="radio"
+											class="radio border-secondary-content checked:bg-accent"
+											bind:group={state}
+											name="state"
+											value={'archived'}
+										/>
+									</label>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
