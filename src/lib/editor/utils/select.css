@@ -1,5 +1,5 @@
 div.multiselect {
-	@apply input h-auto min-h-[3rem] max-h-[6rem] input-bordered input-accent text-base max-w-[16rem] sm:max-w-[20rem] w-[16rem] sm:w-[20rem] text-base-content;
+	@apply input h-auto min-h-[3rem] max-h-[6rem] input-bordered input-accent text-base w-full text-base-content;
 }
 
 div.multiselect > ul.selected {

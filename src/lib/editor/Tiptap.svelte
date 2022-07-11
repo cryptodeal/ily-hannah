@@ -256,7 +256,9 @@
 
 {#if editor}
 	<div class="md:container mx-auto flex flex-col gap-10">
-		<div class="print:hidden card overflow-visible bg-primary text-primary-content shadow-xl">
+		<div
+			class="print:hidden card card-compact p-0 overflow-visible bg-primary text-primary-content shadow-xl"
+		>
 			<div class="card-body">
 				<div class="card-title">
 					Title
@@ -264,16 +266,15 @@
 						<Info class="stroke-accent h-5 w-5" />
 					</Tooltip>
 				</div>
-				<div class="min-h-[48px] card-body">
-					<h1>{tempTitle}</h1>
-				</div>
+				<h1>{tempTitle}</h1>
+
 				<div class="card-title">Content Metadata</div>
-				<div class="card-body">
-					<div class="grid grid-flow-col auto-cols-max gap-10">
+				<div class="card-body overflow-y-visible">
+					<div class="grid grid-cols-1 md:grid-flow-col md:auto-cols-max md:gap-10">
 						<div
-							class="card overflow-visible card-compact p-1 w-fit bg-secondary text-secondary-content shadow-xl"
+							class="card overflow-y-visible card-compact w-fit bg-secondary text-secondary-content shadow-xl"
 						>
-							<div class="card-body">
+							<div class="card-body overflow-y-visible">
 								<CatSelect {selectedCats} />
 							</div>
 						</div>
@@ -324,7 +325,7 @@
 
 				<div class="card-actions justify-center">
 					<button
-						class="btn btn-secondary gap-1"
+						class="btn btn-accent gap-1"
 						disabled={!$editor.can().undo()}
 						use:shortcut={{ control: true, code: 'KeyS' }}
 						on:click={save}
