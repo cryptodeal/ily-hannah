@@ -56,6 +56,7 @@
 	import CatSelect from './utils/CatSelect.svelte';
 
 	export let content: Content = null,
+		brief: string | undefined = undefined,
 		_id: string | undefined = undefined,
 		state = 'draft',
 		authors: UserDocument['_id'][] = [],
@@ -200,7 +201,8 @@
 	const contentList: Writable<ContentObjectSelect[]> = getContext('content-list');
 	function save() {
 		const content = {
-			extended: exportJSON()
+			extended: exportJSON(),
+			brief
 		};
 		const tempId = $session.user?.id;
 		const authorData =
@@ -257,68 +259,86 @@
 {#if editor}
 	<div class="md:container mx-auto flex flex-col gap-10">
 		<div
-			class="print:hidden card card-compact p-0 overflow-visible bg-primary text-primary-content shadow-xl"
+			class="print:hidden card card-compact p-0 overflow-visible bg-transparent text-base-content shadow-xl"
 		>
 			<div class="card-body">
 				<div class="card-title">
 					Title
-					<Tooltip color={'accent'} position={'right'} dataTip="Edit Title in Document">
-						<Info class="stroke-accent h-5 w-5" />
+					<Tooltip color={'primary'} dataTip="Edit title in document">
+						<Info class="stroke-primary h-5 w-5" />
 					</Tooltip>
 				</div>
-				<h1>{tempTitle}</h1>
+				<h1 class="break-words">{tempTitle}</h1>
 
 				<div class="card-title">Content Metadata</div>
-				<div class="card-body overflow-y-visible">
-					<div class="grid grid-cols-1 md:grid-flow-col md:auto-cols-max md:gap-10">
-						<div
-							class="card overflow-y-visible card-compact w-fit bg-secondary text-secondary-content shadow-xl"
-						>
-							<div class="card-body overflow-y-visible">
-								<CatSelect {selectedCats} />
+
+				<div class="flex flex-wrap gap-2 md:gap-10">
+					<div
+						class="card overflow-visible overflow-x-hidden card-compact w-full sm:w-auto bg-primary text-primary-content shadow-xl"
+					>
+						<div class="card-body w-full">
+							<CatSelect {selectedCats} />
+						</div>
+					</div>
+
+					<div class="card card-compact w-full sm:w-auto bg-primary text-primary-content shadow-xl">
+						<div class="card-body gap-1">
+							<h2 class="card-title">State</h2>
+							<div class="form-control">
+								<label class="label gap-2 cursor-pointer">
+									<span class="text-primary-content label-text">Draft</span>
+									<input
+										type="radio"
+										class="radio border-primary-content"
+										bind:group={state}
+										name="state"
+										value={'draft'}
+									/>
+								</label>
+							</div>
+							<div class="form-control">
+								<label class="label gap-2 cursor-pointer">
+									<span class="text-primary-content label-text">Published</span>
+									<input
+										type="radio"
+										class="radio border-primary-content"
+										bind:group={state}
+										name="state"
+										value={'published'}
+									/>
+								</label>
+							</div>
+							<div class="form-control">
+								<label class="label gap-2 cursor-pointer">
+									<span class="text-primary-content label-text">Archived</span>
+									<input
+										type="radio"
+										class="radio border-primary-content"
+										bind:group={state}
+										name="state"
+										value={'archived'}
+									/>
+								</label>
 							</div>
 						</div>
-
-						<div class="card card-compact w-fit bg-secondary text-secondary-content shadow-xl">
-							<div class="card-body">
-								<h2 class="card-title">State</h2>
-								<div class="form-control">
-									<label class="label gap-2 cursor-pointer">
-										<span class="text-secondary-content label-text">Draft</span>
-										<input
-											type="radio"
-											class="radio border-secondary-content checked:bg-accent"
-											bind:group={state}
-											name="state"
-											value={'draft'}
-										/>
-									</label>
-								</div>
-								<div class="form-control">
-									<label class="label gap-2 cursor-pointer">
-										<span class="text-secondary-content label-text">Published</span>
-										<input
-											type="radio"
-											class="radio border-secondary-content checked:bg-accent"
-											bind:group={state}
-											name="state"
-											value={'published'}
-										/>
-									</label>
-								</div>
-								<div class="form-control">
-									<label class="label gap-2 cursor-pointer">
-										<span class="text-secondary-content label-text">Archived</span>
-										<input
-											type="radio"
-											class="radio border-secondary-content checked:bg-accent"
-											bind:group={state}
-											name="state"
-											value={'archived'}
-										/>
-									</label>
-								</div>
-							</div>
+					</div>
+					<div
+						class="card overflow-visible card-compact w-full sm:w-auto bg-primary text-primary-content shadow-xl"
+					>
+						<div class="card-body">
+							<h2 class="card-title">
+								Brief
+								<Tooltip color={'secondary'} dataTip="Brief Summary">
+									<Info class="h-5 w-5 stroke-primary-content" />
+								</Tooltip>
+							</h2>
+							<textarea
+								class="textarea textarea-bordered text-base-content textarea-secondary h-24"
+								bind:value={brief}
+								name="Content_Brief"
+								id="Content_Brief"
+								placeholder="TL;DR..."
+							/>
 						</div>
 					</div>
 				</div>
@@ -337,7 +357,7 @@
 			</div>
 		</div>
 		<div class="hidden print:text-center print:prose print:block">
-			<h1>{tempTitle}</h1>
+			<h1 class="break-words">{tempTitle}</h1>
 		</div>
 		<div
 			class="prose prose-sm print:hidden sm:prose md:container mx-auto border-black border-2 border-b-0 rounded-t-md p-2 flex flex-wrap gap-2"
