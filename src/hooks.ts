@@ -35,7 +35,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		// if this is the first time the user has visited this app,
 		// set a cookie so that we recognise them when they return
 		response.headers.set('set-cookie', refreshedAccessToken);
-	} else if (!cookies['accessToken']) {
+	} else if (!cookies['accessToken'] && cookies['refreshToken']) {
 		const { refreshToken } = expireTokens();
 		response.headers.set('set-cookie', refreshToken);
 	}

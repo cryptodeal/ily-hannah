@@ -252,8 +252,6 @@
 	$: isActive = (name: string, attrs = {}) => $editor.isActive(name, attrs);
 
 	$: tempTitle = $editor?.view.state.doc.content.firstChild?.content.firstChild?.text || '';
-
-	$: canSave = tempTitle && $editor.can().undo();
 </script>
 
 {#if editor}
@@ -333,7 +331,7 @@
 								</Tooltip>
 							</h2>
 							<textarea
-								class="textarea textarea-bordered text-base-content textarea-secondary h-24"
+								class="textarea text-base textarea-bordered text-base-content textarea-secondary h-auto"
 								bind:value={brief}
 								name="Content_Brief"
 								id="Content_Brief"

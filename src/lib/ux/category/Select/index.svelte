@@ -9,7 +9,6 @@
 	import type { CatObjectOption } from '$lib/types';
 	import { getCategoryStore } from '$lib/data/stores/baseCategories';
 	export let selectedCats = writable<CatObjectOption[]>([]),
-		loadCats: () => void,
 		clearFilters: () => void;
 
 	const categories = getCategoryStore();
@@ -28,7 +27,6 @@
 	<CatOptSlot let:option {option} slot="option" />
 </MultiSelect>
 <div class="inline-flex items-center w-full justify-evenly">
-	<button class="btn btn-secondary" class:btn-disabled={disabled} on:click={loadCats}>Go!</button>
 	<button class="btn btn-secondary gap-2" class:btn-disabled={disabled} on:click={clearFilters}>
 		Reset
 		<ResetFilters class="w-5 h-5" />

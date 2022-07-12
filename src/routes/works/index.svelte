@@ -45,7 +45,6 @@
 
 	$: if (!$selectedCats.length) params = undefined;
 	const loadCats = () => {
-		checked = !checked;
 		params = new URLSearchParams();
 		$selectedCats.map((c) => {
 			if (params) params.append('cat', c.value.toString());
@@ -72,6 +71,9 @@
 				next = tempNext;
 			});
 	};
+	$: selectedCats.subscribe((val) => {
+		if (val.length) loadCats();
+	});
 
 	const loadContent = (page?: number) => {
 		if (!page) return;
@@ -134,7 +136,7 @@
 			</div>
 		</div>
 		<div class="collapse-content collapse-card peer-checked:p-4 bg-primary">
-			<CatSelect {loadCats} {clearFilters} {selectedCats} />
+			<CatSelect {clearFilters} {selectedCats} />
 		</div>
 	</div>
 </div>
