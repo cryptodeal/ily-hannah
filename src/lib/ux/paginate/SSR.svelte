@@ -6,7 +6,7 @@
 		params: string | undefined = undefined;
 </script>
 
-<div class="flex justify-center">
+<div class="flex w-fit mx-auto justify-center">
 	{#if pageCount && pageCount > 1}
 		<div class="btn-group">
 			<a

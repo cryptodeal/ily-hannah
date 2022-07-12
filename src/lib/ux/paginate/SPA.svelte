@@ -7,7 +7,7 @@
 		fetchNext: () => void;
 </script>
 
-<div class="flex justify-center">
+<div class="flex w-fit mx-auto justify-center">
 	{#if pageCount && pageCount > 1}
 		<div class="btn-group mx-auto">
 			<button class="btn btn-sm" class:btn-disabled={!hasPrevPage} on:click={fetchPrev}>«</button>

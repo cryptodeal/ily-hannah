@@ -17,7 +17,7 @@
 	$: disabled = !$selectedCats.length;
 </script>
 
-<label for="category_filter_select" class="font-semibold">Categories</label>
+<label for="category_filter_select" class="font-semibold text-primary-content">Categories</label>
 <MultiSelect
 	id="category_filter_select"
 	options={$categories}
@@ -28,8 +28,8 @@
 	<CatOptSlot let:option {option} slot="option" />
 </MultiSelect>
 <div class="inline-flex items-center w-full justify-evenly">
-	<button class="btn" class:btn-disabled={disabled} on:click={loadCats}>Go!</button>
-	<button class="btn gap-2" class:btn-disabled={disabled} on:click={clearFilters}>
+	<button class="btn btn-secondary" class:btn-disabled={disabled} on:click={loadCats}>Go!</button>
+	<button class="btn btn-secondary gap-2" class:btn-disabled={disabled} on:click={clearFilters}>
 		Reset
 		<ResetFilters class="w-5 h-5" />
 	</button>

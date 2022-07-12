@@ -55,6 +55,10 @@ body {
 	}
 }
 
+.collapse-card {
+	border-radius: var(--rounded-box, 1rem);
+}
+
 @media (min-width: 768px) {
 	.listContainer {
 		height: calc(100vh - 8rem);

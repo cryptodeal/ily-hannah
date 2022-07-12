@@ -30,14 +30,13 @@
 		.map(({ name }) => `${name.first} ${name.last}`);
 </script>
 
-<div class="card w-full bg-secondary text-secondary-content shadow-xl">
-	<div class="card-body">
-		<a sveltekit:prefetch href={`/works/${slug}`}>
-			<h2 class="card-title">{title}</h2>
-		</a>
+<div class="card card-compact w-full bg-secondary text-secondary-content shadow-xl">
+	<a sveltekit:prefetch href={`/works/${slug}`} class="card-body">
+		<h2 class="card-title">{title}</h2>
 		{#if brief}
 			<p>{brief}</p>
 		{/if}
+
 		{#if authors.length}
 			<h6>By: {authors.join(', ')}</h6>
 		{/if}
@@ -47,5 +46,11 @@
 				<Badge {color} {isLight} {name} />
 			{/each}
 		</div>
-	</div>
+	</a>
 </div>
+
+<style lang="postcss">
+	.card-title {
+		@apply leading-tight font-normal text-3xl;
+	}
+</style>

@@ -43,7 +43,6 @@
 
 	const selectedCats = setContext('filter_categories', writable<CatObjectOption[]>([]));
 
-	$: sortedSelectCats = $selectedCats.slice().sort((a, b) => (a.label > b.label ? 1 : -1));
 	$: if (!$selectedCats.length) params = undefined;
 	const loadCats = () => {
 		checked = !checked;
@@ -123,26 +122,26 @@
 	title="Assorted list of works by Hannah Williams."
 	description="Index of poems, short stories, and other Musings by Hannah Williams."
 />
-
-<div class="md:container w-full mx-auto flex flex-col gap-4">
-	<!-- Selected Category Filters -->
-	<div class="flex overflow-visible w-full justify-center">
-		<div class="collapse overflow-visible">
-			<input type="checkbox" bind:checked />
-			<div class="collapse-title py-0">
-				<div class="btn btn-ghost w-full text-xl font-medium gap-4">
+<div class="flex overflow-visible z-[1000] fixed left-0 right-0 justify-center">
+	<div class="collapse overflow-visible">
+		<input type="checkbox" class="peer" bind:checked />
+		<div class="collapse-title pr-4 py-0">
+			<div class="flex w-full justify-center">
+				<div class="btn mr-0 btn-primary sm:w-auto text-xl font-medium gap-4">
 					<span>Filter</span>
 					<Filter />
 				</div>
 			</div>
-			<div class="collapse-content" class:pb-[10rem]={checked}>
-				<CatSelect {loadCats} {clearFilters} {selectedCats} />
-			</div>
+		</div>
+		<div class="collapse-content collapse-card peer-checked:p-4 bg-primary">
+			<CatSelect {loadCats} {clearFilters} {selectedCats} />
 		</div>
 	</div>
-
+</div>
+<div class="md:container w-full mx-auto flex flex-col ">
+	<!-- Selected Category Filters -->
 	<div
-		class="pb-24 md:pb-28 lg:pb-40 gap-6 flex flex-col mx-auto w-full max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2"
+		class="gap-2 sm:gap-4 lg:gap-6 2xl:gap-10 pb-[20vh] pt-[5.5rem] flex flex-col mx-auto w-full max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2"
 	>
 		{#each itemList as { title, slug, author, categories, content: { brief } }}
 			<ContentItem {title} {slug} {author} {categories} {brief} />
