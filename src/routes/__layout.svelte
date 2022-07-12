@@ -10,9 +10,10 @@
 -->
 <script lang="ts">
 	import '../app.css';
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import AuthModal from '$lib/ux/modal/Auth.svelte';
 	// import { webVitals } from '$lib/webvitals';
+	import { allCategories } from '$lib/data/stores/allCats';
 	import { afterNavigate } from '$app/navigation';
 	import { themeChange } from 'theme-change';
 	import { page } from '$app/stores';
@@ -33,7 +34,8 @@
 		checked: boolean = '' as unknown as boolean,
 		// analyticsId = import.meta.env.VERCEL_ANALYTICS_ID as string,
 		segment: string;
-
+	allCategories.subscribe((cats) => cats);
+	setContext('all_categories', allCategories);
 	page.subscribe((page) => {
 		const tempPage = page.url.pathname;
 		//path = tempPage;

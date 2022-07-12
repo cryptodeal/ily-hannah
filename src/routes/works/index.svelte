@@ -25,11 +25,10 @@
 	import { onMount } from 'svelte';
 	import { MetaTags } from 'svelte-meta-tags';
 	import { getCategoryStore } from '$lib/data/stores/baseCategories';
-	import uniqolor from 'uniqolor';
-	import Badge from '$lib/ux/category/Badge.svelte';
 	import { setContext } from 'svelte';
 	import type { CatObjectOption } from '$lib/types';
 	import type { CategoryObject, ContentDocument, PopulatedDocument } from '$lib/_db/mongoose.gen';
+	import ContentItem from '$lib/ux/content/works/ContentItem.svelte';
 
 	export let currentPage: number,
 		pageCount: number,
@@ -125,49 +124,28 @@
 	description="Index of poems, short stories, and other Musings by Hannah Williams."
 />
 
-<div class="md:container w-full mx-auto flex flex-col">
-	<div class="flex flex-wrap w-full">
-		<!-- Selected Category Filters -->
-		<div class="flex flex-grow flex-wrap w-full items-start md:w-1/3">
-			{#if $selectedCats.length && !checked}
-				<div class="w-full">
-					<h6>Categories:</h6>
+<div class="md:container w-full mx-auto flex flex-col gap-4">
+	<!-- Selected Category Filters -->
+	<div class="flex overflow-visible w-full justify-center">
+		<div class="collapse overflow-visible">
+			<input type="checkbox" bind:checked />
+			<div class="collapse-title py-0">
+				<div class="btn btn-ghost w-full text-xl font-medium gap-4">
+					<span>Filter</span>
+					<Filter />
 				</div>
-				{#each sortedSelectCats as { value, label: name }}
-					{@const { color, isLight } = uniqolor(value.toString(), { format: 'hsl' })}
-					<Badge {color} {isLight} {name} />
-				{/each}
-			{/if}
-		</div>
-		<div class="flex w-full md:w-2/3 justify-start">
-			<div class="collapse">
-				<input type="checkbox" bind:checked />
-				<div class="collapse-title py-0">
-					<div class="btn btn-ghost mx-auto text-xl font-medium gap-4">
-						<span>Filter</span>
-						<Filter />
-					</div>
-				</div>
-				<div class="collapse-content pt-0">
-					<CatSelect {loadCats} {clearFilters} {selectedCats} />
-				</div>
+			</div>
+			<div class="collapse-content" class:pb-[10rem]={checked}>
+				<CatSelect {loadCats} {clearFilters} {selectedCats} />
 			</div>
 		</div>
 	</div>
 
 	<div
-		class="pb-24 md:pb-28 lg:pb-40 gap-6 flex flex-col mx-auto max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2"
+		class="pb-24 md:pb-28 lg:pb-40 gap-6 flex flex-col mx-auto w-full max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2"
 	>
-		{#each itemList as { title, slug, author }}
-			{@const authors = author
-				.filter(({ name }) => name?.first && name?.last)
-				.map(({ name }) => `${name.first} ${name.last}`)}
-			<div class="flex flex-col gap-2">
-				<a sveltekit:prefetch href={`/works/${slug}`}><h2>{title}</h2></a>
-				{#if authors.length}
-					<h5 class="ml-4">By: {authors.join(', ')}</h5>
-				{/if}
-			</div>
+		{#each itemList as { title, slug, author, categories, content: { brief } }}
+			<ContentItem {title} {slug} {author} {categories} {brief} />
 		{:else}
 			<h3>No works matching requested filter(s)</h3>
 		{/each}

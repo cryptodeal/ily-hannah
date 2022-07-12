@@ -268,15 +268,15 @@
 						<Info class="stroke-primary h-5 w-5" />
 					</Tooltip>
 				</div>
-				<h1 class="break-words">{tempTitle}</h1>
+				<h1 class="break-words py-1">{tempTitle}</h1>
 
 				<div class="card-title">Content Metadata</div>
 
 				<div class="flex flex-wrap gap-2 md:gap-10">
 					<div
-						class="card overflow-visible overflow-x-hidden card-compact w-full sm:w-auto bg-primary text-primary-content shadow-xl"
+						class="card overflow-visible card-compact w-full sm:w-auto bg-primary text-primary-content shadow-xl"
 					>
-						<div class="card-body w-full">
+						<div class="card-body max-w-full">
 							<CatSelect {selectedCats} />
 						</div>
 					</div>

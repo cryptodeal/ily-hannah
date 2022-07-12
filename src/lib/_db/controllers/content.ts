@@ -86,7 +86,7 @@ export const getPubPaginatedContent = (
 		});
 	return Promise.all([
 		Content.find(queryObj)
-			.select('-_id title slug author publishedDate')
+			.select('-_id title slug author content.brief categories publishedDate')
 			.sort('publishedDate')
 			.paginateQuery(page - 1, limit)
 			.populate('author', 'name.first name.last')

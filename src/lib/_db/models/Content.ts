@@ -98,6 +98,7 @@ ContentSchema.statics = {
 					if (content.brief) doc.content.brief = content.brief;
 					doc.title = title;
 					doc.author.addToSet(...authors);
+					doc.categories.splice(0);
 					doc.categories.addToSet(...categories);
 					doc.state = state;
 					return doc.save().then((doc: ContentDocument) => {

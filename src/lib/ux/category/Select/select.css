@@ -7,7 +7,7 @@ div.multiselect > ul.selected {
 }
 
 div.multiselect > ul.options {
-	@apply overflow-scroll h-full text-base text-base-content bg-base-100;
+	@apply overflow-scroll h-auto max-h-[5rem] text-base text-base-content bg-base-100;
 }
 
 div.multiselect input::placeholder {
