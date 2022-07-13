@@ -38,7 +38,7 @@
 </script>
 
 <a
-	class="btn btn-sm print:hidden gap-2"
+	class="btn btn-outline btn-info btn-sm print:hidden gap-2"
 	target="_blank"
 	rel="noopener noreferrer"
 	{href}

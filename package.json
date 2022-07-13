@@ -19,7 +19,7 @@
 		"@iconify/json": "^2.1.76",
 		"@sveltejs/adapter-vercel": "1.0.0-next.58",
 		"@sveltejs/kit": "next",
-		"@tailwindcss/typography": "^0.5.3",
+		"@tailwindcss/typography": "^0.5.4",
 		"@tiptap/core": "2.0.0-beta.180",
 		"@tiptap/extension-blockquote": "2.0.0-beta.29",
 		"@tiptap/extension-bold": "2.0.0-beta.28",

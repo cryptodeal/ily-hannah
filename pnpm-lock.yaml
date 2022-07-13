@@ -5,7 +5,7 @@ specifiers:
   '@iconify/json': ^2.1.76
   '@sveltejs/adapter-vercel': 1.0.0-next.58
   '@sveltejs/kit': next
-  '@tailwindcss/typography': ^0.5.3
+  '@tailwindcss/typography': ^0.5.4
   '@tiptap/core': 2.0.0-beta.180
   '@tiptap/extension-blockquote': 2.0.0-beta.29
   '@tiptap/extension-bold': 2.0.0-beta.28
@@ -84,7 +84,7 @@ devDependencies:
   '@iconify/json': 2.1.76
   '@sveltejs/adapter-vercel': 1.0.0-next.58
   '@sveltejs/kit': 1.0.0-next.370_svelte@3.49.0+vite@2.9.14
-  '@tailwindcss/typography': 0.5.3_tailwindcss@3.1.6
+  '@tailwindcss/typography': 0.5.4_tailwindcss@3.1.6
   '@tiptap/core': 2.0.0-beta.180
   '@tiptap/extension-blockquote': 2.0.0-beta.29_4op45timppanpdwy5jxyr3gcny
   '@tiptap/extension-bold': 2.0.0-beta.28_4op45timppanpdwy5jxyr3gcny
@@ -681,8 +681,8 @@ packages:
       - supports-color
     dev: true
 
-  /@tailwindcss/typography/0.5.3_tailwindcss@3.1.6:
-    resolution: {integrity: sha512-Cn4MufL/xiTh2Npw26xiL7gP3GFkJH+zWM8DAm/NNEr4gF5N9D6gY9zMNNQUu27m8g0IIk665BUuoU92wVUBkA==}
+  /@tailwindcss/typography/0.5.4_tailwindcss@3.1.6:
+    resolution: {integrity: sha512-QEdg40EmGvE7kKoDei8zr5sf4D1pIayHj4R31bH3lX8x2BtTiR+jNejYPOkhbmy3DXgkMF9jC8xqNiGFAuL9Sg==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
     dependencies:
@@ -1365,7 +1365,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001365
-      electron-to-chromium: 1.4.186
+      electron-to-chromium: 1.4.187
       node-releases: 2.0.6
       update-browserslist-db: 1.0.4_browserslist@4.21.1
     dev: true
@@ -1928,8 +1928,8 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
-  /electron-to-chromium/1.4.186:
-    resolution: {integrity: sha512-YoVeFrGd/7ROjz4R9uPoND1K/hSRC/xADy9639ZmIZeJSaBnKdYx3I6LMPsY7CXLpK7JFgKQVzeZ/dk2br6Eaw==}
+  /electron-to-chromium/1.4.187:
+    resolution: {integrity: sha512-t3iFLHVIMhB8jGZ+8ui951nz6Bna5qKfhxezG3wzXdBJ79qFKPsE2chjjVFNqC1ewhfrPQrw9pmVeo4FFpZeQA==}
     dev: true
 
   /emoji-regex/8.0.0:

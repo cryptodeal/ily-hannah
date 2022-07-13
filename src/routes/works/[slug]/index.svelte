@@ -43,14 +43,16 @@
 <MetaTags {title} description={brief} />
 
 <div class="mx-auto mb-5 max-w-4xl px-2 sm:px-2 lg:px-4 lg:max-w-1/2">
-	<div class="w-full inline-flex flex-wrap justify-between items-center">
+	<div class="w-full inline-flex gap-y-2 flex-wrap justify-between items-center">
 		<div class="text-sm breadcrumbs">
 			<ul>
 				<li><a href="/works" sveltekit:prefetch>Works</a></li>
 				<li>{title}</li>
 			</ul>
 		</div>
-		<ShareTwitter />
+		<div class="flex w-full sm:w-fit justify-center">
+			<ShareTwitter />
+		</div>
 	</div>
 </div>
 

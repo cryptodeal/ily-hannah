@@ -17,7 +17,6 @@
 
 <script lang="ts">
 	import { writable } from 'svelte/store';
-	import { goto } from '$app/navigation';
 	import CatSelect from '$lib/ux/category/Select/index.svelte';
 	import SSRPaginate from '$lib/ux/paginate/SSR.svelte';
 	import SPAPaginate from '$lib/ux/paginate/SPA.svelte';
@@ -29,6 +28,7 @@
 	import type { CatObjectOption } from '$lib/types';
 	import type { CategoryObject, ContentDocument, PopulatedDocument } from '$lib/_db/mongoose.gen';
 	import ContentItem from '$lib/ux/content/works/ContentItem.svelte';
+	import { browser } from '$app/env';
 
 	export let currentPage: number,
 		pageCount: number,
@@ -37,13 +37,13 @@
 		hasNextPage: boolean,
 		hasPrevPage: boolean,
 		itemList: PopulatedDocument<PopulatedDocument<ContentDocument, 'content.extended'>, 'author'>[];
+
 	const categories = getCategoryStore();
 	let checked = false,
 		params: URLSearchParams | undefined;
 
 	const selectedCats = setContext('filter_categories', writable<CatObjectOption[]>([]));
 
-	$: if (!$selectedCats.length) params = undefined;
 	const loadCats = () => {
 		params = new URLSearchParams();
 		$selectedCats.map((c) => {
@@ -72,12 +72,18 @@
 			});
 	};
 	$: selectedCats.subscribe((val) => {
-		if (val.length) loadCats();
+		if (!browser) return;
+		if (!val.length) {
+			params = undefined;
+			loadContent(1);
+		} else {
+			loadCats();
+		}
 	});
 
 	const loadContent = (page?: number) => {
 		if (!page) return;
-		return fetch(`/works.json?pg=${page}&${params?.toString()}`)
+		return fetch(`/works.json?pg=${page}${params ? '&' + params.toString() : ''}`)
 			.then((res) => res.json())
 			.then((res) => {
 				const {
@@ -105,11 +111,7 @@
 	const nextPaginated = () => {
 		return loadContent(next);
 	};
-	const clearFilters = () => {
-		checked = !checked;
-		selectedCats.set([]);
-		goto('/works');
-	};
+
 	onMount(async () => {
 		return fetch(`/api/category?type=all`)
 			.then((res) => res.json())
@@ -136,7 +138,7 @@
 			</div>
 		</div>
 		<div class="collapse-content collapse-card peer-checked:p-4 bg-primary">
-			<CatSelect {clearFilters} {selectedCats} />
+			<CatSelect {selectedCats} />
 		</div>
 	</div>
 </div>

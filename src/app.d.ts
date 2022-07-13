@@ -7,6 +7,7 @@ declare module 'theme-change';
 declare namespace NodeJS {
 	interface ProcessEnv {
 		MONGO_URI: string;
+		MONGO_DB: string;
 		ZOHO_USER: string;
 		ZOHO_PASS: string;
 		JWT_SECRET: string;

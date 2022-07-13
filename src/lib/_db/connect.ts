@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+import config from '$lib/_config';
 let cached = global.mongoose;
 
 if (!cached) {
@@ -13,7 +13,9 @@ export async function serverlessConnect(mongooseURI: string): Promise<typeof mon
 
 	if (!cached.promise) {
 		const opts = {
-			bufferCommands: false
+			bufferCommands: false,
+			useNewUrlParser: true,
+			dbName: config.MONGO_DB
 		};
 
 		cached.promise = mongoose.connect(mongooseURI, opts).then((mongoose) => {

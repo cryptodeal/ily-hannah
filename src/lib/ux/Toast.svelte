@@ -20,7 +20,7 @@
 		<div
 			in:fly={{ x: 200, duration: 1000 }}
 			out:fade={{ duration: 200 }}
-			class="alert {typeClasses[type]}"
+			class="alert flex-row {typeClasses[type]}"
 		>
 			{#if type === 'default' || type === 'info'}
 				<div class="h-10 w-10">
