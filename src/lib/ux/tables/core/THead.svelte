@@ -4,7 +4,7 @@
 	export let colHeaders: IColHeader[];
 </script>
 
-{#each colHeaders as { title, subtext, key }, i}
+{#each colHeaders as { title, subtext }, i}
 	<th>
 		<div class="inline-flex items-center">
 			<div>

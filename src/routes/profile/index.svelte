@@ -42,6 +42,7 @@
 	import type { UserDocument } from '$lib/_db/mongoose.gen';
 	import Tooltip from '$lib/ux/forms/Tooltip.svelte';
 	import TooltipReg from '$lib/ux/Tooltip.svelte';
+	import Confirm from '$lib/ux/modal/Confirm.svelte';
 
 	export let user: UserDocument, contentData: PaginatedContentData;
 	let { currentPage, hasPrevPage, hasNextPage, pageCount, prev, next, itemList } = contentData;
@@ -328,13 +329,15 @@
 				<div class="flex flex-col gap-4">
 					<h2 class="text-center">Posts</h2>
 					<div class="flex justify-center flex-wrap gap-4">
-						<button
-							class="btn btn-error"
-							class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
-							on:click={delContent}
-						>
-							Delete
-						</button>
+						<Confirm confirmTitle="Delete" cancelTitle="Cancel" let:confirm={confirmThis}>
+							<button
+								class="btn btn-error"
+								class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
+								on:click={() => confirmThis(delContent)}
+							>
+								Delete
+							</button>
+						</Confirm>
 
 						<button
 							class="btn btn-primary"
