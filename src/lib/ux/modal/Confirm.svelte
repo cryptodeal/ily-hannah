@@ -1,13 +1,5 @@
 <script lang="ts">
 	import { fly, fade } from 'svelte/transition';
-	export let themeColor:
-		| 'default'
-		| 'primary'
-		| 'secondary'
-		| 'success'
-		| 'danger'
-		| 'warning'
-		| 'info' = 'default';
 	export let confirmTitle = 'Confirm';
 	export let cancelTitle = 'Cancel';
 	let showDialog = false;
@@ -36,7 +28,7 @@
 {#if showDialog}
 	<div class="overlay" in:fade={{ duration: 200 }} out:fade={{ delay: 200, duration: 200 }} />
 	<div
-		class="confirm-dialog"
+		class="confirm-dialog bg-base-100"
 		in:fly={{
 			y: -10,
 			delay: 200,
@@ -47,35 +39,22 @@
 			duration: 200
 		}}
 	>
-		<div class="message-section">
-			<span class="message-title">
+		<div class="flex flex-col gap-4 text-base-content">
+			<div class="text-base-content flex flex-col gap-1">
 				<slot name="title">Are you sure you want to perform this action?</slot>
-			</span>
-			<span class="message-description">
+			</div>
+			<div class="text-base-content">
 				<slot name="description">This action can't be undone!</slot>
-			</span>
+			</div>
 		</div>
-		<div class="actions" style="background: hsl({themeColor}, 30%, 97%)">
-			<button
-				class="cancel-button"
-				style="
-          --cancel-btn-color: hsl({themeColor}, 40%, 50%);
-          --cancel-btn-color-hover: hsl({themeColor}, 40%, 55%);
-        "
-				on:click={() => (showDialog = false)}
-			>
+
+		<div class="modal-action gap-1">
+			<button class="btn btn-sm btn-outline btn-error" on:click={() => (showDialog = false)}>
 				<slot name="cancel">
 					{cancelTitle}
 				</slot>
 			</button>
-			<button
-				class="confirm-button"
-				style="
-          --confirm-btn-bg: hsl({themeColor}, 40%, 50%);
-          --confirm-btn-bg-hover: hsl({themeColor}, 40%, 55%);
-        "
-				on:click={callFunction}
-			>
+			<button class="btn btn-sm btn-primary" on:click={callFunction}>
 				<slot name="confirm">
 					{confirmTitle}
 				</slot>
@@ -85,41 +64,26 @@
 {/if}
 
 <style lang="postcss">
-	.message-title {
-		font-size: 22px;
-		font-weight: 500;
-		display: block;
-		color: hsl(0, 0%, 20%);
-		line-height: 1.2;
-	}
-	.message-description {
-		display: block;
-		margin-top: 20px;
-		font-size: 16px;
-		color: hsl(0, 0%, 30%);
-		line-height: 1.4;
-	}
-	.actions {
-		display: flex;
-		justify-content: flex-end;
-		margin: 25px -40px -30px;
-		padding: 15px 20px;
-		border-radius: 0 0 3px 3px;
-	}
 	.confirm-dialog {
+		max-height: calc(100vh - 9.5em);
+		width: 91.666667%;
+		max-width: 32rem;
+		border-top-left-radius: var(--rounded-box, 1rem);
+		border-top-right-radius: var(--rounded-box, 1rem);
+		border-bottom-left-radius: var(--rounded-box, 1rem);
+		border-bottom-right-radius: var(--rounded-box, 1rem);
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+		overflow-y: auto;
+		overscroll-behavior: contain;
 		font-family: sans-serif;
 		position: absolute;
 		z-index: 999;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		padding: 30px 40px;
-		border-radius: 3px;
-		background: #fff;
-		max-width: 500px;
-		width: calc(100% - 20px);
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+		padding: 1.5rem;
 	}
+
 	.overlay {
 		top: 0;
 		left: 0;
@@ -129,37 +93,5 @@
 		user-select: none;
 		z-index: 998;
 		background: hsla(0, 0%, 0%, 80%);
-	}
-	.confirm-button {
-		background: hsl(200, 40%, 50%);
-		background: var(--confirm-btn-bg);
-		margin-left: 10px;
-		border: none;
-		outline: none;
-		border-radius: 2px;
-		padding: 10px 15px;
-		cursor: pointer;
-		font-size: 16px;
-		color: hsl(0, 0%, 95%);
-		transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-	}
-	.confirm-button:hover {
-		background: hsl(200, 40%, 55%);
-		background: var(--confirm-btn-bg-hover);
-	}
-	.cancel-button {
-		border: none;
-		outline: none;
-		background: transparent;
-		padding: 5px 10px;
-		cursor: pointer;
-		font-size: 16px;
-		color: hsl(200, 40%, 50%);
-		color: var(--cancel-btn-color);
-		transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-	}
-	.cancel-button:hover {
-		color: hsl(200, 40%, 55%);
-		color: var(--cancel-btn-color-hover);
 	}
 </style>

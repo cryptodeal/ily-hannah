@@ -337,6 +337,17 @@
 							>
 								Delete
 							</button>
+							<svelte:fragment slot="title">
+								<div class="text-lg font-bold">
+									Are you sure you want to delete the following item(s)?
+								</div>
+								<ol class="ml-2 list-decimal list-inside">
+									{#each $contentDataStore.filter((i) => i.checked) as { title }}
+										<li>{title}</li>
+									{/each}
+								</ol>
+							</svelte:fragment>
+							<span>Once deleted, these works cannot be recovered...</span>
 						</Confirm>
 
 						<button
