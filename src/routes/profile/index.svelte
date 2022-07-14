@@ -167,6 +167,7 @@
 
 	let edit = false;
 	$: if (user.name.first === '' || user.name.last === '') edit = true;
+	$: selected = $contentDataStore.filter((i) => i.checked);
 </script>
 
 <Tabs>
@@ -332,45 +333,100 @@
 						<Confirm confirmTitle="Delete" cancelTitle="Cancel" let:confirm={confirmThis}>
 							<button
 								class="btn btn-error"
-								class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
+								class:btn-disabled={!selected.length}
 								on:click={() => confirmThis(delContent)}
 							>
 								Delete
 							</button>
-							<svelte:fragment slot="title">
+							<div class="flex flex-col gap-2" slot="title">
 								<div class="text-lg font-bold">
 									Are you sure you want to delete the following item(s)?
 								</div>
-								<ol class="ml-2 list-decimal list-inside">
-									{#each $contentDataStore.filter((i) => i.checked) as { title }}
-										<li>{title}</li>
-									{/each}
-								</ol>
-							</svelte:fragment>
-							<span>Once deleted, these works cannot be recovered...</span>
+								<div class="max-h-40 overflow-scroll">
+									<ol class="ml-4 list-decimal list-inside">
+										{#each selected as { title }}
+											<li>{title}</li>
+										{/each}
+									</ol>
+								</div>
+							</div>
+							<span slot="description">Once deleted, these works cannot be recovered...</span>
 						</Confirm>
 
-						<button
-							class="btn btn-primary"
-							class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
-							on:click={flagPub}
-						>
-							Publish
-						</button>
-						<button
-							class="btn btn-secondary"
-							class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
-							on:click={flagDraft}
-						>
-							Draft
-						</button>
-						<button
-							class="btn btn-accent"
-							class:btn-disabled={$contentDataStore.filter((i) => i.checked).length === 0}
-							on:click={flagArchive}
-						>
-							Archive
-						</button>
+						<Confirm confirmTitle="Publish" cancelTitle="Cancel" let:confirm={confirmThis}>
+							<button
+								class="btn btn-primary"
+								class:btn-disabled={!selected.length}
+								on:click={() => confirmThis(flagPub)}
+							>
+								Publish
+							</button>
+							<div class="flex flex-col gap-2" slot="title">
+								<div class="text-lg font-bold">
+									Are you sure you want to set state of the following item(s) to `Published`?
+								</div>
+								<div class="max-h-40 overflow-scroll">
+									<ol class="ml-4 list-decimal list-inside">
+										{#each selected as { title }}
+											<li>{title}</li>
+										{/each}
+									</ol>
+								</div>
+							</div>
+							<span slot="description"
+								>Once flagged as `published`, this content is publicly accessible...</span
+							>
+						</Confirm>
+
+						<Confirm confirmTitle="Draft" cancelTitle="Cancel" let:confirm={confirmThis}>
+							<button
+								class="btn btn-secondary"
+								class:btn-disabled={!selected.length}
+								on:click={() => confirmThis(flagDraft)}
+							>
+								Draft
+							</button>
+							<div class="flex flex-col gap-2" slot="title">
+								<div class="text-lg font-bold">
+									Are you sure you want to set state of the following item(s) to `Draft`?
+								</div>
+								<div class="max-h-40 overflow-scroll">
+									<ol class="ml-4 list-decimal list-inside">
+										{#each selected as { title }}
+											<li>{title}</li>
+										{/each}
+									</ol>
+								</div>
+							</div>
+							<span slot="description"
+								>Once flagged as `Draft`, this content is no longer publicly accessible...</span
+							>
+						</Confirm>
+
+						<Confirm confirmTitle="Archive" cancelTitle="Cancel" let:confirm={confirmThis}>
+							<button
+								class="btn btn-accent"
+								class:btn-disabled={!selected.length}
+								on:click={() => confirmThis(flagArchive)}
+							>
+								Archive
+							</button>
+							<div class="flex flex-col gap-2" slot="title">
+								<div class="text-lg font-bold">
+									Are you sure you want to set state of the following item(s) to `Archived`?
+								</div>
+								<div class="max-h-40 overflow-scroll">
+									<ol class="ml-4 list-decimal list-inside">
+										{#each selected as { title }}
+											<li>{title}</li>
+										{/each}
+									</ol>
+								</div>
+							</div>
+							<span slot="description"
+								>Once flagged as `Archived`, this content is no longer publicly accessible...</span
+							>
+						</Confirm>
 					</div>
 					<List
 						{currentPage}

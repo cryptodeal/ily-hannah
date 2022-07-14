@@ -39,11 +39,11 @@
 			duration: 200
 		}}
 	>
-		<div class="flex flex-col gap-4 text-base-content">
+		<div class="flex flex-col gap-6 text-base-content">
 			<div class="text-base-content flex flex-col gap-1">
 				<slot name="title">Are you sure you want to perform this action?</slot>
 			</div>
-			<div class="text-base-content">
+			<div class="text-base-content text-sm">
 				<slot name="description">This action can't be undone!</slot>
 			</div>
 		</div>
