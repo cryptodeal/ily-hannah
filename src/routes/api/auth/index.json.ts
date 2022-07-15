@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import type { RequestHandler } from '@sveltejs/kit';
 import type { PostAuthBody } from '$lib/types';
 
-export const post: RequestHandler = async (event) => {
+export const POST: RequestHandler = async (event) => {
 	const { email } = (await event.request.json()) as PostAuthBody,
 		host = event.request.headers.get('host') as string,
 		ua = uaParser(event.request.headers.get('user-agent') as string),

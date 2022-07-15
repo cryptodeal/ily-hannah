@@ -5,7 +5,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 type GetParams = Record<string, string> & {
 	slug: string;
 };
-export const get: RequestHandler<GetParams> = async ({ params }) => {
+export const GET: RequestHandler<GetParams> = async ({ params }) => {
 	const { slug } = params;
 	if (!slug) throw new Error('slug is required');
 	const contentData = await Content.findBySlugWithAuthor(slug);

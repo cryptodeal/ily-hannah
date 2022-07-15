@@ -2,7 +2,7 @@ import { getPubPaginatedContent, type PaginatedContentData } from '$lib/_db/cont
 import { castToObjectId } from '$lib/_db/controllers/utils';
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const get: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url }) => {
 	const page = url.searchParams.get('pg');
 	const cats = url.searchParams.getAll('cat').map((c) => castToObjectId(c));
 

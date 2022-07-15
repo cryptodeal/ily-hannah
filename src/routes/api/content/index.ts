@@ -9,7 +9,7 @@ type ContentDeleteForm = Record<string, string> & {
 	ids: string[];
 };
 
-export const get: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url }) => {
 	const page = url.searchParams.get('pg');
 	if (!page) throw new Error('page is required');
 	const contentData = await getPaginatedContent(Number(page));
@@ -44,7 +44,7 @@ const isCatUpdateData = (obj: unknown): obj is CatUpdateData => {
 	);
 };
 
-export const post: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	/* auth first; save work only if auth ;) */
 	const userAuth = (await protect(request.headers)) as JWTPayload;
 	if (!userAuth) {
@@ -113,7 +113,7 @@ export const post: RequestHandler = async ({ request }) => {
 	}
 };
 
-export const del: RequestHandler<ContentDeleteForm> = async ({ request }) => {
+export const DEL: RequestHandler<ContentDeleteForm> = async ({ request }) => {
 	const userAuth = (await protect(request.headers)) as JWTPayload;
 	if (!userAuth) {
 		throw new Error(`Error: unable to authenticate request`);

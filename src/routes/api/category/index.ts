@@ -7,7 +7,7 @@ import { castToObjectId } from '$lib/_db/controllers/utils';
 import { getPaginatedCats } from '$lib/_db/controllers/category';
 import type { CategoryObject } from '$lib/_db/mongoose.gen';
 
-export const get: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url }) => {
 	if (url.searchParams.get('type') === 'all') {
 		const categories = await Category.getCatList();
 		if (categories) {
@@ -36,7 +36,7 @@ export const get: RequestHandler = async ({ url }) => {
 	}
 };
 
-export const post: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	/* auth first; save category only if auth ;) */
 	const userAuth = (await protect(request.headers)) as JWTPayload;
 	if (!userAuth) {

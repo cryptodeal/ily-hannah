@@ -1,7 +1,7 @@
 import logout from '$lib/_auth/logout';
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const get: RequestHandler = async (event) => {
+export const GET: RequestHandler = async (event) => {
 	const { locals } = event;
 	// Log the user out and clear access/refresh token cookies
 	const { accessToken, refreshToken } = await logout(locals);

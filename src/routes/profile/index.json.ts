@@ -7,7 +7,7 @@ import { getPaginatedContent } from '$lib/_db/controllers/content';
 import type { ContentObject } from '$lib/_db/mongoose.gen';
 import { castToObjectId } from '$lib/_db/controllers/utils';
 
-export const get: RequestHandler = async ({ url, locals }) => {
+export const GET: RequestHandler = async ({ url, locals }) => {
 	const userId = url.searchParams.get('userId');
 
 	if (!userId) {
@@ -60,7 +60,7 @@ export enum ProfilePost {
 	UPDATE
 }
 
-export const post: RequestHandler = async (event) => {
+export const POST: RequestHandler = async (event) => {
 	const data = (await event.request.json()) as UserFormData;
 	const userAuth = (await protect(event.request.headers)) as JWTPayload;
 	if (!userAuth) {
